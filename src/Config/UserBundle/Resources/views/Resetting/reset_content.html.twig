@@ -1,0 +1,39 @@
+<div class="login_main_block">
+    <div id="mainframe-login">
+        <div id="login">
+            <div class="login_block clear">
+                <div class="col-sm-7 login clear left_block">
+                    <img src="{{ asset('bundles/ensismain/img/logo-yerevan.png') }}"/>
+                    <h2>{{ 'login.municipality'|trans({}, 'user') | raw }}</h2>
+                </div>
+
+                <div class="col-sm-5 login_input  ">
+                    <form  class="form-inline" action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset form-horizontal" autocomplete="off">
+
+                        <div class="form-group input_rigt_left">
+
+                            {{ form_widget(form.new.second, { 'attr': {'class': 'form-control', 'placeholder': 'password'|trans({}, 'user')  } }) }}
+
+                        </div>
+
+                        <div class="form-group input_rigt_left">
+                            {{ form_widget(form.new.first, { 'attr': {'class': 'form-control', 'placeholder':  're_password'|trans({}, 'user') } }) }}
+                        </div>
+
+                        <div class="form-group">
+                            <span class="error">
+                                {{ form_errors(form.new.first) }}
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" id="enter"></button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

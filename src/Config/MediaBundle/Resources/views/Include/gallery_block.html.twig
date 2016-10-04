@@ -1,0 +1,121 @@
+<div class="col-md-8">
+    <div class="box box-solid box-info">
+        <div class="box-header">
+            <h4 class="box-title">
+                Gallery
+            </h4>
+            <a href="" id="media"  data-toggle="modal" data-target="#imagesModal"><i class="fa fa-plus-square" aria-hidden="true"></i>Add images</a>
+        </div>
+        <div class="box-body">
+            <div class="sonata-ba-collapsed-fields">
+                <div id="draggablePanelList"  class="admin_gallery_block clear">
+                    {% set arr = order(object.media) %}
+                    {% for media in arr %}
+                        <div class="box_gall panel">
+                            <span class="number"></span>
+                            <a class="close" data-id="{{ media.id }}" >×</a>
+                            <img class="panel-heading"  src="{{ media.webPath }}">
+                            <input type="hidden" name="image-{{ media.id }}" value="{{ media.Position }}">
+                            <div id="content" class="clear">
+                                <i class="fa fa-pencil-square-o" data-toggle="modal" data-target="#image_content{{ media.id }}"></i>
+                                <div id="image_content{{ media.id }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Media</h4>
+                                            </div>
+
+                                            <div class="modal-body img clear">
+                                                <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                                                    {% for language,locale in languages %}
+                                                        {% if loop.index ==1 %}
+                                                            <li class="active"><a href="#{{ language~media.id }}" data-toggle="tab">{{ language }}</a></li>
+                                                        {% else %}
+                                                            <li><a href="#{{ language~media.id }}" data-toggle="tab">{{ language }}</a></li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                                <div id="my-tab-content" class="tab-content">
+                                                    {% set translations =  media.translations %}
+
+                                                    {% for language,locale in languages %}
+                                                        {% if loop.index == 1 %}
+                                                            <div class="tab-pane active" id="{{ language~media.id }}">
+                                                                {% if translations | length / loop.index >= 3 %}
+
+                                                                    {% for field in translations if field.locale == language %}
+                                                                        <div class="form-group">
+                                                                            <label>{{ field.field }}</label>
+                                                                            {% if field.field == 'description' %}
+                                                                                <textarea class="form-control" name="{{ field.field }}-{{ language }}-{{ media.id }}">{% if field.content is defined %}{{ field.content }}{% endif %}</textarea>
+                                                                            {% else %}
+                                                                                <input class="form-control" type="text" name="{{ field.field }}-{{ language }}-{{ media.id }}" value="{% if field.content is defined %}{{ field.content }}{% endif %}">
+                                                                            {% endif %}
+
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <div class="form-group">
+                                                                        <label>Title</label>
+                                                                        <input class="form-control" type="text" name="title-{{ language }}-{{ media.id }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Caption</label>
+                                                                        <input class="form-control" type="text" name="title-{{ language }}-{{ media.id }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Description</label>
+                                                                        <textarea class="form-control" name="description-{{ language }}-{{ media.id }}"></textarea>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="tab-pane" id="{{ language~media.id }}">
+                                                                {% if translations | length / loop.index >= 3 %}
+                                                                    {% for field in translations if field.locale == language %}
+                                                                        <div class="form-group">
+                                                                            <label>{{ field.field }}</label>
+                                                                            {% if field.field == 'description' %}
+                                                                                <textarea class="form-control" name="{{ field.field }}-{{ language }}-{{ media.id }}">{% if field.content is defined %}{{ field.content }}{% endif %}</textarea>
+                                                                            {% else %}
+                                                                                <input class="form-control" type="text" name="{{ field.field }}-{{ language }}-{{ media.id }}" value="{% if field.content is defined %}{{ field.content }}{% endif %}">
+                                                                            {% endif %}
+
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <div class="form-group">
+                                                                        <label>Title</label>
+                                                                        <input class="form-control" type="text" name="title-{{ language }}-{{ media.id }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Caption</label>
+                                                                        <input class="form-control" type="text" name="title-{{ language }}-{{ media.id }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Description</label>
+                                                                        <textarea class="form-control" name="description-{{ language }}-{{ media.id }}"></textarea>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

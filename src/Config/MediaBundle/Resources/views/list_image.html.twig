@@ -1,0 +1,32 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field%}
+    <div class="file_block clear">
+        {% set type = object.type|split('/') %}
+        {% if type[0] == 'image' %}
+            <div style="float: left;margin-right: 15px">
+                <img src="{{ media(object,'admin_thumb')  }}">
+            </div>
+        {% else %}
+            <div class="list_image_block">
+                <object  data="{{ asset(object.icon) }}" type="image/svg+xml"></object>
+            </div>
+        {% endif %}
+        <div class="left_block info_block">
+            <div class="name">
+                <p><strong><a href="{{ path('admin_config_media_media_edit',{'id':object.id}) }}">{{ object.realName }}</a></strong></p>
+            </div>
+            <div class="info">
+                <ul>
+                    {% if object.width or object.height  %}
+                        <li>width: {{ object.width ~ "px"}}</li>
+                        <li>height: {{object.height ~ "px "}}</li>
+                    {% endif %}
+                    <li>Size: {{ object.size }}</li>
+                    {#<li>ContentType: {{ object.type }}</li>
+                    <li>URL: {{ app.request.getSchemeAndHttpHost()~object.webPath }}</li>#}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

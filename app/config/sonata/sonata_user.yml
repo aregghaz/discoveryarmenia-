@@ -1,0 +1,39 @@
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Config\UserBundle\Entity\User
+    group:
+      group_class: Config\UserBundle\Entity\Group
+    profile:
+      form:
+          type:               fos_user_profile
+          name:               fos_user_profile_form
+          validation_groups:  [Profile]
+    change_password:
+      form:
+          type:               fos_user_change_password
+          name:               fos_user_change_password_form
+          validation_groups:  [ChangePassword]
+    resetting:
+      token_ttl: 86400
+      email:
+          from_email: # Use this node only if you don't want the global email address for the resetting email
+              address:        example@mail.com
+              sender_name:    example@mail.com
+          template:   FOSUserBundle:Resetting:email.txt.twig
+      form:
+          type:               fos_user_resetting
+          name:               fos_user_resetting_form
+          validation_groups:  [ResetPassword]
+
+sonata_user:
+    security_acl:     false
+    impersonating_route:    sonata_admin_dashboard
+    class:
+      user:   Config\UserBundle\Entity\User
+      group:  Config\UserBundle\Entity\Group
+    admin:                  # Admin Classes
+      user:
+        class:          Config\UserBundle\Admin\Model\UserAdmin
+        controller:     SonataAdminBundle:CRUD
+        translation:    SonataUserBundle

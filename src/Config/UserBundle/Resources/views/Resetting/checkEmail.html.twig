@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% block login %}
+
+
+    <div class="login_main_block">
+        <div id="mainframe-login">
+
+            <div id="login">
+                <div class="login_block clear">
+                    <div class="col-sm-7 login clear left_block">
+                        <img src="{{ asset('bundles/ensismain/img/logo-yerevan.png') }}"/>
+                        <h2>{{ 'login.municipality'|trans({}, 'user') | raw }}</h2>
+                    </div>
+
+                    <div class="col-sm-5 login_input  ">
+                        <div class="col-sm-3">
+                            <p class="check-email">{{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block layout %} {% endblock %}

@@ -1,0 +1,16 @@
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+app/logs/*
+!app/logs/.gitkeep
+/bin/
+/vendor/
+/web/bundles/
+/web/uploads/
+/web/css/
+web/app*
+composer.lock
+web/angular
+web/assets/
+web/angular/*
+.idea/

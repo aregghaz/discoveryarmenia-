@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="{% block ngApp %}{% endblock %}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="{% block ogTitle %}{% endblock %}" />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="{% block ogImage %}{% endblock %}" />
+        <meta property="og:url" content="{% block ogUrl %}{% endblock %}" />
+        <meta property="og:description" content="{% block ogDescription %}{% endblock %}" />
+        <meta property="og:image:width" content="{% block ogWidth %}{% endblock %}" >
+        <meta property="og:image:height" content="{% block ogHeight %}{% endblock %}" >
+        {% block seo %}
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        {% endblock seo %}
+        <title>{% block title %}Title{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/Materialize/dist/css/materialize.min.css') }}"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/font-awesome/css/font-awesome.min.css') }}"/>
+            {% stylesheets output='assets/css/core.css'
+            '../app/Resources/public/css/style.less'
+            filter='less,cssrewrite,?yui_css' %}
+            <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body class="{% block bodyClass %}{% endblock %}">
+        {% block login %}{% endblock %}
+
+        {% block header %}
+            {% block menu %}{% endblock %}
+        {% endblock %}
+
+        {% block body %}
+            {% block sideLeft %}{% endblock %}
+            {% block container %}{% endblock %}
+            {% block sideRight %}{% endblock %}
+        {% endblock %}
+
+        {% block footer %}{% endblock %}
+
+        {% block javascripts %}
+            <script>
+                // Handle facebook callback
+                if (window.location.hash && window.location.hash == '#_=_') {
+                    // Check if the browser supports history.replaceState.
+                    if (history.replaceState) {
+                        var cleanHref = window.location.href.split('#')[0];
+                        history.replaceState(null, null, cleanHref);
+                    } else {
+                        window.location.hash = '';
+                    }
+
+                }
+            </script>
+            <script src="{{ asset('angular/bower_components/jquery/dist/jquery.min.js') }}"></script>
+            <script src="{{ asset('angular/bower_components/Materialize/dist/js/materialize.min.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

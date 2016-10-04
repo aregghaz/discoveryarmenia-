@@ -1,0 +1,44 @@
+{% extends 'ConfigUserBundle::layout.html.twig' %}
+
+{% block bodyClass %}login{% endblock %}
+{% block login %}
+    <div class="login">
+        <div class="container row">
+            <div class="card">
+                <div class="login_block">
+                    <form action="{{ path("sonata_user_admin_security_check") }}" class="clearfix" method="post">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                        <div class="input_block input-field clear">
+                            <input type="text" id="username" name="_username" value="{{ last_username }}"  class="big sonata-medium"/>
+                            <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+                        </div>
+                        <div class="input_block input-field clear">
+                            <input type="password" id="password" name="_password" class="big sonata-medium"/>
+                            <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+
+                            {% if error %}
+                                <div class="error">
+                                    {{ 'login_error'|trans({}, 'messages') }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="check_block clear">
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                            <label for="remember_me">
+                                {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                            </label>
+
+                        </div>
+             {#           <div class="forgot_block clear">
+                            <a href="{{ path('fos_user_resetting_request') }}">{{ 'forgotten_password'|trans({}, 'SonataUserBundle') }}</a>
+                        </div>#}
+
+                        <div class="submit_block">
+                            <button type="submit" class="waves-effect waves-light btn light-blue darken-3" name="_submit" value="submit">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

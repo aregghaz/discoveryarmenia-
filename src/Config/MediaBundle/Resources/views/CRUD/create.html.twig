@@ -1,0 +1,297 @@
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+
+{% block actions %}
+    <li><a href="" id="media"  data-toggle="modal" data-target="#imagesModal"><i class="fa fa-picture-o" aria-hidden="true"></i>Add images</a></li>
+{% endblock %}
+
+
+{% block form %}
+    {{ sonata_block_render_event('sonata.admin.edit.form.top', { 'admin': admin, 'object': object }) }}
+
+    {% set url = admin.id(object) is not null ? 'edit' : 'create' %}
+
+    {% if not admin.hasRoute(url)%}
+        <div>
+            {{ "form_not_available"|trans({}, "SonataAdminBundle") }}
+        </div>
+    {% else %}
+        <form
+                {% if admin_pool.getOption('form_type') == 'horizontal' %}class="form-horizontal"{% endif %}
+                role="form"
+                action="{{ admin.generateUrl(url, {'id': admin.id(object), 'uniqid': admin.uniqid, 'subclass': app.request.get('subclass')}) }}" {{ form_enctype(form) }}
+                method="POST"
+                {% if not admin_pool.getOption('html5_validate') %}novalidate="novalidate"{% endif %}
+        >
+            {% if form.vars.errors|length > 0 %}
+                <div class="sonata-ba-form-error">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+
+            {% block sonata_pre_fieldsets %}
+            <div class="row">
+                {% endblock %}
+
+                {% block sonata_tab_content %}
+                    {% set has_tab = ((admin.formtabs|length == 1 and admin.formtabs|keys[0] != 'default') or admin.formtabs|length > 1 ) %}
+
+                    <div class="col-md-12">
+                        {% if has_tab %}
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    {% for name, form_tab in admin.formtabs %}
+                                        <li{% if loop.index == 1 %} class="active"{% endif %}><a href="#tab_{{ loop.index }}" data-toggle="tab"><span class="glyphicon glyphicon-exclamation-sign has-errors hide"></span> {{ admin.trans(name, {}, form_tab.translation_domain) }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for code, form_tab in admin.formtabs %}
+                                        <div class="tab-pane fade{% if loop.first %} in active{% endif %}" id="tab_{{ loop.index }}">
+                                            <div class="box-body  container-fluid">
+                                                <div class="sonata-ba-collapsed-fields">
+                                                    {% if form_tab.description != false %}
+                                                        <p>{{ form_tab.description|raw }}</p>
+                                                    {% endif %}
+                                                    {{ form_helper.render_groups(admin, form, form_tab['groups'], has_tab) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            {{ form_helper.render_groups(admin, form, admin.formtabs['default'].groups, has_tab) }}
+
+                        {% endif %}
+                        <input id="images" type="hidden" name="images">
+                    </div>
+                {% endblock %}
+
+                {% block sonata_post_fieldsets %}
+            </div>
+            {% endblock %}
+            <script>
+                var prefix;
+                {% if app.debug %}
+                prefix = '/app_dev.php';
+                {% else %}
+                prefix = '';
+                {% endif %}
+
+                jQuery(function($) {
+
+                    var arr = [];
+                    $('#media').click(function(){
+                        $.ajax({
+                            type: "post",
+                            url: prefix + '/api/get/media/0',
+                            success: function (data) {
+                                console.log(data[0]);
+                                if ($('#content_list .col-sm-2').length == 0) {
+                                    for (var index in data[0]) {
+
+                                        $('.img .content').append("<div class='col-sm-2'>" +
+                                                "<div class='add_img' style='background: url("+data[0][index][0]+")" +
+                                                " no-repeat;background-position: center center;" +
+                                                "background-size: 100%' data-id="+index+">" +
+                                                "<div class='file_name'>"+data[0][index][1]+"</div>"+
+                                                "</div>" +
+                                                "</div>");
+                                    }
+                                    $('.loading').css('display', 'none');
+                                    var count = data[1];
+                                    var page = Math.round(count / 16);
+                                    if ($('#page li').length == 0) {
+                                        var i = 0;
+                                        var url = prefix + '/api/get/media/';
+                                        $('#page').attr('data-page', page);
+                                        pagination(page, i, url);
+                                    }
+                                }
+                                pagerClick();
+
+                                $(".add_img").click(function(){
+                                    var data = $(this).attr('data-id');
+                                    var name = 'add_img-'+data;
+                                    if($(this).hasClass('select_img')){
+                                        $(this).removeClass('select_img');
+                                        $('input[name='+name+']').remove();
+                                        arr.pop(data);
+                                        $('#all_data').attr('value',JSON.stringify(arr));
+                                    }
+                                    else{
+                                        $(this).addClass('select_img');
+                                        $('.img .content').append("<input type='hidden' name='"+name+"' value='"+data+"'>");
+                                        arr.push(data);
+                                        $('#all_data').attr('value',JSON.stringify(arr));
+                                    }
+                                });
+                            }
+
+                        });
+
+                    });
+
+                    function pagination(page,i,url) {
+                        i = parseInt(i);
+                        page = parseInt(page);
+                        var pageleft = '';
+                        var pageright = '';
+
+                        if(i - 4 > 0)  pageleft = "<li ><a class='pagination_link'  data-href='"+url+(i-5)+"'>"+(i-4)+"</a></li>";
+                        if(i - 3 > 0)  pageleft += "<li ><a class='pagination_link'  data-href='"+url+(i-4)+"'>"+(i-3)+"</a></li>";
+                        if(i - 2 > 0)  pageleft += "<li ><a class='pagination_link'  data-href='"+url+(i-3)+"'>"+(i-2)+"</a></li>";
+                        if(i - 1 > 0)  pageleft += "<li ><a class='pagination_link'  data-href='"+url+(i-2)+"'>"+(i-1)+"</a></li>";
+                        if(i - 0 > 0)  pageleft += "<li ><a class='pagination_link'  data-href='"+url+(i-1)+"'>"+(i-0)+"</a></li>";
+
+
+                        if(i + 0 < page)  pageright = "<li class='active'><a class='pagination_link'  data-href='"+url+(i+0)+"'>"+(i+1)+"</a></li>";
+                        if(i + 1 < page)  pageright += "<li ><a class='pagination_link'  data-href='"+url+(i+1)+"'>"+(i+2)+"</a></li>";
+                        if(i + 2 < page)  pageright += "<li ><a class='pagination_link'  data-href='"+url+(i+2)+"'>"+(i+3)+"</a></li>";
+                        if(i + 3 < page)  pageright += "<li ><a class='pagination_link'  data-href='"+url+(i+3)+"'>"+(i+4)+"</a></li>";
+                        if(i + 4 < page)  pageright += "<li ><a class='pagination_link'  data-href='"+url+(i+4)+"'>"+(i+5)+"</a></li>";
+
+
+                        $('#page').children().remove();
+                        $('#page').append(pageleft+pageright);
+                        pagerClick();
+
+                    }
+
+                    function pagerClick() {
+                        $(".pagination_link").click(function(){
+                            var url = $(this).attr('data-href');
+                            $('#page li').removeClass('active');
+                            $(this).parent().addClass('active');
+
+                            $.ajax({
+                                type: "post",
+                                url: url,
+                                success: function(data){
+                                    var text = url.match(/media\/\d+/i);
+                                    var i = text[0].match(/\d+/);
+                                    var uri = prefix + '/api/get/media/';
+                                    var page = $('#page').attr('data-page');
+                                    pagination(page,i[0],uri);
+                                    $('.img .content .col-sm-2').remove();
+                                    console.log(data[0]);
+                                    for(var index in data[0]) {
+
+                                        $('.img .content').append("<div class='col-sm-2'>" +
+                                                "<div class='add_img' style='background: url("+data[0][index][0]+")" +
+                                                " no-repeat;background-position: center center;" +
+                                                "background-size: 100%' data-id="+index+">" +
+                                                "<div class='file_name'>"+data[0][index][1]+"</div>"+
+                                                "</div>" +
+                                                "</div>");
+                                        $('.img .content input').each(function(){
+                                            $('div[data-id='+$(this).attr('value')+']').addClass('select_img');
+                                        });
+                                        $('.loading').css('display', 'none');
+                                    }
+                                    $(".add_img").click(function(){
+                                        var data = $(this).attr('data-id');
+                                        var name = 'add_img-'+data;
+                                        if($(this).hasClass('select_img')){
+                                            $(this).removeClass('select_img');
+                                            $('input[name='+name+']').remove();
+                                            arr.pop(data);
+                                            $('#all_data').attr('value',JSON.stringify(arr));
+                                        }
+                                        else{
+                                            $(this).addClass('select_img');
+                                            $('.img .content').append("<input type='hidden' name='"+name+"' value='"+data+"'>");
+                                            arr.push(data);
+                                            $('#all_data').attr('value',JSON.stringify(arr));
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    }
+
+
+
+                });
+            </script>
+            {{ form_rest(form) }}
+
+            {% block formactions %}
+                <div class="well well-small form-actions">
+                    {% if app.request.isxmlhttprequest %}
+                        {% if admin.id(object) is not null %}
+                            <button type="submit" class="btn btn-success" name="btn_update"><i class="fa fa-save"></i> {{ 'btn_update'|trans({}, 'SonataAdminBundle') }}</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-success" name="btn_create"><i class="fa fa-plus-circle"></i> {{ 'btn_create'|trans({}, 'SonataAdminBundle') }}</button>
+                        {% endif %}
+                    {% else %}
+                        {% if admin.supportsPreviewMode %}
+                            <button class="btn btn-info persist-preview" name="btn_preview" type="submit">
+                                <i class="fa fa-eye"></i>
+                                {{ 'btn_preview'|trans({}, 'SonataAdminBundle') }}
+                            </button>
+                        {% endif %}
+                        {% if admin.id(object) is not null %}
+                            <button type="submit" class="btn btn-success" name="btn_update_and_edit"><i class="fa fa-save"></i> {{ 'btn_update_and_edit_again'|trans({}, 'SonataAdminBundle') }}</button>
+
+                            {% if admin.hasroute('list') and admin.isGranted('LIST') %}
+                                <button type="submit" class="btn btn-success" name="btn_update_and_list"><i class="fa fa-save"></i> <i class="fa fa-list"></i> {{ 'btn_update_and_return_to_list'|trans({}, 'SonataAdminBundle') }}</button>
+                            {% endif %}
+
+                            {% if admin.hasroute('delete') and admin.isGranted('DELETE', object) %}
+                                {{ 'delete_or'|trans({}, 'SonataAdminBundle') }}
+                                <a class="btn btn-danger" href="{{ admin.generateObjectUrl('delete', object) }}"><i class="fa fa-minus-circle"></i> {{ 'link_delete'|trans({}, 'SonataAdminBundle') }}</a>
+                            {% endif %}
+
+                            {% if admin.isAclEnabled() and admin.hasroute('acl') and admin.isGranted('MASTER', object) %}
+                                <a class="btn btn-info" href="{{ admin.generateObjectUrl('acl', object) }}"><i class="fa fa-users"></i> {{ 'link_edit_acl'|trans({}, 'SonataAdminBundle') }}</a>
+                            {% endif %}
+                        {% else %}
+                            {% if admin.hasroute('edit') and admin.isGranted('EDIT') %}
+                                <button class="btn btn-success" type="submit" name="btn_create_and_edit"><i class="fa fa-save"></i> {{ 'btn_create_and_edit_again'|trans({}, 'SonataAdminBundle') }}</button>
+                            {% endif %}
+                            {% if admin.hasroute('list') and admin.isGranted('LIST') %}
+                                <button type="submit" class="btn btn-success" name="btn_create_and_list"><i class="fa fa-save"></i> <i class="fa fa-list"></i> {{ 'btn_create_and_return_to_list'|trans({}, 'SonataAdminBundle') }}</button>
+                            {% endif %}
+                            <button class="btn btn-success" type="submit" name="btn_create_and_create"><i class="fa fa-plus-circle"></i> {{ 'btn_create_and_create_a_new_one'|trans({}, 'SonataAdminBundle') }}</button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endblock formactions %}
+            <div id="imagesModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <form method="post" action="">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Media</h4>
+                            </div>
+
+                            <div class="modal-body img clear">
+                                <div class="loading"><i class="fa fa-spinner" aria-hidden="true"></i></div>
+                                <div class="content clear" id="content_list"></div>
+                                <ul id="page" class="pagination">
+
+                                </ul>
+                                <input type="hidden" name="all_data" id="all_data">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i>Add</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </form>
+    {% endif%}
+
+    {{ sonata_block_render_event('sonata.admin.edit.form.bottom', { 'admin': admin, 'object': object }) }}
+    {{ form(form) }}
+
+    {{ form_rest(form) }}
+{% endblock %}
+
+

@@ -1,0 +1,29 @@
+<div class="path_block">
+    <div class="container">
+        <span>{{ 'request' | trans({}, 'messages') }}</span>
+    </div>
+</div>
+
+
+<div class="login_main_block">
+    <div class="container">
+        <div class="login_block clear">
+            <div class="login_input ">
+                <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request form-horizontal clearfix" autocomplete="off">
+                        <div class="input_block">
+                            <input type="text"  id="username" name="username" required="required" placeholder="{{ 'enter_email' | trans({}, 'messages') }}"/>
+                            {% if invalid_username is defined %}
+                                <span class="error">
+                                {{ 'wrong_email' | trans({}, 'messages') }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="submit_block">
+                            <input type="submit" id="enter">
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

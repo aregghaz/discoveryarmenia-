@@ -1,0 +1,75 @@
+security:
+    providers:
+        chain_provider:
+          chain:
+            providers: [fos_userbundle]
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_FACEBOOK: [ROLE_USER]
+        #SONATA:
+        #    - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT  # if you are not using acl then this line must be uncommented
+    firewalls:
+        # -> custom firewall for the admin area of the URL
+        admin:
+            switch_user:        true
+            context:            user
+            pattern:            /labadmin(.*)
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /labadmin/login
+                use_forward:    false
+                check_path:     /labadmin/login_check
+                failure_path:   null
+                use_referer:    true
+            logout:
+                path:           /labadmin/logout
+                target:         /labadmin/login
+            anonymous:    true
+        # -> end custom configuration
+
+        main:
+          pattern:   .*
+          oauth:
+            resource_owners:
+              facebook:           "/connect/check-facebook"
+            login_path:        /connect
+            failure_path:      /connect
+            default_target_path: /
+            oauth_user_provider:
+              service: hwi_oauth.user.provider.fosub_bridge
+          form_login:
+            login_path: /login
+            check_path: /login_check
+            provider: fos_userbundle
+            failure_path:   null
+            #default_target_path: frontend_main
+            always_use_default_target_path:   true
+            use_referer: true
+          anonymous: true
+          logout:
+            path:           /logout
+            target:         /
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+         # -> custom access control for the admin area of the URL
+        - { path: ^/labadmin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/labadmin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/labadmin/login-check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/labadmin, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
+        # -> end
+
+        # FOS facebook
+        - { path: ^/login_check, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/fb_login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/.*, role: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

@@ -1,0 +1,34 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <div class="path_block">
+        <div class="container">
+            <span>{{ 'confirmed' | trans({}, 'messages') }}</span>
+        </div>
+    </div>
+{% block login %}
+    <div class="confirmed">
+        <div class="container">
+            {{ 'registration.confirmed'|trans({'%username%': user.username}, 'messages') }}
+        </div>
+    </div>
+    {% if app.session is not empty %}
+        {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans({}, 'FOSUserBundle') }}</a></p>{% endif %}
+    {% endif %}
+{% endblock login %}
+
+
+    {{ render(controller('TravelMainBundle:Main:interested', { '_locale': app.request.attributes.get('_locale') })) }}
+    {% set currentPath = app.request.schemeAndHttpHost ~ app.request.requestUri %}
+    <div class="share_block">
+        <div class="section_small_title">
+            {{ 'share_title' | trans({}, 'messages') }}
+        </div>
+        <div class="container">
+            <ul class="social">
+                <li><a href="http://www.facebook.com/share.php?u={{ currentPath }}&title=Confirmed" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="http://twitter.com/intent/tweet?status=Confirmed+{{ currentPath }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,664 @@
+<?php
+
+namespace Config\MediaBundle\Entity;
+
+use Config\MediaBundle\Lib\FileManager;
+use Config\MediaBundle\Model\File;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use DOMDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+/**
+ * Class Youtube
+ * @package Config\Media\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="youtube")
+ * @ORM\Entity(repositoryClass="Config\MediaBundle\Entity\Repository\YoutubeRepository")
+ * @Gedmo\TranslationEntity(class="Config\MediaBundle\Entity\Translations\YoutubeTranslations")
+ */
+class Youtube  implements  Translatable
+{
+
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string $name
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $name;
+
+    /**
+     * @var string $title
+     * @Gedmo\Translatable
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $title;
+
+    /**
+     * @var string $description
+     * @Gedmo\Translatable
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
+
+    /**
+     * @var integer $width
+     * @ORM\Column(type="integer",length=11, nullable=true)
+     */
+    protected $width;
+
+    /**
+     * @var integer $height
+     * @ORM\Column(type="integer",length=11, nullable=true)
+     */
+    protected $height;
+
+    /**
+     * @var string $video_id
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $video_id;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $autoplay = false;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $loop_video = false;
+
+    /**
+     * @var integer $autohide
+     * @ORM\Column(type="integer",length=1, nullable=true)
+     */
+    protected $autohide; // 0,1,2
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $controls = true;
+
+    /**
+     * @var integer $start
+     * @ORM\Column(type="integer",length=5, nullable=true)
+     */
+    protected $start;
+
+    /**
+     * @var integer $end
+     * @ORM\Column(type="integer",length=5, nullable=true)
+     */
+    protected $end;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $showinfo = true;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $modestbranding = true; //show youtube icon
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $fs = true;
+
+    /**
+     * @var integer $autohide
+     * @ORM\Column(type="integer",length=1, nullable=true)
+     */
+    protected $iv_load_policy = 1; // hide annotation 1|3
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $enabled = true;
+    
+    /**
+     * @var integer $background
+     * @ORM\ManyToOne(targetEntity="Config\MediaBundle\Entity\Media", cascade={"persist"})
+     */
+    protected $background;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Config\MediaBundle\Entity\Translations\YoutubeTranslations", mappedBy="object", cascade={"persist", "remove"})
+     */
+    protected $translations;
+
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
+
+    public function __toString()
+    {
+        return ($this->name) ? $this->name : '';
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @param null $video_id
+     * @return Youtube
+     */
+    public function setName($name,$video_id = null)
+    {
+        if($video_id){
+            $url = "http://www.youtube.com/watch?v=".$this->video_id;
+            $html = file_get_contents($url);
+            $contentType = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
+            $html = str_replace('<head>', '<head>' . $contentType, $html);
+
+            $doc = new DOMDocument();
+            $doc->preserveWhiteSpace = FALSE;
+            $doc->loadHTML($html);
+
+            $title_div = $doc->getElementById('eow-title');
+            $title = $title_div->nodeValue;
+            $this->name = trim($title);
+
+        }
+        else{
+            $this->name = $name;
+        }
+
+
+        return $this;
+    }
+
+    protected function getVideoInfo($videoID){
+        if($videoID == ""){
+            return false;
+        }
+        /* Get the xml file from YouTube Data API */
+        $books = simplexml_load_file('https://gdata.youtube.com/feeds/api/videos/'.$videoID);
+        $user = $books->author[0]->name;
+        $desc = $books->content[0];
+        $title = $books->title[0];
+        $link = 'http://www.youtube.com/watch?v='.$videoID;
+
+        return $title;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Youtube
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Youtube
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set width
+     *
+     * @param integer $width
+     *
+     * @return Youtube
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * Get width
+     *
+     * @return integer
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set height
+     *
+     * @param integer $height
+     *
+     * @return Youtube
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * Get height
+     *
+     * @return integer
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * Set videoId
+     *
+     * @param string $videoId
+     *
+     * @return Youtube
+     */
+    public function setVideoId($videoId)
+    {
+        $http = "http";
+        $pos = strpos($videoId, $http);
+        if($pos === false){
+            $this->video_id = $videoId;
+            $this->setName(null,$videoId);
+        }
+        else{
+            $id = explode('?v=',$videoId);
+            $this->video_id = $id[1];
+            $this->setName(null,$id[1]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get videoId
+     *
+     * @return string
+     */
+    public function getVideoId()
+    {
+        return $this->video_id;
+    }
+
+    /**
+     * Set autoplay
+     *
+     * @param boolean $autoplay
+     *
+     * @return Youtube
+     */
+    public function setAutoplay($autoplay)
+    {
+        $this->autoplay = $autoplay;
+
+        return $this;
+    }
+
+    /**
+     * Get autoplay
+     *
+     * @return boolean
+     */
+    public function getAutoplay()
+    {
+        return $this->autoplay;
+    }
+    
+
+    /**
+     * Set autohide
+     *
+     * @param integer $autohide
+     *
+     * @return Youtube
+     */
+    public function setAutohide($autohide)
+    {
+        $this->autohide = $autohide;
+
+        return $this;
+    }
+
+    /**
+     * Get autohide
+     *
+     * @return integer
+     */
+    public function getAutohide()
+    {
+        return $this->autohide;
+    }
+
+    /**
+     * Set controls
+     *
+     * @param integer $controls
+     *
+     * @return Youtube
+     */
+    public function setControls($controls)
+    {
+        $this->controls = $controls;
+
+        return $this;
+    }
+
+    /**
+     * Get controls
+     *
+     * @return integer
+     */
+    public function getControls()
+    {
+        return $this->controls;
+    }
+
+    /**
+     * Set start
+     *
+     * @param integer $start
+     *
+     * @return Youtube
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * Get start
+     *
+     * @return integer
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Youtube
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set background
+     *
+     * @param \Config\MediaBundle\Entity\Media $background
+     *
+     * @return Youtube
+     */
+    public function setBackground(\Config\MediaBundle\Entity\Media $background = null)
+    {
+        $this->background = $background;
+
+        return $this;
+    }
+
+    /**
+     * Get background
+     *
+     * @return \Config\MediaBundle\Entity\Media
+     */
+    public function getBackground()
+    {
+        return $this->background;
+    }
+
+    /**
+     * Add translation
+     *
+     * @param \Config\MediaBundle\Entity\Translations\YoutubeTranslations $translation
+     *
+     * @return Youtube
+     */
+    public function addTranslation(\Config\MediaBundle\Entity\Translations\YoutubeTranslations $translation)
+    {
+        $this->translations[] = $translation;
+        $translation->setObject($this);
+        return $this;
+    }
+
+    /**
+     * Remove translation
+     *
+     * @param \Config\MediaBundle\Entity\Translations\YoutubeTranslations $translation
+     */
+    public function removeTranslation(\Config\MediaBundle\Entity\Translations\YoutubeTranslations $translation)
+    {
+        $this->translations->removeElement($translation);
+    }
+
+    /**
+     * Get translations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * Set loopVideo
+     *
+     * @param boolean $loopVideo
+     *
+     * @return Youtube
+     */
+    public function setLoopVideo($loopVideo)
+    {
+        $this->loop_video = $loopVideo;
+
+        return $this;
+    }
+
+    /**
+     * Get loopVideo
+     *
+     * @return boolean
+     */
+    public function getLoopVideo()
+    {
+        return $this->loop_video;
+    }
+
+    /**
+     * Set showinfo
+     *
+     * @param boolean $showinfo
+     *
+     * @return Youtube
+     */
+    public function setShowinfo($showinfo)
+    {
+        $this->showinfo = $showinfo;
+
+        return $this;
+    }
+
+    /**
+     * Get showinfo
+     *
+     * @return boolean
+     */
+    public function getShowinfo()
+    {
+        return $this->showinfo;
+    }
+
+    /**
+     * Set modestbranding
+     *
+     * @param boolean $modestbranding
+     *
+     * @return Youtube
+     */
+    public function setModestbranding($modestbranding)
+    {
+        $this->modestbranding = $modestbranding;
+
+        return $this;
+    }
+
+    /**
+     * Get modestbranding
+     *
+     * @return boolean
+     */
+    public function getModestbranding()
+    {
+        return $this->modestbranding;
+    }
+
+    /**
+     * Set fs
+     *
+     * @param boolean $fs
+     *
+     * @return Youtube
+     */
+    public function setFs($fs)
+    {
+        $this->fs = $fs;
+
+        return $this;
+    }
+
+    /**
+     * Get fs
+     *
+     * @return boolean
+     */
+    public function getFs()
+    {
+        return $this->fs;
+    }
+
+    /**
+     * Set ivLoadPolicy
+     *
+     * @param integer $ivLoadPolicy
+     *
+     * @return Youtube
+     */
+    public function setIvLoadPolicy($ivLoadPolicy)
+    {
+        $this->iv_load_policy = $ivLoadPolicy;
+
+        return $this;
+    }
+
+    /**
+     * Get ivLoadPolicy
+     *
+     * @return integer
+     */
+    public function getIvLoadPolicy()
+    {
+        return $this->iv_load_policy;
+    }
+}

@@ -1,0 +1,162 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+    # Sonata Bundles
+    - { resource: sonata/sonata_block.yml }
+    - { resource: sonata/sonata_admin.yml }
+    - { resource: sonata/sonata_user.yml }
+
+    # Social configuration
+    - { resource: OAuth/social.yml }
+
+
+    # Bundles configurations
+    - { resource: "@ConfigAdminBundle/Resources/config/services.xml" }
+    - { resource: "@ConfigUserBundle/Resources/config/services.xml" }
+    - { resource: "@ConfigUserBundle/Resources/config/registration.xml" }
+    - { resource: "@ConfigMediaBundle/Resources/config/services.xml" }
+    - { resource: "@ConfigContactBundle/Resources/config/services.xml" }
+
+parameters:
+    locale: en  # Defautl locale setter
+    languages:
+      en: English
+      ru: Русский
+      it: Italiano
+      am: Հայերեն
+      fr: French
+      #de: Deutsch
+      #es: Español
+      #po: Português
+      jp: 日本語
+
+framework:
+    esi:             { enabled: true }
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+      resources:
+        - 'A2lixTranslationFormBundle::form.html.twig'
+    globals:
+
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ConfigUserBundle,ConfigAdminBundle ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        less:
+            node: /usr/local/bin/node
+            node_paths: [/usr/local/lib/node_modules]
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        types:
+          json: Sonata\Doctrine\Types\JsonType
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+       # dql:
+         #   numeric_functions:
+          #      RAND: Travel\MainBundle\DQL\Rand
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+
+knp_menu:
+    # use "twig: false" to disable the Twig extension and the TwigRenderer
+    twig:
+        template: TravelMainBundle:Menu:knp_menu.html.twig
+    #  if true, enables the helper for PHP templates
+    templating: false
+    # the renderer to use, list is also available by default
+    default_renderer: twig
+
+
+a2lix_translation_form:
+    locales: [en]
+    templating: "A2lixTranslationFormBundle::default.html.twig"
+
+# Doctrine Extensions Configuration
+stof_doctrine_extensions:
+      default_locale: en_US
+      translation_fallback: true
+      orm:
+        default:
+          sluggable: true
+          timestampable: true
+          tree: false
+          translatable: true
+          loggable: false
+      uploadable:
+        default_file_path: %kernel.root_dir%/../web/uploads
+        validate_writable_directory: true
+
+config_media:
+  upload_dir: uploads/media
+  max_upload_size: 2 # mb
+  #mime_types: ['']
+  contexts:
+    default:
+      formats:
+        thumb: { width: 150, quality: 70}
+    test2:
+      formats:
+        thumb: { width: 150, quality: 70}
+
+
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    view:
+        view_response_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false

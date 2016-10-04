@@ -1,0 +1,22 @@
+hwi_oauth:
+  connect:
+    #account_connector: my.custom.user_provider
+    confirmation: true
+    #account_connector: hwi_oauth.user.provider.fosub_bridge
+    registration_form_handler: hwi_oauth.registration.form.handler.fosub_bridge
+    #registration_form: config.registration.form
+  firewall_names:        [main]
+  resource_owners:
+    facebook:
+      type:                facebook
+      client_id:           148253442259528
+      client_secret:       4e08a389e364f80f3922810e61dee6e5
+      scope:         "email"
+      infos_url:     "https://graph.facebook.com/me?fields=id,first_name,last_name,email,gender,locale,picture"
+  fosub:
+    # try 30 times to check if a username is available (foo, foo1, foo2 etc)
+    username_iterations: 30
+
+    # mapping between resource owners (see below) and properties
+    properties:
+        facebook: facebookUid

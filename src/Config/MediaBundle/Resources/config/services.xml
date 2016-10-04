@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="config.media.admin" class="Config\MediaBundle\Admin\MediaAdmin">
+            <tag name="sonata.admin" manager_type="orm"   label="Media"  />
+            <argument/>
+            <argument>Config\MediaBundle\Entity\Media</argument>
+            <!--<argument>TMCYCMediaBundle:Media</argument>-->
+            <argument>SonataAdminBundle:CRUD</argument>
+            <!--<call method="setTemplates">
+                <argument type="collection">
+                    <argument key="outer_list_rows_mosaic">ConfigMediaBundle::mosaic_list.html.twig</argument>
+                </argument>
+            </call>-->
+        </service>
+
+        <service id="config.gallery.admin" class="Config\MediaBundle\Admin\GalleryAdmin">
+            <tag name="sonata.admin" manager_type="orm"   label="Gallery"  />
+            <argument/>
+            <argument>Config\MediaBundle\Entity\Gallery</argument>
+            <argument>ConfigMediaBundle:Gallery</argument>
+            <!--<argument>SonataAdminBundle:CRUD</argument>-->
+            <!--<call method="setTemplates">
+                <argument type="collection">
+                    <argument key="outer_list_rows_mosaic">ConfigMediaBundle::mosaic_list.html.twig</argument>
+                </argument>
+            </call>-->
+        </service>
+        <service id="config.youtube.admin" class="Config\MediaBundle\Admin\YoutubeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Plugins"  alias="my_menu_alias"   label="Youtube"  />
+            <argument/>
+            <argument>Config\MediaBundle\Entity\Youtube</argument>
+            <argument>ConfigMediaBundle:Youtube</argument>
+            <!--<argument>SonataAdminBundle:CRUD</argument>-->
+            <!--<call method="setTemplates">
+                <argument type="collection">
+                    <argument key="outer_list_rows_mosaic">ConfigMediaBundle::mosaic_list.html.twig</argument>
+                </argument>
+            </call>-->
+        </service>
+
+        <service id="order.twig_extension"
+                class="Config\MediaBundle\Twig\OrderByExtension"
+                public="false">
+                <tag name="twig.extension" />
+        </service>
+
+        <service id="media.twig_extension"
+                 class="Config\MediaBundle\Twig\MediaExtension"
+                 public="false">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="youtube.twig_extension"
+                 class="Config\MediaBundle\Twig\YoutubeExtension"
+                 public="false">
+            <tag name="twig.extension" />
+        </service>
+
+    </services>
+
+
+
+</container>

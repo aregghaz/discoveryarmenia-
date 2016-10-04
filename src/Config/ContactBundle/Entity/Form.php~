@@ -1,0 +1,453 @@
+<?php
+
+namespace Config\ContactBundle\Entity;
+
+use Config\MediaBundle\Lib\FileManager;
+use Config\MediaBundle\Model\File;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+/**
+ * Class Form
+ * @package Config\Contact\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="form")
+ * @ORM\Entity(repositoryClass="Config\ContactBundle\Entity\Repository\FormRepository")
+ * @Gedmo\TranslationEntity(class="Config\ContactBundle\Entity\Translations\FormTranslations")
+ */
+class Form implements  Translatable
+{
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string $name
+     * @ORM\Column(type="string", length=150, nullable=false)
+     */
+    protected $name;
+
+    /**
+     * @var string $title
+     * @ORM\Column(type="string", length=150, nullable=false)
+     */
+    protected $title;
+
+    /**
+     * @var string $name
+     * @ORM\Column(type="string", length=150, nullable=false)
+     */
+    protected $subject;
+
+    /**
+     * @var string $name
+     * @ORM\Column(name="from_m",type="string", length=150, nullable=false)
+     */
+    protected $from;
+
+    /**
+     * @var string $name
+     * @ORM\Column(name="to_m",type="array", nullable=false)
+     */
+    protected $to;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $html = true;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $novalidate = true;
+
+    /**
+     * @var string $group_class
+     * @ORM\Column(type="string", length=150, nullable=false)
+     */
+    protected $group_class = 'form_group';
+
+    /**
+     * @var string $input_class
+     * @ORM\Column(type="string", length=150, nullable=false)
+     */
+    protected $input_class = '';
+
+    /**
+     * @var string $name
+     * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Translatable
+     */
+    protected $message;
+
+    protected $template;
+
+    /**
+     * @var integer $company_logo
+     * @ORM\ManyToOne(targetEntity="Config\MediaBundle\Entity\Media", cascade={"persist"})
+     */
+    protected $company_logo;
+
+    /**
+     * @var integer $attach
+     * @ORM\ManyToOne(targetEntity="Config\MediaBundle\Entity\Media", cascade={"persist"})
+     */
+    protected $attach;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Input", mappedBy="form",cascade={"persist","remove"},orphanRemoval=true)
+     */
+    protected $input;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Config\ContactBundle\Entity\Translations\FormTranslations", mappedBy="object", cascade={"persist", "remove"})
+     */
+    protected $translations;
+
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
+
+    public function __toString()
+    {
+        return ($this->name) ? $this->name : '';
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->input = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Form
+     */
+    public function setName($name)
+    {
+        $name = $name;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function preInsert()
+    {
+
+        $this->setName(uniqid());
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set subject
+     *
+     * @param string $subject
+     *
+     * @return Form
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * Set from
+     *
+     * @param string $from
+     *
+     * @return Form
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
+    /**
+     * Get from
+     *
+     * @return string
+     */
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    /**
+     * Set to
+     *
+     * @param array $to
+     *
+     * @return Form
+     */
+    public function setTo($to)
+    {
+        $array = explode(',',$to);
+        $this->to = $array;
+
+        return $this;
+    }
+
+    /**
+     * Get to
+     *
+     * @return array
+     */
+    public function getTo($isArray = false)
+    {
+        if($isArray){
+            return $this->to;
+        }
+        else{
+            if($this->to){
+                $output = implode(',',$this->to);
+                return $output;
+            }
+            else{
+                return $this->to;
+            }
+        }
+    }
+
+    /**
+     * Set html
+     *
+     * @param boolean $html
+     *
+     * @return Form
+     */
+    public function setHtml($html)
+    {
+        $this->html = $html;
+
+        return $this;
+    }
+
+    /**
+     * Get html
+     *
+     * @return boolean
+     */
+    public function getHtml()
+    {
+        return $this->html;
+    }
+
+    /**
+     * Set message
+     *
+     * @param string $message
+     *
+     * @return Form
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * Get message
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * Set companyLogo
+     *
+     * @param \Config\MediaBundle\Entity\Media $companyLogo
+     *
+     * @return Form
+     */
+    public function setCompanyLogo(\Config\MediaBundle\Entity\Media $companyLogo = null)
+    {
+        $this->company_logo = $companyLogo;
+
+        return $this;
+    }
+
+    /**
+     * Get companyLogo
+     *
+     * @return \Config\MediaBundle\Entity\Media
+     */
+    public function getCompanyLogo()
+    {
+        return $this->company_logo;
+    }
+
+    /**
+     * Set attach
+     *
+     * @param \Config\MediaBundle\Entity\Media $attach
+     *
+     * @return Form
+     */
+    public function setAttach(\Config\MediaBundle\Entity\Media $attach = null)
+    {
+        $this->attach = $attach;
+
+        return $this;
+    }
+
+    /**
+     * Get attach
+     *
+     * @return \Config\MediaBundle\Entity\Media
+     */
+    public function getAttach()
+    {
+        return $this->attach;
+    }
+
+    /**
+     * Add input
+     *
+     * @param \Config\ContactBundle\Entity\Input $input
+     *
+     * @return Form
+     */
+    public function addInput(\Config\ContactBundle\Entity\Input $input)
+    {
+        $this->input[] = $input;
+        $input->setForm($this);
+        return $this;
+    }
+
+    /**
+     * Remove input
+     *
+     * @param \Config\ContactBundle\Entity\Input $input
+     */
+    public function removeInput(\Config\ContactBundle\Entity\Input $input)
+    {
+        $this->input->removeElement($input);
+    }
+
+    /**
+     * Get input
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    /**
+     * Add translation
+     *
+     * @param \Config\ContactBundle\Entity\Translations\FormTranslations $translation
+     *
+     * @return Form
+     */
+    public function addTranslation(\Config\ContactBundle\Entity\Translations\FormTranslations $translation)
+    {
+        $this->translations[] = $translation;
+        $translation->setObject($this);
+        return $this;
+    }
+
+    /**
+     * Remove translation
+     *
+     * @param \Config\ContactBundle\Entity\Translations\FormTranslations $translation
+     */
+    public function removeTranslation(\Config\ContactBundle\Entity\Translations\FormTranslations $translation)
+    {
+        $this->translations->removeElement($translation);
+    }
+
+    /**
+     * Get translations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Form
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+}

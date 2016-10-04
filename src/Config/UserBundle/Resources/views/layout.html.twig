@@ -1,0 +1,19 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets output='css/user_style.css'
+    'bundles/configuser/css/user_style.less'
+    filter='less,cssrewrite,?yui_css' %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/configuser/js/user_init.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,92 @@
+/* ==================== Base style ==================== */
+body.login{
+  //background: #cecece;
+  background-image: url(../images/login_bg.jpg);
+  background-size: cover;
+  background-position: top center;
+}
+/* ==================== Base style ==================== */
+
+/* ==================== Login Form ==================== */
+.login{
+  margin-top: 100px;
+  .card{
+    overflow: hidden;
+    width: 40%;
+    margin: 0 auto;
+    border-top: 2px solid #0277bd;
+    .login_block{
+      padding-top: 10px;
+      .input_block{
+        input{
+          padding: 0 15px;
+          box-sizing: border-box;
+
+        }
+        input:focus {
+          border-bottom: 1px solid #0277bd;
+          box-shadow: 0 1px 0 0 #000;
+        }
+        label{
+
+        }
+        label.active {
+          color: #0277bd;
+        }
+        .error{
+          text-align: center;
+          color: #ad0202;
+          font-size: 13px;
+          margin-bottom: 5px;
+        }
+      }
+      .check_block,.forgot_block{
+        box-sizing: border-box;
+        padding-left: 15px;
+
+      }
+      [type="checkbox"]:checked+label:before{
+        border-right: 2px solid #0277bd;
+        border-bottom: 2px solid #0277bd;
+      }
+      .submit_block{
+        text-align: right;
+        padding-right: 15px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        input{
+          box-sizing: border-box;
+        }
+      }
+    }
+    .fb_login_block{
+      .fb_login_icon{
+        width: 13%;
+        padding: 15px 0;
+        background: #2d4882;
+        text-align: center;
+        i{
+          color: #fff;
+          font-size: 20px;
+          line-height: 19px;
+        }
+      }
+      .fb_login_button{
+        width: 87%;
+        text-align: center;
+        a{
+          color: #fff;
+          display: block;
+          background: #3b5998;
+          padding: 15px 0;
+        }
+      }
+    }
+  }
+  .user_activation{
+    margin-bottom: 30px;
+    padding: 3px 15px;
+    text-align: center;
+  }
+}
+/* ==================== Login Form ==================== */
