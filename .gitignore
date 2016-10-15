@@ -8,8 +8,6 @@ app/logs/*
 /web/bundles/
 /web/uploads/
 /web/css/
-web/app*
-
 web/angular
 web/assets/
 web/angular/*
