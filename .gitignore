@@ -9,7 +9,7 @@ app/logs/*
 /web/uploads/
 /web/css/
 web/app*
-composer.lock
+
 web/angular
 web/assets/
 web/angular/*
