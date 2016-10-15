@@ -154,7 +154,6 @@ class Form implements  Translatable
      */
     public function setName($name)
     {
-        $name = $name;
         $this->name = $name;
 
         return $this;

@@ -79,6 +79,7 @@ file that was distributed with this source code.
 {% endblock percent_widget %}
 
 {% block checkbox_widget -%}
+
     {% set parent_label_class = parent_label_class|default('') -%}
     {% if 'checkbox-inline' in parent_label_class %}
         {{- form_label(form, null, { widget: parent() }) -}}
@@ -374,6 +375,7 @@ file that was distributed with this source code.
 {%- endblock radio_row %}
 
 {% block sonata_type_native_collection_widget_row %}
+
 {% spaceless %}
     <div class="sonata-collection-row">
         {% if allow_delete %}
@@ -395,6 +397,7 @@ file that was distributed with this source code.
 {% endblock sonata_type_native_collection_widget_row %}
 
 {% block sonata_type_native_collection_widget %}
+
 {% spaceless %}
     {% if prototype is defined %}
         {% set child = prototype %}

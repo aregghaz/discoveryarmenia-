@@ -56,7 +56,42 @@
                         </div>
                     {% else %}
                         {{ form_helper.render_groups(admin, form, admin.formtabs['default'].groups, has_tab) }}
+                        {% if object.getClassName() is defined and object.getClassName() == 'Location' %}
+                            <div class="map_container">
+                                <div class="box box-solid box-discover">
+                                    <div class="box-header">
+                                        <h4 class="box-title">
+                                            Map
+                                        </h4>
+                                    </div>
+                                    <div class="box-body">
+
+                                        <div class="map_block" ng-controller="mapCtr">
+                                            {% verbatim %}
+                                                <script id="searchbox.tpl.html" type="text/ng-template">
+                                                  <input class="mapSearch form-control" type="text" placeholder="Search">
+                                                </script>
+                                                <ui-gmap-google-map center='map.center' zoom='map.zoom'  events="map.events">
+                                                    <ui-gmap-search-box template="searchbox.template"
+                                                        events="searchbox.events"
+                                                        position="BOTTOM_RIGHT"
+                                                        options="searchbox.options"></ui-gmap-search-box>
+                                                        <ui-gmap-marker coords="map.marker.coords"
+                                                            options="map.marker.options"
+                                                            events="map.marker.events"
+                                                            idkey="map.marker.id"
+                                                        >
+                                                    </ui-gmap-marker>
+                                                </ui-gmap-google-map>
+                                    {% endverbatim %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endif %}
+
+
                     {% if object.isMedia() is defined  %}
                         {% set imgUrl = media(object,'admin_thumb') %}
                         {% set file_type = object.type|split('/')  %}
@@ -72,10 +107,13 @@
                                 {% endif %}
                             })
                         </script>
+
+
+
                         {% if object.path != 'initial' %}
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="box box-solid box-info">
+                                    <div class="box box-solid box-discover">
                                         <div class="box-header">
                                             <h4 class="box-title">
                                                 Links

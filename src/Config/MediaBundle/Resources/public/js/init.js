@@ -10,99 +10,11 @@ $(document).ready(function () {
         prefix = '';
     }
 
+    
+
     try {
-        $('#tabs').tab();
-        /* Dropzone Upload */
-        // Template for Upload
-        var elem = '<div class="table table-striped clear" class="files" id="previews"> ' +
-            '<div id="template" class="file-row col-md-4 gallery_section"> ' +
-            '<div>' +
-            '<span class="preview"><img data-dz-thumbnail /></span> ' +
-            '</div>' +
-            '<div class="1">' +
-            '<p class="name" data-dz-name></p> ' +
-            '<strong class="error text-danger" data-dz-errormessage></strong> ' +
-            '</div>' +
-            '<div>' +
-            '<p class="size" data-dz-size></p> ' +
-            '<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"> ' +
-            '<div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div> ' +
-            '</div>' +
-            '</div>' +
-            '<div style="display: none">' +
-            '<button class="btn btn-primary start"> ' +
-            '<i class="glyphicon glyphicon-upload"></i> ' +
-            '<span>Start</span>' +
-            '</button>' +
-            '<button data-dz-remove class="btn btn-warning cancel"> ' +
-            '<i class="glyphicon glyphicon-ban-circle"></i> ' +
-            '<span>Cancel</span>' +
-            '</button>' +
-            '<button data-dz-remove class="btn btn-danger delete"> ' +
-            '<i class="glyphicon glyphicon-trash"></i> ' +
-            '<span>Delete</span>' +
-            '</button>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
 
-        var uploadInput = '<div class="upload_input btn btn-primary btn-file">Browse ...</div>'
-        var block = $('.upload').parent();
-        block.append(uploadInput);
-        block.append(elem);
-
-        var previewNode = document.querySelector("#template");
-        previewNode.id = "";
-        var previewTemplate = previewNode.parentNode.innerHTML;
-        previewNode.parentNode.removeChild(previewNode);
-
-        var myDropzone = new Dropzone(document.body, {
-            url: prefix+"/api/upload/media",
-            maxFilesize: 2,
-            acceptedFiles: "image/jpeg,image/png,image/gif",
-            thumbnailWidth: 80,
-            thumbnailHeight: 80,
-            parallelUploads: 20,
-            previewTemplate: previewTemplate,
-            autoQueue: true,
-            previewsContainer: '#previews',
-            clickable: ".upload_input"
-        });
-
-        myDropzone.on("addedfile", function(file) {
-            // Hookup the start button
-            file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file); };
-        });
-
-        myDropzone.on("totaluploadprogress", function(progress) {
-            $("#total-progress .progress-bar").css('width' , progress+'%');
-        });
-        var arr = [];
-        myDropzone.on("success", function(file,response) {
-            var id = response.id;
-
-            arr.push(id);
-            
-            $('#images').attr('value',JSON.stringify(arr));
-        });
-
-        myDropzone.on("sending", function(file) {
-            // Show the total progress bar when upload starts
-            $("#total-progress").css('opacity' , "0");
-            // And disable the start button
-            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
-        });
-
-        myDropzone.on("queuecomplete", function(progress) {
-            $("#total-progress").css('opacity' , "0");
-        });
-
-        $("#actions .start").click(function() {
-            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
-        });
-        $("#actions .cancel").click(function() {
-            myDropzone.removeAllFiles(true);
-        });
+        uplodFile();
         /* Dropzone Upload */
 
 
@@ -274,6 +186,118 @@ $(document).ready(function () {
     }
 
 
+    function uplodFile() {
+        $('#tabs').tab();
+        /* Dropzone Upload */
+        // Template for Upload
+        var elem = '<div class="table table-striped clear" class="files" id="previews"> ' +
+            '<div id="template" class="file-row col-md-4 gallery_section"> ' +
+            '<div>' +
+            '<span class="preview"><img data-dz-thumbnail /></span> ' +
+            '</div>' +
+            '<div class="1">' +
+            '<p class="name" data-dz-name></p> ' +
+            '<strong class="error text-danger" data-dz-errormessage></strong> ' +
+            '</div>' +
+            '<div>' +
+            '<p class="size" data-dz-size></p> ' +
+            '<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"> ' +
+            '<div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div> ' +
+            '</div>' +
+            '</div>' +
+            '<div style="display: none">' +
+            '<button class="btn btn-primary start"> ' +
+            '<i class="glyphicon glyphicon-upload"></i> ' +
+            '<span>Start</span>' +
+            '</button>' +
+            '<button data-dz-remove class="btn btn-warning cancel"> ' +
+            '<i class="glyphicon glyphicon-ban-circle"></i> ' +
+            '<span>Cancel</span>' +
+            '</button>' +
+            '<button data-dz-remove class="btn btn-danger delete"> ' +
+            '<i class="glyphicon glyphicon-trash"></i> ' +
+            '<span>Delete</span>' +
+            '</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        var uploadInput = '<div class="upload_input btn btn-primary btn-file">Browse ...</div>'
+        var block = $('.upload').parent();
+        block.append(uploadInput);
+        block.append(elem);
+
+        var previewNode = document.querySelector("#template");
+        previewNode.id = "";
+        var previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
+
+        var myDropzone = new Dropzone(document.body, {
+            url: prefix+"/api/upload/media",
+            maxFilesize: 2,
+            acceptedFiles: "image/jpeg,image/png,image/gif",
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            parallelUploads: 20,
+            previewTemplate: previewTemplate,
+            autoQueue: true,
+            previewsContainer: '#previews',
+            clickable: ".upload_input"
+        });
+
+        myDropzone.on("addedfile", function(file) {
+            // Hookup the start button
+            file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file); };
+        });
+
+        myDropzone.on("totaluploadprogress", function(progress) {
+            $("#total-progress .progress-bar").css('width' , progress+'%');
+        });
+        var arr = [];
+        myDropzone.on("success", function(file,response) {
+            var id = response.id;
+
+            arr.push(id);
+
+            $('#images').attr('value',JSON.stringify(arr));
+        });
+
+        myDropzone.on("sending", function(file) {
+            // Show the total progress bar when upload starts
+            $("#total-progress").css('opacity' , "0");
+            // And disable the start button
+            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+        });
+
+        myDropzone.on("queuecomplete", function(progress) {
+            $("#total-progress").css('opacity' , "0");
+        });
+
+        $("#actions .start").click(function() {
+            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+        });
+        $("#actions .cancel").click(function() {
+            myDropzone.removeAllFiles(true);
+        });
+    }
 
 
+    function priceList() {
+        var template = '<div class="price_list_content">' +
+            '<p class="open_list">Open list <i class="fa fa-angle-down"></i></p>' +
+            '<ul>';
+        for (var i = 1; i <= 12; i++) {
+            for (var k = 1; k <= 2; k++) {
+                template += '<li class="price_item"><label class="control-label">'+i+'-'+k+' </label><input type="number" name="'+i+'-'+k+'" class="form-control"></li>';
+            }
+        }
+        template += '</ul>' +
+                    '</div>';
+
+        if($('.price_list_content').length == 0){
+            $('.price_list').after(template);
+        }
+
+
+    }
 });

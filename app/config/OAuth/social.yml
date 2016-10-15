@@ -9,8 +9,8 @@ hwi_oauth:
   resource_owners:
     facebook:
       type:                facebook
-      client_id:           148253442259528
-      client_secret:       4e08a389e364f80f3922810e61dee6e5
+      client_id:           YOUR_ID
+      client_secret:       YOUR_SECRET_ID
       scope:         "email"
       infos_url:     "https://graph.facebook.com/me?fields=id,first_name,last_name,email,gender,locale,picture"
   fosub:

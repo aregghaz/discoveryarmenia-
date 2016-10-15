@@ -4,10 +4,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="config_contact_homepage" path="/">
-        <default key="_controller">ConfigContactBundle:Default:index</default>
-    </route>
-
     <route id="sonata_admin_send_mail" pattern="/send-mail/{hash}" methods="POST">
         <default key="_controller">ConfigContactBundle:Contact:sendMail</default>
     </route>

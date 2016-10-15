@@ -18,19 +18,20 @@ imports:
     - { resource: "@ConfigUserBundle/Resources/config/registration.xml" }
     - { resource: "@ConfigMediaBundle/Resources/config/services.xml" }
     - { resource: "@ConfigContactBundle/Resources/config/services.xml" }
+    - { resource: "@DAMainBundle/Resources/config/services.xml" }
 
 parameters:
     locale: en  # Defautl locale setter
     languages:
       en: English
       ru: Русский
-      it: Italiano
+      #it: Italiano
       am: Հայերեն
-      fr: French
+      #fr: French
       #de: Deutsch
       #es: Español
       #po: Português
-      jp: 日本語
+      #jp: 日本語
 
 framework:
     esi:             { enabled: true }
@@ -62,6 +63,7 @@ twig:
       resources:
         - 'A2lixTranslationFormBundle::form.html.twig'
     globals:
+      languages: %languages%
 
 
 # Assetic Configuration
@@ -121,7 +123,7 @@ knp_menu:
 
 a2lix_translation_form:
     locales: [en]
-    templating: "A2lixTranslationFormBundle::default.html.twig"
+    templating: "DAMainBundle:Translations:default.html.twig"
 
 # Doctrine Extensions Configuration
 stof_doctrine_extensions:
@@ -146,9 +148,9 @@ config_media:
     default:
       formats:
         thumb: { width: 150, quality: 70}
-    test2:
-      formats:
-        thumb: { width: 150, quality: 70}
+#    test2:
+#      formats:
+#        thumb: { width: 150, quality: 70}
 
 
 fos_rest:

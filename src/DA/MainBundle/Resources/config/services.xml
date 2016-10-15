@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!--<service id="da_main.example" class="DA\MainBundle\Example">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>-->
+
+        <service id="da.page.admin" class="DA\MainBundle\Admin\PageAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Pages"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Page</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="da.customfield.admin" class="DA\MainBundle\Admin\CustomFieldAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="CustomField"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\CustomField</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="location.admin" class="DA\MainBundle\Admin\LocationAdmin">
+            <tag name="sonata.admin" manager_type="orm"  label="Location"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Location</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="accommodation.admin" class="DA\MainBundle\Admin\AccommodationAdmin">
+            <tag name="sonata.admin" manager_type="orm"  label="Accommodation"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Accommodation</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="hotel.admin" class="DA\MainBundle\Admin\HotelAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="Hotels" label="Hotel"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Hotel</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="room.admin" class="DA\MainBundle\Admin\RoomAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Hotels" label="Rooms"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Room</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="comfort.admin" class="DA\MainBundle\Admin\ComfortAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Comfort"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Comfort</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="transfer.admin" class="DA\MainBundle\Admin\TransferAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Transfer"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Transfer</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="car.rent.admin" class="DA\MainBundle\Admin\CarRentAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="CarRent"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\CarRent</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="excursion.admin" class="DA\MainBundle\Admin\ExcursionAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Excursion"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Excursion</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="armenia.admin" class="DA\MainBundle\Admin\ArmeniaAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Armenia"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Armenia</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="armenia.block.admin" class="DA\MainBundle\Admin\ArmeniaBlockAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="ArmeniaBlock"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\ArmeniaBlock</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="service.admin" class="DA\MainBundle\Admin\ServiceAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Service"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Service</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="tour.name.admin" class="DA\MainBundle\Admin\TourNameAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Tour"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\TourName</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="tour.admin" class="DA\MainBundle\Admin\TourAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Tour day"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Tour</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="tour.block.admin" class="DA\MainBundle\Admin\DayBlockAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Day blocks"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\DayBlock</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="order.admin" class="DA\MainBundle\Admin\OrderAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Order list"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Order</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+    </services>
+</container>

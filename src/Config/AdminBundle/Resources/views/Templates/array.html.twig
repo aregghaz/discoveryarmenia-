@@ -1,0 +1,18 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field%}
+    <table style="width: 100%;color: #54678d">
+        <tr>
+            <th>Standart 1-3</th>
+            <th>Standart 4-8</th>
+            <th>Luxe 1-3</th>
+            <th>Luxe 1-7</th>
+            <th>Luxe 1-18</th>
+        </tr>
+        <tr>
+    {% for key,price in object.types %}
+        <td style="list-style: none">{{ price }} (AMD)</td>
+    {% endfor %}
+        <tr>
+    </table>
+{% endblock %}

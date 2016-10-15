@@ -60,7 +60,7 @@ class GalleryAdmin extends Admin
         $formMapper
             ->with('General', array(
                 'class'       => 'col-md-12',
-                'box_class'   => 'box box-solid box-info',
+                'box_class'   => 'box box-solid box-discover',
             ))
             ->add('name')
             ->add('translations', 'a2lix_translations_gedmo', array(

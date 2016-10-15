@@ -1,6 +1,68 @@
 textarea{
-  min-height: 150px;
+  min-height: 100px;
 }
+
+.section.content {
+  min-height: calc(~ "100vh - 107px");
+}
+/* Admin style */
+.box.box-solid.box-discover {
+  border: 1px solid #53668c;
+}
+.box.box-solid.box-discover>.box-header {
+  color: #fff;
+  background: #53668c;
+}
+label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #53668c;
+}
+.panel-default>.note-toolbar.panel-heading {
+  color: #333;
+  background-color: #53668c;
+  border-color: #53668c;
+}
+.note-btn.btn-default {
+  background-color: #374850;
+  color: #fff;
+  border-color: transparent;
+}
+.note-current-color-button{
+  padding: 2px;
+  i{
+    font-size: 16px;
+    padding: 2px 5px;
+  }
+}
+.note-btn.btn-default.active, .note-btn.btn-default:active, .open >.dropdown-toggle.btn-default {
+  color: #fff;
+  background-color: #234352;
+  border-color: #234352;
+}
+ .btn-group >.note-btn.btn.active{
+  background: #234352;
+}
+.nav-tabs-custom>.nav-tabs{
+  border-bottom-color: #53668c;
+}
+.form-control{
+  font-size: 15px;
+  font-weight: 600;
+}
+  /*.nav-tabs-custom >.tab-content {
+    background: rgb(113, 132, 161);
+    padding: 5px;
+    color: #fff;
+    a {
+      color: #FFF;
+      border-radius: 0;
+    }
+  }
+  .nav-tabs-custom>.nav-tabs>li.active>a, .nav-tabs-custom>.nav-tabs>li.active:hover>a {
+    background-color: transparent;
+  }*/
+/* Admin style */
 .clear:after{
   content: '';
   display: block;
@@ -22,6 +84,12 @@ textarea{
     font-size: 120px;
     color: rgb(34, 45, 50);
   }
+}
+.logo img {
+  display: inline;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 4px 0;
 }
 .list_image_block{
   width: 160px;
@@ -92,6 +160,7 @@ textarea{
 #media{
   float: right;
   transition: all .4s ease;
+  color: #fff;
   i{
     margin-right: 6px;
   }
@@ -99,8 +168,19 @@ textarea{
 #media:hover{
   background: transparent;
 }
-
-
+.map_container{
+  position: absolute;
+  width: 49%;
+  right: 15px;
+  top: 0;
+}
+.map_block{
+  .angular-google-map-container { height: 422px; }
+}
+.mapSearch{
+  top: 8px !important;
+  width: 80%;
+}
 /* Add Image Modal */
 .info{
   float: right;
@@ -183,6 +263,54 @@ textarea{
     }
   }
 }
+.price_item_block{
+  background: #53668c;
+  padding: 15px;
+  color: #fff;
+  border-radius: 5px;
+  label{
+    color: #fff;
+  }
+  .form-group{
+    float: left;
+    width: 25%;
+    box-sizing: border-box;
+    padding: 0 15px;
+    .price_item{
+      box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+      border-radius: 2px;
+    }
+  }
+}
+.room_admin_block{
+  .box-body{
+
+  }
+}
+.list_comfort{
+  display: block;
+  width: 100%;
+  li{
+    display: inline-block;
+    margin-right: 15px;
+  }
+}
+.armenia_block_admin{
+  .sonata-ba-tabs{
+    >div {
+      width: 50%;
+      float: left;
+      .nav-tabs-custom{
+        > .tab-content{
+          margin: 10px;
+          border: 1px solid #555;
+        }
+      }
+    }
+
+  }
+}
+
 /* Social icon style */
 .youtube{
   color: #cd201f;
@@ -202,7 +330,9 @@ textarea{
   padding: 2px;
   width: auto !important;
 }
-
+.table.showTable{
+  background: #fff;
+}
 /* Chrome, Safari, Opera */
 @-webkit-keyframes mymove {
   from {transform: rotate(0deg);}

@@ -16,14 +16,15 @@
         {% endblock seo %}
         <title>{% block title %}Title{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/Materialize/dist/css/materialize.min.css') }}"/>
             <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/font-awesome/css/font-awesome.min.css') }}"/>
             {% stylesheets output='assets/css/core.css'
-            '../app/Resources/public/css/style.less'
+            'bundles/damain/css/style.less'
             filter='less,cssrewrite,?yui_css' %}
             <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}"/>
             {% endstylesheets %}
+            <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic/dist/semantic.min.css') }}"/>
         {% endblock %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body class="{% block bodyClass %}{% endblock %}">
@@ -56,7 +57,7 @@
                 }
             </script>
             <script src="{{ asset('angular/bower_components/jquery/dist/jquery.min.js') }}"></script>
-            <script src="{{ asset('angular/bower_components/Materialize/dist/js/materialize.min.js') }}"></script>
+            <script src="{{ asset('angular/bower_components/semantic/dist/semantic.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

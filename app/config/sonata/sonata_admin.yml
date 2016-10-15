@@ -1,3 +1,15 @@
+sonata_doctrine_orm_admin:
+  entity_manager: ~
+  audit:
+    force: true
+
+  templates:
+    form:
+      - ConfigAdminBundle:ORM:form_admin_fields.html.twig
+
+
+
+
 sonata_admin:
     # default value, change it to sonata.admin.security.handler.acl to use ACL
     security:
@@ -14,8 +26,8 @@ sonata_admin:
         # permission related to the objects
         object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
 
-    title:        Symfony                             # Your Application title
-    #title_logo:   bundles/travelmain/image/logo.png   # Your Application logo path
+    title:        ' '                             # Your Application title
+    title_logo:   bundles/damain/images/company_logo.png   # Your Application logo path
     options:
         html5_validate: false # does not use html5 validation
         pager_links: 5 # pager max links to display
@@ -32,9 +44,61 @@ sonata_admin:
       edit:    ConfigAdminBundle:CRUD:edit.html.twig
     dashboard:
       blocks:
-        - { position: left, type: sonata.admin.block.admin_list }
+        #- { position: left, type: sonata.admin.block.admin_list }
 
       groups:
+        sonata.admin.group.page:
+          on_top:  true
+          label: Pages
+          icon:  '<i class="fa fa-file-text-o"></i>'
+          items:
+            - da.page.admin
+        sonata.admin.group.hotel:
+          on_top:  true
+          label:           Hotels
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-h-square"></i>'
+          items:
+              - hotel.admin
+
+        sonata.admin.group.excursion:
+          on_top:  true
+          label:           Excursion
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-bus"></i>'
+          items:
+              - excursion.admin
+
+        sonata.admin.group.transport:
+          on_top:  false
+          label:           Transport
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-car"></i>'
+          items:
+              - transfer.admin
+              - car.rent.admin
+        sonata.admin.group.tour:
+          on_top:  false
+          label:           Tour
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-map-signs"></i>'
+          items:
+              - tour.name.admin
+              - tour.admin
+        sonata.admin.group.armenia:
+          on_top:  true
+          label:           Armenia
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-university"></i>'
+          items:
+              - armenia.admin
+        sonata.admin.group.accommodation:
+          on_top:  true
+          label:           Accommodation
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-home"></i>'
+          items:
+              - accommodation.admin
         sonata.admin.group.media:
           on_top:  true
           label: Media
@@ -54,6 +118,20 @@ sonata_admin:
           icon:            '<i class="fa fa-users"></i>'
           items:
               - sonata.user.admin.user
+        sonata.admin.group.service:
+          on_top:  true
+          label:           Service
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-tasks"></i>'
+          items:
+              - service.admin
+        sonata.admin.group.order:
+          on_top:  true
+          label:           Order
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-shopping-cart"></i>'
+          items:
+              - order.admin
         sonata.admin.group.groups:
           on_top:  true
           label:           Groups
@@ -61,6 +139,20 @@ sonata_admin:
           icon:            '<i class="fa fa-cogs"></i>'
           items:
               - sonata.user.admin.group
+        sonata.admin.group.location:
+          on_top:  true
+          label:           Location
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-map-marker"></i>'
+          items:
+              - location.admin
+        sonata.admin.group.comfort:
+          on_top:  true
+          label:           Comfort
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-archive"></i>'
+          items:
+              - comfort.admin
         sonata.admin.group.Plugins:
           label:           Plugins
           label_catalogue: SonataAdminBundle
@@ -68,6 +160,7 @@ sonata_admin:
           items:
               - config.youtube.admin
               - config.contact.admin
+
 
 
 #    assets:

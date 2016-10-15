@@ -66,7 +66,7 @@ class MediaAdmin extends Admin
         $formMapper
             ->with('General', array(
                 'class'       => 'col-md-9',
-                'box_class'   => 'box box-solid box-info',
+                'box_class'   => 'box box-solid box-discover',
             ))
             ->add('realName',null,array('label'=>'Name','required'=>false,'attr'=>array('readonly'=>'readonly')))
             ->add('translations', 'a2lix_translations_gedmo', array(
@@ -93,7 +93,7 @@ class MediaAdmin extends Admin
             ->end()
             ->with('Media', array(
                 'class'       => 'col-md-3',
-                'box_class'   => 'box box-solid box-info',
+                'box_class'   => 'box box-solid box-discover',
             ))
             ->add('name',null,array('label'=>'Base Name','required'=>false,'attr'=>array('readonly'=>'readonly')))
             ->add('file','file',array(
@@ -117,7 +117,7 @@ class MediaAdmin extends Admin
             ->end()
             ->with('Properties', array(
                 'class'       => 'col-md-3',
-                'box_class'   => 'box box-solid box-info ',
+                'box_class'   => 'box box-solid box-discover',
             ));
             if($file_type[0] == 'image'){
                 $formMapper

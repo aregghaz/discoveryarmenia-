@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/Materialize/dist/css/materialize.min.css') }}"/>
     {% stylesheets output='css/user_style.css'
     'bundles/configuser/css/user_style.less'
     filter='less,cssrewrite,?yui_css' %}
@@ -15,5 +16,6 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('angular/bower_components/Materialize/dist/js/materialize.min.js') }}"></script>
     <script src="{{ asset('bundles/configuser/js/user_init.js') }}"></script>
 {% endblock %}

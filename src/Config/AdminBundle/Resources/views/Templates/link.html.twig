@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field%}
+    {% set URI = app.request.schemeAndHttpHost %}
+    {% set slug  = object.slug %}
+    {% for language,key in languages %}
+        <div>
+            {% if slug == 'home'  %}
+                <a href="{{ URI ~'/'~language~'/'~ slug }}.html">{{ URI ~'/'~language~'/' }} </a>
+            {% else %}
+                <a href="{{ URI ~'/'~language~'/'~ slug }}.html">{{ URI ~'/'~language~'/'~ slug }}.html</a>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+
+{% endblock %}
