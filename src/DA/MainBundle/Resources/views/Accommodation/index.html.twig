@@ -1,0 +1,99 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="path_block">
+        <div class="container">
+            {% set slug = app.request.attributes.get('slug') %}
+            <ul>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('home_page',{'_locale':app.request.attributes.get('_locale')}) }}">
+                        {{ 'home' | trans({}, 'messages') }}</a>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        <a >{{ page.title }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page_banner_block" style="background: url('{{ media(page.bannerImage) }}') no-repeat;background-size: cover;background-position: center center;">
+        <div class="container">
+            <div class="content">
+                <h1>{{ page.bannertitle }}</h1>
+                <p>{{ page.bannerDescription }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="filter_block">
+        <div class="container clear">
+            <div class="left_block clear">
+                <div class="city left_block">
+                    <select class="ui search dropdown">
+                        <option value="">{{ 'select_city' | trans({}, 'messages') }}</option>
+                        {% for item in city %}
+                            <option value="{{ item.id }}">{{ item.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="rooms right_block">
+                    <select class="ui search dropdown">
+                        <option value="">{{ 'select_rooms' | trans({}, 'messages') }}</option>
+                        {% for item in 1..6 %}
+                            <option value="{{ item }}">{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="right_block">
+                <div class="map_button">
+                    <i class="fa fa-map-marker"></i>
+                    {{ 'see_on_map' | trans({}, 'messages') }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accommodation_block">
+        <div class="container clear">
+            {% for item in objects %}
+                <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                    <a href="{{ path('accommodation_single',{'category':item.category,'slug':item.slug}) }}">
+                        <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>{{ item.priceForDay | number_format(0, '', ',') }}</div>
+                        <div class="overlay">
+                            <div class="see_more">
+                                {{ 'see_more' | trans({}, 'messages') }}
+                            </div>
+                            <div class="accommodation_title_block clear">
+                                <div class="left_block">
+                                    <p>{{ item.title }}</p>
+                                    <p>{{ item.location.title }}</p>
+                                </div>
+                                <div class="right_block">
+                                    {{ item.rooms }} {{ 'room_count' | trans({}, 'messages') }}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+
+            <div class="see_next_block">
+                <button>
+                    {{ 'see_next' | trans({}, 'messages') }} {{ page.title }}
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+{% endblock %}

@@ -1,7 +1,7 @@
 <?php
 
 namespace DA\MainBundle\Entity\Repository;
-
+use Doctrine\ORM\Query;
 /**
  * ExcursionRepository
  *
@@ -10,4 +10,73 @@ namespace DA\MainBundle\Entity\Repository;
  */
 class ExcursionRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getExcursionCity()
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT l FROM DAMainBundle:Location l
+                            JOIN l.excursion a
+                          
+                            ')
+        ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+    public function getExcursionnBySlug($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Excursion a
+                            WHERE a.slug = :slug
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
+
+    public function getBestExcursion()
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Excursion a
+                            WHERE a.best_price = TRUE 
+                            ')
+        ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+    public function getExcursionInCity($location)
+    {
+        $query = $this->getEntityManager()
+
+            ->createQuery('SELECT a,RAND() as HIDDEN rand FROM DAMainBundle:Excursion a
+                            WHERE a.location = :location
+                            ORDER BY  rand
+                            ')
+            ->setParameter('location',$location)
+            ->setMaxResults(3);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
 }

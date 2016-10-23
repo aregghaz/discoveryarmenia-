@@ -1,12 +1,3 @@
-/* ==================== Override Materialized class ==================== */
-
-/* ==================== Override Materialized class ==================== */
-
-
-/* ==================== Override Bootstrap class ==================== */
-
-/* ==================== Override Bootstrap class ==================== */
-
 /* ==================== Settings class ==================== */
 
 /* ===> Fonts <=== */
@@ -15,7 +6,18 @@
 @FregatBoldItalic: 'Fregat-BoldItalic';
 @FregatItalic: 'Fregat-Italic';
 @Fregat: 'Fregat';
+@Tahoma: 'Tahoma';
 /* ===> Fonts <=== */
+
+/* ===> Size <=== */
+@container: 1180px;
+/* ===> Size <=== */
+
+/* ===> Colors <=== */
+@generalColor: #fca955;
+@menuHoverColor: #4b659d;
+@menuLinkColor: #55698f;
+/* ===> Colors <=== */
 
 @font-face {
   font-family: 'AvantGardeCTT-Bold';
@@ -66,7 +68,15 @@
   font-weight: normal;
   font-style: normal;
 }
-
+@font-face {
+  font-family: 'Tahoma';
+  src:  url('../fonts/Tahoma.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Tahoma.woff') format('woff'),
+  url('../fonts/Tahoma.ttf')  format('truetype'),
+  url('../fonts/Tahoma.svg#Tahoma') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill,
 input:-webkit-autofill:focus, textarea:-webkit-autofill:focus, select:-webkit-autofill:focus {
   background-color: #fff !important;
@@ -74,6 +84,34 @@ input:-webkit-autofill:focus, textarea:-webkit-autofill:focus, select:-webkit-au
   color: rgb(0, 0, 0);
   -webkit-box-shadow: inset 0 0 0px 1000px white ;
   box-shadow: inset 0 0 0px 1000px white ;
+}
+
+body,p,a,ul,li,ol,main,header,footer,h1,h2,h3,h4,h5,h6,
+span,blockquote,aside,menu,nav,form,textarea{
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+a,a:focus,a:hover,a:visited{
+  text-decoration: none;
+}
+body{
+  position: relative;
+  height: 100%;
+  font-family: @Fregat;
+  overflow-x: hidden;
+}
+input{
+  outline: none;
+}
+menu{
+  li{
+    list-style: none;
+    display: inline-block;
+    a{
+      cursor: pointer;
+    }
+  }
 }
 .clear:after{
   content: '';
@@ -86,5 +124,1703 @@ input:-webkit-autofill:focus, textarea:-webkit-autofill:focus, select:-webkit-au
 .right_block{
   float: right;
 }
+.flex_container{
+  display: flex;
+}
+.container{
+  width: @container;
+  margin: 0 auto;
+  position: relative;
+}
+.slick-thumbs{
+  display: none;
+}
+.link_button{
+  a{
+    display: block;
+    color: #55698f;
+    font-size: 18px;
+    font-family: @AvantGardBold;
+    text-align: center;
+    border: 1px solid @menuHoverColor;
+    line-height: 13px;
+    text-transform: uppercase;
+    padding: 10px 0;
+    transition: all .4s ease;
+    &:hover{
+      background: @menuHoverColor;
+      color: #fff;
+    }
+  }
+}
+.title{
+  font-size: 32px;
+  line-height: 23px;
+  color: @generalColor;
+  font-family: @AvantGardBold;
+  text-align: center;
+  text-transform: uppercase;
+}
+.single{
+  padding-top: 20px;
+}
+/* ==================== Override Semantic class ==================== */
+.slick-dotted.slick-slider {
+   margin-bottom: 0;
+}
+/* ==================== Override Semantic class ==================== */
+
 /* ==================== Settings class ==================== */
+
+/* ==================== Header ==================== */
+header{
+  width: 100%;
+  background: #ffffff;
+  border-top: 5px solid @generalColor;
+  .logo{
+    margin-top: 15px;
+  }
+  .general_menu{
+    margin-left: 45px;
+    menu{
+      > li{
+        float: left;
+        border-left: 1px solid #e8e8e8;
+        > a, > span{
+          display: block;
+          text-align: center;
+          cursor: pointer;
+          padding: 60px 15px 11px 15px;
+          border-bottom: 5px solid transparent;
+          background: #fff;
+          font-size: 16px;
+          text-transform: uppercase;
+          color: @menuLinkColor;
+          max-height: 88px;
+          min-height: 88px;
+          position: relative;
+          transition: all .6s ease;
+          overflow: hidden;
+          img{
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: scale(0);
+          }
+          .magictime {
+            -webkit-animation-duration: 1s;
+            -moz-animation-duration: 1s;
+            -o-animation-duration: 1s;
+            animation-duration: 1s;
+          }
+          span{
+            display: block;
+            line-height: 13px;
+          }
+        }
+        &:hover{
+          > a, > span{
+            background: @menuHoverColor;
+            border-bottom: 5px solid @generalColor;
+            color: #fff;
+            img{
+              opacity: 1;
+            }
+          }
+        }
+        &:last-of-type{
+          border-right: 1px solid #e8e8e8;
+        }
+        &.dropdown{
+          .sub-menu{
+            position: absolute;
+            text-align: center;
+            width: 100vw;
+            display: none;
+            left: calc(~"(100% - 100vw)/2");
+            z-index: 450;
+            li{
+              display: list-item;
+              margin-bottom: 2px;
+              a{
+                background: #ebebeb;
+                display: block;
+                width: 100%;
+                padding: 10px 0;
+                color: #55698f;
+                font-size: 16px;
+                text-transform: uppercase;
+                transition: all .4s ease;
+                line-height: 13px;
+                &:hover{
+                  background: @generalColor;
+                  color: #fff;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .right_block{
+    margin-top: 10px;
+    max-width: 150px;
+    .login_block{
+      a{
+        font-size: 14px;
+        color: #fff;
+        background: @menuHoverColor;
+        padding: 9px 8px;
+        display: block;
+        text-transform: uppercase;
+        max-height: 29px;
+        line-height: 13px;
+      }
+    }
+    .group_block{
+      margin-top: 10px;
+      > div{
+        float: left;
+        width: 33.3333%;
+        box-sizing: border-box;
+        border-left: 1px solid #e8e8e8;
+        height: 39px;
+        box-sizing: border-box;
+        &:last-of-type{
+          border-right: 1px solid #e8e8e8;
+        }
+      }
+      .languages_block{
+        > ul{
+          > li{
+            list-style: none;
+            > span{
+              display: inline-block;
+              width: 100%;
+              margin-top: 10px;
+              text-align: center;
+              .flag-icon{
+                font-size: 19px;
+                border: 1px solid #e8e8e8;
+              }
+            }
+            ul.sub_lang{
+              text-align: center;
+              margin-top: 9px;
+              display: none;
+              background: #fff;
+              position: relative;
+              z-index: 450;
+              li{
+                list-style: none;
+                padding: 2px 0;
+                cursor: pointer;
+                background: #fff;
+                &:hover{
+                  background: #e8e8e8;
+                }
+                &:last-of-type{
+                  border-top: 1px solid #e8e8e8;
+                }
+                a{
+                  .flag-icon{
+                    font-size: 19px;
+                    border: 1px solid #e8e8e8;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .chart_block{
+        text-align: center;
+        position: relative;
+        .order_count{
+          position: absolute;
+          border: 2px solid #fff;
+          background: #53668d;
+          display: block;
+          width: 18px;
+          height: 18px;
+          color: #fff;
+          border-radius: 50%;
+          right: 5px;
+          top: 5px;
+          text-align: center;
+          font-size: 13px;
+          line-height: 15px;
+          font-family: @FregatBold;
+        }
+        img{
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+}
+/* ==================== Header ==================== */
+
+/* ==================== Home page ==================== */
+.home_slider_block{
+  //height: calc(~"100vh - 93px");
+  max-height: 600px;
+  .home_slider{
+    height: 100%;
+    position: relative;
+    .slide{
+      height: 600px;
+      .container{
+        height: 100%;
+        .description_block{
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          background: rgba(255,255,255,0.8);
+          padding: 20px 15px;
+          box-sizing: border-box;
+          width: 390px;
+          color: @menuLinkColor;
+          font-size: 16px;
+          .sldie_title{
+            font-size: 40px;
+            line-height: 30px;
+            font-family: @AvantGardBold;
+            text-transform: uppercase;
+            margin-bottom: 13px;
+          }
+          .description{
+
+          }
+          .link_button{
+            margin-top: 34px;
+
+          }
+        }
+      }
+    }
+    .slick-dots{
+      width: auto;
+      right: calc(~ '(100% - 1180px)' / 2);
+      margin-bottom: 135px;
+      flex-direction: column-reverse;
+      display: flex;
+      li{
+        display: list-item;
+        width: 100%;
+        height: 100%;
+        margin-top: 10px;
+        &:last-of-type{
+          margin-top: 0;
+        }
+        > span{
+          display: flex;
+          p{
+            float: left;
+            margin: auto;
+            margin-right: 0px;
+            text-align: right;
+            font-size: 20px;
+            font-family: @AvantGardBold;
+            color: #fff;
+            opacity: 0;
+            transition: all .4s ease;
+          }
+          &:hover{
+            p{
+              opacity: 1;
+              margin-right: 9px;
+            }
+          }
+          span{
+            display: flex;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            text-align: center;
+            width: 60px;
+            height: 60px;
+            transition: all .4s ease;
+            img{
+              margin: auto;
+            }
+            &:hover{
+              background: @generalColor;
+            }
+          }
+        }
+        &.slick-active{
+          > span{
+            p{
+
+            }
+            span{
+              background: @generalColor;
+              img{
+
+              }
+            }
+          }
+        }
+      }
+    }
+    .slick-track{
+      border-bottom: 10px solid @generalColor;
+    }
+  }
+}
+.info_block{
+  background: #eeeeee;
+  .container{
+    .image{
+      width: 25%;
+      margin-top: 47px;
+      img{
+        max-width: 100%;
+        display: block;
+      }
+    }
+    .content{
+      width: 75%;
+      text-align: center;
+      margin-top: 70px;
+      h2{
+        line-height: 23px;
+        font-size: 32px;
+        font-family: @AvantGardBold;
+        color: @generalColor;
+        margin-bottom: 13px;
+      }
+      p{
+        font-size: 18px;
+        font-family: @FregatItalic;
+        color: #898989;
+      }
+    }
+  }
+}
+/* ==================== Home page ==================== */
+
+/* ==================== Path block ==================== */
+.path_block{
+  background: #ebebeb;
+  padding: 6px 0;
+  .container{
+    ul{
+      li{
+        list-style: none;
+        line-height: 11px;
+        display: inline-block;
+        margin-right: 15px;
+        a{
+          color: #4b659d;
+          font-size: 14px;
+          text-transform: uppercase;
+        }
+        i{
+          color: #9ba8c4;
+          font-size: 18px;
+          line-height: 10px;
+        }
+        &.link{
+          i{
+            color: #fcaa57;
+          }
+        }
+      }
+    }
+  }
+}
+/* ==================== Path block ==================== */
+
+/* ==================== Page Banner ==================== */
+.page_banner_block{
+  height: 340px;
+  border-bottom: 10px solid @generalColor;
+  .container{
+    .content{
+      width: 39%;
+      background: rgba(255,255,255,0.7);
+      box-sizing: border-box;
+      padding: 15px;
+      h1{
+        text-transform: uppercase;
+        color: @menuLinkColor;
+        font-size: 40px;
+        line-height: 38px;
+      }
+      p{
+        margin-top: 5px;
+        font-family: @Fregat;
+        font-size: 16px;
+        color: #55698f;
+      }
+    }
+  }
+}
+/* ==================== Page Banner ==================== */
+
+/* ==================== Filter Banner ==================== */
+.filter_block{
+  .container{
+    background: #4b659d;
+    color: #fff;
+    padding: 5px 0;
+    .selection{
+      background: transparent !important;
+      color: #fff;
+      border-radius: 0;
+      border: none;
+      min-width: 160px;
+      padding: 8px 15px 8px 10px;
+      min-height: auto;
+      z-index: 100;
+      &.active.dropdown:hover, &.active.dropdown:hover .menu{
+        box-shadow: none;
+      }
+      &.dropdown.active, &.dropdown.visible{
+        z-index: 100;
+      }
+      i{
+        padding: 7px 0 0 0 !important;
+      }
+      input{
+        padding: 6px !important;
+        &.search:focus+.text{
+          color: #fff !important;
+        }
+      }
+      .default.text,&:not(.default),.text,.text:not(.default){
+        color: #fff !important;
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+      .menu{
+        color: #fff;
+        font-family: @Fregat;
+        border-color: #4b659d !important;
+        border-radius: 0;
+
+        .item{
+          text-transform: uppercase;
+          color: #4b659d;
+          border-top: none;
+          &:hover,&.active{
+            background: #4b659d;
+            color: #fff
+          }
+        }
+      }
+    }
+    .ui.active.search.dropdown input.search:focus+.text {
+      color: #fff !important;
+    }
+    .left_block{
+      >div{
+        padding-right: 15px;
+      }
+      .city{
+        border-right: 1px solid #fff;
+      }
+      .rooms{
+
+      }
+    }
+    .right_block{
+      .map_button{
+        font-size: 16px;
+        font-family: @Fregat;
+        padding: 5px 14px 0 0;
+        cursor: pointer;
+        i{
+
+        }
+      }
+    }
+    .carRentFilter{
+      padding: 7px 15px;
+      li{
+        display: inline-block;
+        margin-right: 20px;
+        font-size: 16px;
+        line-height: 13px;
+        cursor: pointer;
+        .square{
+          display: inline-block;
+          width: 11px;
+          height: 11px;
+          border: 2px solid #fff;
+        }
+        .text{
+
+        }
+      }
+    }
+  }
+}
+/* ==================== Filter Banner ==================== */
+
+/* ==================== Accommodation block ==================== */
+.accommodation_block{
+  margin-top: 20px;
+  padding-bottom: 60px;
+  .container{
+    .accommodation_box{
+      float: left;
+      max-width: 380px;
+      width: 33.33333%;
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+      >a{
+        display: block;
+        height: 100%;
+        .price{
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 50;
+          background: @generalColor;
+          font-family: @Tahoma;
+          color: #fff;
+          font-size: 20px;
+          padding: 7px 15px;
+          transition: all .5s ease;
+          span{
+            font-size: 14px;
+            margin-right: 5px;
+            text-transform: uppercase;
+          }
+        }
+        .overlay{
+          position: absolute;
+          background: rgba(75,101,157,0);
+          width: 100%;
+          height: 33px;
+          color: #fff;
+          z-index: 40;
+          bottom: 0;
+          left: 0;
+          transition: all .4s ease;
+          display: flex;
+          .see_more{
+            margin: auto;
+            opacity: 0;
+            transform: scale(0);
+            font-size: 16px;
+            text-transform: uppercase;
+            border: 2px solid #fff;
+            padding: 9px 28px;
+            line-height: 18px;
+            transition: all .6s ease;
+          }
+        }
+        .accommodation_title_block{
+          background: rgba(75,101,157,0.8);
+          position: absolute;
+          bottom: -19px;
+          left: 0;
+          width: 100%;
+          box-sizing: border-box;
+          padding-left: 10px;
+          padding-top: 5px;
+          z-index: 50;
+          transition: background .4s ease;
+          .left_block{
+            width: 90%;
+            position: relative;
+            top: 0;
+            transition: all .4s ease;
+            p{
+              font-size: 18px;
+              text-transform: uppercase;
+              span{
+                margin-left: 10px;
+                i{
+                  color: @generalColor
+                }
+              }
+              &:nth-of-type(2){
+                font-size: 16px;
+              }
+            }
+          }
+          .right_block{
+            width: 10%;
+          }
+        }
+        &:hover{
+          .price{
+            background: transparent;
+            left: 50%;
+          }
+          .overlay{
+            height: 100%;
+            background: rgba(75,101,157,0.8);
+            .see_more{
+              opacity: 1;
+              transform: scale(1);
+              &:hover{
+                background: #fff;
+                color: @menuLinkColor;
+              }
+            }
+          }
+          .accommodation_title_block{
+            background: rgba(75,101,157,0);
+            .left_block{
+              top: -21px;
+            }
+          }
+        }
+      }
+      &:nth-of-type(3n + 2){
+        margin: 0  20px 20px 20px;
+      }
+    }
+  }
+}
+.see_next_block{
+  clear: both;
+  width: 100%;
+  text-align: center;
+  margin-top: 35px;
+  button{
+    background: transparent;
+    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 11px;
+    border: 2px solid #6f6f6f;
+    color: #6f6f6f;
+    padding: 13px 130px;
+    transition: all .4s ease;
+    &:hover{
+      background: #6f6f6f;
+      color: #fff;
+    }
+  }
+}
+/* ==================== Accommodation block ==================== */
+
+/* ==================== Accommodation single ==================== */
+.accommodation{
+  .container{
+    > .left_block{
+      width: 67%;
+      max-width: 780px;
+      color: @menuLinkColor;
+      h1{
+        font-size: 40px;
+        line-height: 32px;
+        font-family: @AvantGardBold;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .description{
+        font-family: @Fregat;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      .price{
+        font-size: 30px;
+        line-height: 23px;
+        margin-bottom: 20px;
+        font-family: @FregatBold;
+        span{
+          font-size: 18px;
+          font-family: @Fregat;
+        }
+      }
+      .request_form_block{
+        margin-bottom: 20px;
+        .input_block{
+          float: left;
+          width: 25%;
+          max-width: 206px;
+          margin-right: 20px;
+          label{
+            font-size: 16px;
+            color: #3f3f3f;
+            font-family: @Fregat;
+          }
+          input{
+            border: 2px solid #e1e1e1;
+            width: 100%;
+            height: 26px;
+            padding: 0 10px;
+          }
+          &:nth-last-of-type(2){
+            width: 11%;
+          }
+        }
+        .add_cart_block{
+          float: right;
+          padding-top: 20px;
+          min-width: 25%;
+          button{
+            width: 100%;
+            max-height: 26px;
+            background: #ffb400;
+            font-size: 16px;
+            color: #fff;
+            padding: 7px 25px;
+            border: none;
+            line-height: 13px;
+            outline: none;
+          }
+        }
+      }
+      .comforts{
+        padding-bottom: 30px;
+        border-bottom: 2px solid #4b659d;
+        margin-bottom: 25px;
+        h2{
+          font-weight: normal;
+          font-size: 22px;
+          line-height: 16px;
+          text-transform: uppercase;
+          margin-bottom: 15px;
+        }
+        .comfort_list{
+          .item{
+            font-size: 16px;
+            margin-bottom: 25px;
+            .category_title{
+              font-family: @FregatBold;
+              line-height: 11px;
+              margin-bottom: 10px;
+              text-transform: uppercase;
+            }
+            ul{
+              li{
+                list-style: none;
+                margin-bottom: 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+    > .right_block{
+      width: 33%;
+      max-width: 380px;
+      .map_block{
+        height: 280px;
+        opacity: 0;
+        transition: all .6s ease;
+        .angular-google-map-container { height: 280px; }
+      }
+      .best_price{
+        text-transform: uppercase;
+        color: @menuLinkColor;
+        font-family: @AvantGardBold;
+        font-size: 22px;
+        line-height: 14px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+      }
+      .accommodation_block .container .accommodation_box{
+        float: none;
+      }
+      .accommodation_block .container .accommodation_box:nth-of-type(3n + 2){
+        margin: 0 0;
+      }
+    }
+  }
+}
+.city_accommodation_block{
+  background: #e9e9e9;
+  padding-top: 20px;
+  .title{
+    margin-bottom: 20px;
+    color: @menuLinkColor;
+  }
+  .accommodation_block{
+    padding-bottom: 40px;
+
+  }
+}
+/* ==================== Accommodation single ==================== */
+
+/* ==================== Hotel single ==================== */
+.hotel_info_block{
+  .description{
+    font-size: 16px;
+    line-height: 20px;
+    color: #4a4a4a;
+  }
+}
+/* ==================== Hotel single ==================== */
+
+/* ==================== Table block ==================== */
+.table_block{
+  margin-bottom: 30px;
+  table{
+    width: 100%;
+    thead{
+      tr{
+        font-size: 16px;
+        background: #4b659d;
+        th{
+          padding: 10px;
+          color: #fff;
+          font-weight: normal;
+          text-transform: uppercase;
+          text-align: left;
+          border: 1px solid #e1e1e1;
+          &:first-of-type{
+            width: 280px;
+          }
+        }
+      }
+    }
+    tbody{
+      font-size: 16px;
+      tr{
+        td{
+          vertical-align: top;
+          padding: 10px;
+          border: 1px solid #e1e1e1;
+          color: #474747;
+          p{
+            font-size: 14px;
+            margin-bottom: 5px;
+            &:first-of-type{
+              font-size: 16px;
+              font-family: @FregatBold;
+              text-transform: capitalize;
+
+            }
+          }
+          div{
+            color: #526eac;
+            ul{
+              padding-left: 16px;
+              height: 76px;
+              width: 85%;
+              li{
+                float: left;
+                font-size: 14px;
+                list-style-position: outside;
+                margin-right: 30px;
+
+              }
+            }
+            span{
+              float: right;
+              cursor: pointer;
+              font-family: @FregatBold;
+              text-decoration: underline;
+            }
+          }
+          >i{
+            font-size: 20px;
+            color: #000;
+          }
+          button{
+            font-size: 14px;
+            color: #3f3f3f;
+            background: @generalColor;
+            width: 100%;
+            border: none;
+            padding: 5px 0;
+            text-transform: uppercase;
+          }
+          &:nth-of-type(3){
+            width: 150px;
+          }
+        }
+      }
+    }
+  }
+}
+/* ==================== Table block ==================== */
+
+/* ==================== Transfer block ==================== */
+.transfer_block{
+  padding: 20px 0 60px 0;
+  .container{
+    .description{
+      font-size: 16px;
+      color: #515151;
+      margin-bottom: 20px;
+    }
+    .transfer_table{
+      table{
+        th{
+          text-align: center;
+          &:first-of-type{
+            text-align: left;
+          }
+        }
+        td{
+          padding: 15px 10px;
+          font-size: 16px;
+          font-family: @FregatBold;
+          cursor: pointer;
+          text-align: center;
+          transition: all .2s ease;
+          &:first-of-type{
+            text-transform: uppercase;
+            text-align: left;
+          }
+          i{
+            font-size: 16px;
+            color: @generalColor;
+          }
+          span.add{
+            display: none;
+          }
+          &:hover{
+            background: @generalColor;
+            &:first-of-type{
+              background: #fff;
+            }
+            i{
+              color: #fff;
+            }
+            span{
+              display: none;
+            }
+            span.add{
+              display: inline;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/* ==================== Transfer block ==================== */
+
+/* ==================== Car rent block ==================== */
+.car_rent_block{
+  margin-top: 20px;
+  .container{
+    .car_block{
+      float: left;
+      max-width: 380px;
+      width: 33.3333%;
+      margin-bottom: 20px;
+      &:nth-of-type(3n + 2){
+        margin: 0 20px 20px 20px;
+      }
+      .image_block{
+        max-height: 200px;
+        text-align: center;
+        img{
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+      .car_info_block{
+        background: #e8e8e8;
+        color: #676767;
+        font-family: @Tahoma;
+        .car_title{
+          font-size: 18px;
+          text-transform: uppercase;
+          padding: 5px 15px;
+          font-family: @Fregat;
+          color: @menuLinkColor;
+          border-bottom: 1px solid #fff;
+        }
+        .properties{
+          padding: 10px 15px;
+          border-bottom: 2px solid #fff;
+          ul{
+            li{
+              display: inline-block;
+              text-transform: capitalize;
+              margin-right: 10px;
+              img{
+                margin-right: 5px;
+              }
+            }
+          }
+        }
+        .price_block{
+          .price{
+            padding: 5px 15px;
+            width: 50%;
+            box-sizing: border-box;
+            float: left;
+            border-bottom: 2px solid #fff;
+            border-right: 1px solid #fff;
+            &:nth-of-type(even){
+              border-right: none;
+            }
+            span:first-of-type{
+
+            }
+            span:last-of-type{
+
+            }
+          }
+        }
+      }
+      .send_request{
+        button{
+          background: transparent;
+          border: 2px solid #cccccc;
+          font-size: 18px;
+          color: #8d8d8d;
+          text-transform: uppercase;
+          line-height: 13px;
+          width: 100%;
+          padding: 8px 0;
+          &:hover{
+            color: #fff;
+            background: @generalColor;
+          }
+        }
+      }
+    }
+  }
+}
+/* ==================== Car rent block ==================== */
+
+/* ==================== Excursion block ==================== */
+.excursion_box{
+  float: left;
+  max-width: 380px;
+  width: 33.33333%;
+  height: 325px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  &:nth-of-type(3n + 2){
+    margin: 0  20px 20px 20px;
+  }
+  .accommodation_box{
+    width: 100% !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+.excursion_info{
+  padding: 10px 15px;
+  clear: both;
+  background: #f4f4f4;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: #6e6e6e;
+  .top_block{
+    padding-bottom: 8px;
+    border-bottom: 1px solid #c1c9da;
+    margin-bottom: 5px;
+    ul{
+
+      li{
+        display: inline-block;
+        &:after{
+          content: '|';
+          display: inline-block;
+          margin-left: 5px;
+        }
+        &:last-of-type{
+          &:after{
+            content: '';
+          }
+        }
+      }
+    }
+    span{
+      i{
+        margin-right: 5px;
+        font-size: 16px;
+      }
+    }
+  }
+  .bottom_block{
+    text-align: right;
+    color: @menuLinkColor;
+    font-size: 20px;
+    font-family: @Tahoma;
+  }
+}
+.excursion{
+  .container{
+    > .left_block{
+      padding-bottom: 100px;
+      border-bottom: 2px solid #4b659d;
+      margin-bottom: 25px;
+    }
+  }
+  .description{
+    color: #4a4a4a;
+    margin-bottom: 30px !important;
+  }
+  .excursion_info{
+    background: transparent;
+    padding: 0;
+    .top_block{
+      border-bottom-width: 2px;
+      margin-bottom: 20px;
+    }
+
+  }
+}
+.best_price_block .excursion_info {
+  padding: 10px 15px;
+  clear: both;
+  background: #f4f4f4;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: #6e6e6e;
+  .top_block{
+    border-bottom-width: 2px;
+    margin-bottom: 5px;
+  }
+}
+/* ==================== Excursiont block ==================== */
+
+/* ==================== Gallery block ==================== */
+.gallery_block{
+  margin-bottom: 25px;
+  .general_image{
+    img{
+      width: 100%;
+    }
+  }
+  .image_thumb_block{
+    .gallery_carousel{
+      .slide{
+        float: left;
+        a{
+          display: inline-block;
+          overflow: hidden;
+          position: relative;
+          margin: 0 5px;
+          float: left;
+          height: 110px;
+          &:first-of-type{
+            margin-left: 0;
+          }
+          &:last-of-type{
+            margin-right: 0;
+          }
+        }
+        .img {
+          width: 150px;
+          height: 110px;
+          display: inline-block;
+          transition: all .4s ease;
+        }
+        a:hover{
+
+        }
+      }
+    }
+  }
+}
+/* ==================== Gallery block ==================== */
+
+/* ==================== Tours ==================== */
+.tours_block{
+  padding-bottom: 20px;
+  > .title{
+    padding-top: 30px;
+  }
+  .container{
+    .link_button{
+      width: 360px;
+      margin: 0 auto;
+      margin-top: 20px;
+    }
+  }
+}
+.tour_block{
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.tours_box{
+  width: 49%;
+  max-width: 580px;
+  height: 390px;
+  overflow: hidden;
+  float: left;
+  border-bottom:  10px solid @generalColor;
+  margin-bottom: 20px;
+  position: relative;
+  cursor: pointer;
+  &:nth-of-type(even){
+    margin-left: 20px;
+  }
+  .overlay{
+    position: absolute;
+    background: rgba(75,101,157,0);
+    width: 100%;
+    height: 33px;
+    color: #fff;
+    z-index: 40;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    transition: all .4s ease;
+    .see_more{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      align-items: center;
+      margin: auto;
+      a.item{
+        flex: 1 1 40%;
+        height: 40px;
+        margin: 10px 25px;
+        text-align: center;
+        opacity: 0;
+        color: #fff;
+        transform: scale(0);
+        font-size: 16px;
+        text-transform: uppercase;
+        border: 2px solid #fff;
+        padding: 9px 28px;
+        line-height: 18px;
+        transition: all .6s ease;
+      }
+    }
+  }
+  .tours_title_block{
+    background: rgba(75,101,157,0.8);
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-top: 5px;
+    z-index: 50;
+    opacity: 1;
+    transition: all .4s ease;
+    .left_block{
+      box-sizing: border-box;
+      width: 60%;
+      position: relative;
+      top: 0;
+      transition: all .4s ease;
+      font-family: @FregatBold;
+      p{
+        font-size: 24px;
+        text-transform: uppercase;
+        &:nth-of-type(2){
+          font-size: 16px;
+        }
+      }
+    }
+    .right_block{
+      text-align: right;
+      width: 40%;
+      font-size: 24px;
+      font-family: @Tahoma;
+      padding-top: 5px;
+      padding-right: 15px;
+      box-sizing: border-box;
+      span{
+        font-size: 14px;
+      }
+    }
+  }
+  &:hover{
+    .overlay{
+      height: 100%;
+      background: rgba(75,101,157,0.8);
+      .see_more{
+        a.item{
+          opacity: 1;
+          transform: scale(1);
+          &:hover{
+            background: #fff;
+            color: @menuLinkColor;
+          }
+        }
+      }
+    }
+    .tours_title_block{
+      background: rgba(75,101,157,0);
+      opacity: 0;
+    }
+  }
+}
+.tour_info_block{
+  background: #4b659d;
+  padding: 8px 0;
+  width: 100%;
+  position: relative;
+  z-index: 400;
+  .container{
+    color: #fff;
+    ul.left_block{
+      li{
+        display: inline-block;
+        text-transform: uppercase;
+        font-size: 16px;
+        line-height: 21px;
+        vertical-align: text-top;
+        border-right: 1px solid rgba(255,255,255,0.5);
+        padding-right: 10px;
+        margin-right: 10px;
+        &:last-of-type{
+          border-right: none;
+        }
+        span.price{
+          font-size: 26px;
+          font-family: @FregatBold;
+        }
+        span.stars{
+          padding-left: 10px;
+          i{
+            cursor: pointer;
+            font-size: 20px;
+            &:nth-of-type(1),&:nth-of-type(2),&:nth-of-type(3){
+              color: @generalColor;
+            }
+            &:hover{
+              color: @generalColor;
+            }
+          }
+        }
+      }
+    }
+    .right_block{
+      button{
+        background: #ffb400;
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 16px;
+        line-height: 13px;
+        padding: 8px 10px;
+        border: none;
+      }
+    }
+  }
+}
+.tour.single{
+  margin-top: 25px;
+  .container{
+    > .left_block{
+      width: 67%;
+      max-width: 780px;
+      color: #55698f;
+      font-size: 16px;
+      h1{
+        font-size: 40px;
+        line-height: 32px;
+        font-family: @AvantGardBold;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .description{
+        margin-bottom: 25px;
+      }
+      .tour_day_block{
+        margin-bottom: 20px;
+        border-bottom: 2px solid #4b659d;
+        .day_number{
+          font-size: 30px;
+          text-transform: uppercase;
+          color: @generalColor;
+          border-bottom: 6px solid @generalColor;
+          font-family: @AvantGardBold;
+          line-height: 28px;
+        }
+        .day{
+          background: #eeeeee;
+          padding: 15px 10px 20px 10px;
+          .left_block{
+            width: 49%;
+            max-width: 375px;
+            margin-right: 10px;
+            .day_title{
+              text-transform: uppercase;
+              font-size: 20px;
+              margin-bottom: 5px;
+            }
+            .day_location{
+              border-bottom: 2px solid #fff;
+              padding-bottom: 8px;
+              margin-bottom: 8px;
+              > i{
+                color: @generalColor;
+              }
+              ul{
+                display: inline-block;
+                li{
+                  display: inline-block;
+                  color: #7e7e7e;
+                  font-size: 16px;
+                  text-transform: uppercase;
+                  &:after{
+                    margin-left: 5px;
+                    content: "\f105";
+                    color: @generalColor;
+                    display: inline-block;
+                    font: normal normal normal 14px/1 FontAwesome;
+                    font-size: inherit;
+                    text-rendering: auto;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                  }
+                  &:last-of-type{
+                    &:after{
+                      content: '';
+                    }
+                  }
+                }
+              }
+            }
+            .day_description{
+              font-size: 16px;
+              color: #474747;
+              text-align: justify;
+              border-bottom: 2px solid #fff;
+              padding-bottom: 8px;
+              margin-bottom: 8px;
+            }
+            .day_hotel{
+              color: #474747;
+              font-size: 16px;
+              span{
+                color: #2b55b0;
+                cursor: pointer;
+                text-decoration: underline;
+              }
+            }
+          }
+          .right_block{
+            width: 49%;
+            max-width: 375px;
+            a{
+              display: block;
+              float: left;
+              margin-right: 10px;
+              margin-bottom: 10px;
+              position: relative;
+              overflow: hidden;
+              span{
+                opacity: 0;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                display: flex;
+                transition: all .4s ease;
+                background: rgba(75,101,157,0.8);
+                i{
+                  margin: auto;
+                  color: #fff;
+                  font-size: 22px;
+                }
+              }
+              &:nth-of-type(even){
+                margin-right: 0;
+              }
+              &:hover{
+                span{
+                  opacity: 1;
+                }
+              }
+              img{
+                width: 180px;
+                height: 120px;
+                display: block;
+              }
+            }
+          }
+        }
+        .day_excursion{
+          padding-top: 8px;
+          margin-bottom: 15px;
+          cursor: pointer;
+          .left_block{
+
+          }
+          .right_block{
+            font-family: @FregatBold;
+            font-size: 16px;
+            span{
+
+            }
+          }
+        }
+      }
+    }
+    > .right_block{
+      width: 33%;
+      max-width: 380px;
+      .location_title{
+
+      }
+      .locations{
+
+      }
+      .map_block{
+        .angular-google-map-container {
+          height: 280px;
+        }
+      }
+    }
+  }
+}
+/* ==================== Tours ==================== */
+
+/* ==================== Excursion ==================== */
+.popular_excursion_block{
+  background: #eeeeee;
+  .title{
+    padding-top: 20px;
+  }
+}
+/* ==================== Excursion ==================== */
+
+/* ==================== Footer ==================== */
+footer{
+  .top_block{
+    background: #4b659d;
+    padding: 20px 0;
+  }
+  .bottom_block{
+    padding: 18px 0 23px 0;
+    background: #627baf;
+    .logo{
+      color: #fff;
+    }
+  }
+}
+/* ==================== Footer ==================== */
+
+
+
+
+
+
+
+
+
+/* ==================== Gallery thumb block ==================== */
+.mCSB_scrollTools .mCSB_draggerRail{
+  width: 2px;
+  height: 100%;
+  margin: 0 auto;
+  /*-webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;*/
+}
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{ /* the dragger element */
+  position: relative;
+  width: 4px;
+  height: 100%;
+  margin: 0 auto;
+  /*-webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;*/
+  text-align: center;
+}
+.mCSB_dragger_bar:after{
+  content: "\f0c9";
+  color: #fff;
+  transform: rotate(90deg);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -5px;
+  margin-top: -7px;
+  font: normal normal normal 14px/1 FontAwesome;
+}
+.mCSB_horizontal.mCSB_inside > .mCSB_container{
+  margin-right: 0;
+  margin-bottom: 40px;
+}
+.mCSB_scrollTools.mCSB_scrollTools_horizontal{
+  width: auto;
+  height: 30px;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #e0dcdc;
+}
+.mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_buttonLeft,
+.mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_buttonRight{
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  margin: 0 auto;
+  cursor: pointer;
+  top: 5px;
+}
+.mCSB_scrollTools .mCSB_draggerRail{
+  background-color: #000; background-color: rgba(0,0,0,0.4);
+}
+
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+  background-color: #fff; background-color: #4b659d;
+}
+
+/*.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar{
+    background-color: #fff; background-color: rgba(255,255,255,0.85);
+    filter: "alpha(opacity=85)"; -ms-filter: "alpha(opacity=85)";
+}*/
+/*.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{
+    background-color: #fff; background-color: rgba(255,255,255,0.9);
+    filter: "alpha(opacity=90)"; -ms-filter: "alpha(opacity=90)";
+}*/
+
+.mCSB_scrollTools .mCSB_buttonUp,
+.mCSB_scrollTools .mCSB_buttonDown,
+.mCSB_scrollTools .mCSB_buttonLeft,
+.mCSB_scrollTools .mCSB_buttonRight{
+  background-image: url(../images/mCSB_buttons.png); /* css sprites */
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+.mCS-inset.mCSB_scrollTools .mCSB_draggerRail,
+.mCS-inset-dark.mCSB_scrollTools .mCSB_draggerRail,
+.mCS-inset-2.mCSB_scrollTools .mCSB_draggerRail,
+.mCS-inset-2-dark.mCSB_scrollTools .mCSB_draggerRail,
+.mCS-inset-3.mCSB_scrollTools .mCSB_draggerRail,
+.mCS-inset-3-dark.mCSB_scrollTools .mCSB_draggerRail{
+  width: 12px;
+  background-color: transparent;
+}
+.mCS-inset.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar,
+.mCS-inset-dark.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar,
+.mCS-inset-2.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar,
+.mCS-inset-2-dark.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar,
+.mCS-inset-3.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar,
+.mCS-inset-3-dark.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar{
+  height: 20px;
+  margin: 5px 3px;
+  position: absolute;
+  width: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  background-color: #4b659d;
+}
+
+.mCS-inset.mCSB_scrollTools_horizontal .mCSB_draggerRail,
+.mCS-inset-dark.mCSB_scrollTools_horizontal .mCSB_draggerRail,
+.mCS-inset-2.mCSB_scrollTools_horizontal .mCSB_draggerRail,
+.mCS-inset-2-dark.mCSB_scrollTools_horizontal .mCSB_draggerRail,
+.mCS-inset-3.mCSB_scrollTools_horizontal .mCSB_draggerRail,
+.mCS-inset-3-dark.mCSB_scrollTools_horizontal .mCSB_draggerRail{
+  width: 100%;
+  height: 30px;
+  margin: 2px 0;
+}
+.mCS-inset.mCSB_scrollTools .mCSB_buttonLeft,
+.mCS-inset-2.mCSB_scrollTools .mCSB_buttonLeft,
+.mCS-inset-3.mCSB_scrollTools .mCSB_buttonLeft{ background-position: -57px -101px; }
+
+.mCS-inset.mCSB_scrollTools .mCSB_buttonRight,
+.mCS-inset-2.mCSB_scrollTools .mCSB_buttonRight,
+.mCS-inset-3.mCSB_scrollTools .mCSB_buttonRight{ background-position: -57px -123px; }
+
+/* ==================== Gallery thumb block ==================== */
 

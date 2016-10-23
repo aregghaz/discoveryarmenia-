@@ -237,7 +237,7 @@ class Armenia implements Translatable
     public function addBlock(\DA\MainBundle\Entity\ArmeniaBlock $block)
     {
         $this->block[] = $block;
-
+        $block->setArmenia($this);
         return $this;
     }
 

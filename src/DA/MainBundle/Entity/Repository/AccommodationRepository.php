@@ -2,6 +2,9 @@
 
 namespace DA\MainBundle\Entity\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
+
 /**
  * AccommodationRepository
  *
@@ -10,4 +13,87 @@ namespace DA\MainBundle\Entity\Repository;
  */
 class AccommodationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getAccommodationByCategory($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Accommodation a
+                            WHERE a.category = :slug
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+    public function getBestPriceAccommodationByCategory($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Accommodation a
+                            WHERE a.category = :slug and a.best_price = TRUE 
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+    
+    public function getAccommodationBySlug($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Accommodation a
+                            WHERE a.slug = :slug
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
+    
+    public function getAccommodationCity($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT l FROM DAMainBundle:Location l
+                            JOIN l.accommodation a
+                            WHERE a.category = :slug
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+    public function getAccommodationInCity($location)
+    {
+        $query = $this->getEntityManager()
+
+            ->createQuery('SELECT a,RAND() as HIDDEN rand FROM DAMainBundle:Accommodation a
+                            WHERE a.location = :location
+                            ORDER BY  rand
+                            ')
+            ->setParameter('location',$location)
+            ->setMaxResults(3);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
 }

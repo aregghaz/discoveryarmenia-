@@ -106,6 +106,7 @@ class DayBlockAdmin extends AbstractAdmin
                 // ...
             ))
             ->add('hotel_3star','entity',array(
+                'required'=>false,
                 'label' => 'Hotel ⋆ ⋆ ⋆',
                 'class' => 'DAMainBundle:Hotel',
                 'query_builder' => function (EntityRepository $er) {
@@ -115,6 +116,7 @@ class DayBlockAdmin extends AbstractAdmin
                 'choice_label' => 'name',
             ))
             ->add('hotel_4star','entity',array(
+                'required'=>false,
                 'label' => 'Hotel ⋆ ⋆ ⋆ ⋆',
                 'class' => 'DAMainBundle:Hotel',
                 'query_builder' => function (EntityRepository $er) {
@@ -124,6 +126,7 @@ class DayBlockAdmin extends AbstractAdmin
                 'choice_label' => 'name',
             ))
             ->add('hotel_5star','entity',array(
+                'required'=>false,
                 'label' => 'Hotel ⋆ ⋆ ⋆ ⋆ ⋆',
                 'class' => 'DAMainBundle:Hotel',
                 'query_builder' => function (EntityRepository $er) {

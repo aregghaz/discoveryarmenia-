@@ -1,0 +1,242 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="all"
+          href="{{ asset('angular/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"
+          xmlns="http://www.w3.org/1999/html"/>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.css') }}"/>
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="path_block">
+        <div class="container">
+            {% set slug = app.request.attributes.get('slug') %}
+            <ul>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('home_page',{'_locale':app.request.attributes.get('_locale')}) }}">
+                        {{ 'home' | trans({}, 'messages') }}</a>
+                </li>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('hotels_page') }}">{{ page.title }}</a>
+                </li>
+                <li >
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a>{{ object.title }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="accommodation single">
+        <div class="container clear">
+            <div class="left_block">
+                <h1>{{ object.title }}</h1>
+                <div class="description">{{ object.shortDescription }}</div>
+                {% if object.gallery %}
+                    <div class="gallery_block">
+                        {% set carousel = sortPosition(object.gallery.media) %}
+                        {% set generalImg =  carousel |first %}
+                        <div class="general_image">
+                            <img src="{{ media(generalImg) }}" alt="{{ generalImg.alt }}">
+                        </div>
+                        {% set carousel = sortPosition(object.gallery.media) %}
+                        <div class="image_thumb_block">
+                            <div class="gallery_carousel clear">
+                                <div class="slide">
+                                    {% for gall in carousel %}
+                                        <a href="{{ media(gall) }}">
+                                            <div class="img" style="background: url('{{ media(gall) }}') no-repeat;background-size: cover;background-position: center;"></div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="hotel_info_block">
+                        <div class="description">{{ object.description }}</div>
+                        <div class="request_form_block clear">
+                            <div class="input_block">
+                                <label for="setFrom">{{ 'setFrom' | trans({}, 'messages') }}</label>
+                                <div class="ui calendar" id="setFrom">
+                                    <input type="text" placeholder="Date/Time">
+                                </div>
+                            </div>
+                            <div class="input_block">
+                                <label for="setFrom">{{ 'setTo' | trans({}, 'messages') }}</label>
+                                <div class="ui calendar" id="setTo">
+                                    <input type="text" placeholder="Date/Time">
+                                </div>
+                            </div>
+                            <div class="input_block">
+                                <label for="setFrom">{{ 'visitors' | trans({}, 'messages') }}</label>
+                                <div class="ui" id="visitors">
+                                    <input type="number" min="1" name="visitors" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rooms_block table_block">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>{{ 'nomer_type' | trans({}, 'messages') }}</th>
+                                    <th>{{ 'visitors_count' | trans({}, 'messages') }}</th>
+                                    <th>{{ 'conditions' | trans({}, 'messages') }}</th>
+                                    <th>{{ 'price' | trans({}, 'messages') }}</th>
+                                    <th>{{ 'to_cart' | trans({}, 'messages') }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for room in object.room %}
+                                    <tr>
+                                        <td>
+                                            <p>{{ room.type }}</p>
+                                            <p>{{ room.description }}</p>
+                                            <div class="clear">
+                                                <ul>
+                                                    {% for comfort in room.comfort %}
+                                                        <li>{{ comfort.title }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                                <span>
+                                                    {{ 'more' | trans({}, 'messages') }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {% for i in 1..room.visitorsNumber %}
+                                                <i class="fa fa-user"></i>
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ room.conditions }}</td>
+                                        {% set d  = 'now' | date('d') %}
+                                        {% set m  = 'now' | date('m') %}
+                                        {% if d <= 15 %}
+                                            {% set priceMonth = 'm'~m|number_format~'-1' %}
+                                        {% else %}
+                                            {% set priceMonth = 'm'~m|number_format~'-2' %}
+                                        {% endif %}
+                                        <td>{{ room.price[priceMonth] | number_format(0, '', ',') }}</td>
+                                        <td><button>{{ 'add_to_cart' | trans({}, 'messages') }}</button></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+
+                <div class="comforts">
+                    <h2>{{ 'comfort' | trans({}, 'messages') }}</h2>
+
+                    <div class="comfort_list clear">
+                        {% for i,num in comforts['keys'] %}
+                            <div class="item">
+                                <p class="category_title">{{ num }}</p>
+                                <ul>
+                                    {% for item in comforts['result'] if item.category == i %}
+                                        <li>{{ item.title }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% set  id = object.currentLocation ? object.currentLocation.id : null  %}
+            <div class="right_block" ng-controller="aMapCtr" id="singleID" data-id="{{ id }}">
+                <div class="map_block">
+                    {% verbatim %}
+                        <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map.options">
+                            <ui-gmap-markers models="Markers" coords="'self'" icon="'icon'">
+                            </ui-gmap-markers>
+                        </ui-gmap-google-map>
+                    {% endverbatim %}
+                </div>
+                {% if bestPrice %}
+                <div class="best_price">
+                    <div class="price_title">
+                        {{ 'best_price' | trans({}, 'messages') }}
+                    </div>
+                </div>
+                <div class="best_price_block">
+                    <div class="accommodation_block">
+                        <div class="container clear">
+                            {% for item in bestPrice %}
+                                <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                                    <a href="{{ path('single_hotel',{'slug':item.slug}) }}">
+                                        <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>7</div>
+                                        <div class="overlay">
+                                            <div class="see_more">
+                                                {{ 'see_more' | trans({}, 'messages') }}
+                                            </div>
+                                            <div class="accommodation_title_block clear">
+                                                <div class="left_block">
+                                                    <p>{{ item.title }}
+                                                        <span>
+                                            {% for st in 1..item.star %}
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            {% endfor %}
+                                        </span>
+                                                    </p>
+                                                    <p>{{ item.location.title }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if hotelInCity %}
+        <div class="city_accommodation_block">
+            <div class="title">{{ 'hotel_in' | trans({'city': object.location.title}, 'messages') }}</div>
+            <div class="accommodation_block">
+                <div class="container clear">
+                    {% for item in hotelInCity %}
+                        <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                            <a href="{{ path('single_hotel',{'slug':item.slug}) }}">
+                                <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>7</div>
+                                <div class="overlay">
+                                    <div class="see_more">
+                                        {{ 'see_more' | trans({}, 'messages') }}
+                                    </div>
+                                    <div class="accommodation_title_block clear">
+                                        <div class="left_block">
+                                            <p>{{ item.title }}
+                                                <span>
+                                            {% for st in 1..item.star %}
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            {% endfor %}
+                                        </span>
+                                            </p>
+                                            <p>{{ item.location.title }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/angular/factory/locationFactory.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/angular/controller/aMapsController.js') }}"></script>
+    <script src="{{ asset('angular/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js') }}"></script>
+    <script src="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('angular/bower_components/semantic/dist/semantic.min.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/init.js') }}"></script>
+{% endblock %}

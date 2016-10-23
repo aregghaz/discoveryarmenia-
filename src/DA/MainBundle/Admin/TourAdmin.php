@@ -100,6 +100,7 @@ class TourAdmin extends AbstractAdmin
                 'multiple'=>true
             ))
             ->add('day_count')
+            ->add('night_count')
             ->add('weekend')
             ->end()
             ->with('Days', array(

@@ -1,0 +1,119 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/slick-carousel/slick/slick.css') }}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/slick-carousel/slick/slick-theme.css') }}"/>
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="home_slider_block">
+        <div class="home_slider clear">
+            {% for slide in page.slider.slide %}
+            <div class="slide" style="background: url('{{ media(slide.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                <div class="container">
+                    <div class="description_block">
+                        <div class="sldie_title">{{ slide.title }}</div>
+                        <div class="description">{{ slide.description }}</div>
+                        <div class="link_button">
+                            <a href="{{ slide.url }}">{{ slide.urlTitle }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="slick-thumbs">
+            <ul>
+                {% for slide in page.slider.slide %}
+                    <li>
+                        <p>{{ slide.title }}</p>
+                        <span><img src="{{ media(slide.icon) }}" /></span   >
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="info_block">
+        <div class="container clear">
+            <div class="left_block image">
+                <img src="{{ asset('bundles/damain/images/info_img.png') }}" alt="Discover Armenia">
+            </div>
+            <div class="right_block content">
+                <h2>{{ page.bannerTitle }}</h2>
+                <p>{{ page.bannerDescription }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tours_block">
+        <div class="title">
+            {{ 'popular_author_tours'| trans({}, 'messages') }}
+        </div>
+        <div class="container clear">
+            {#<div class="tour_block">
+                <div class="overlay">
+                    <div class="content">
+                        <div class="left_block">
+                            <div class="tour_title">
+                                <p></p>
+                                <span></span>
+                            </div>
+                            <div class="description">
+
+                            </div>
+                        </div>
+                        <div class="right_block">
+                            <p class="all_in"></p>
+                            <p class="price"></p>
+                        </div>
+                    </div>
+                    <div class="add_chart">
+                        <a href="#">
+                            <img src="{{ asset('bundles/damain/images/chart.png') }}" alt="add chart">
+                        </a>
+                    </div>
+                </div>
+            </div>#}
+            <div class="link_button">
+                <a href="#">{{ 'see_all_tours'| trans({}, 'messages') }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="popular_excursion_block">
+        <div class="title">
+            {{ 'popular_excursion'| trans({}, 'messages') }}
+        </div>
+        <div class="container">
+            <div class="excursion_carousel">
+                <div class="excursion_block">
+                    <div class="top_block">
+                        <div class="excursion_title">
+
+                        </div>
+                    </div>
+                    <div class="bottom_block">
+                        <div class="excursion_info">
+                            <ul>
+                                <li></li>
+                            </ul>
+                            <span></span>
+                        </div>
+                        <div class="price">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('angular/bower_components/slick-carousel/slick/slick.min.js') }}"></script>
+
+{% endblock %}

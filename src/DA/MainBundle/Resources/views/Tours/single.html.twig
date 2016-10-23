@@ -1,0 +1,171 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="all"
+          href="{{ asset('angular/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"
+          xmlns="http://www.w3.org/1999/html"/>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.css') }}"/>
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% set tour = object.tour[0] %}
+    <div class="path_block">
+        <div class="container">
+            {% set slug = app.request.attributes.get('slug') %}
+            <ul>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('home_page',{'_locale':app.request.attributes.get('_locale')}) }}">
+                        {{ 'home' | trans({}, 'messages') }}</a>
+                </li>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('tours_page') }}">{{ page.title }}</a>
+                </li>
+                <li >
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a>{{ object.title }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tour_info_block" id="tour_info">
+        <div class="container clear">
+            <ul class="left_block">
+                <li>
+                    {{ 'from' | trans({}, 'messages') }}
+                    <span class="price">{{ tour.price }}</span>
+                </li>
+                <li>
+                    {{ 'day_night' | trans({dnt:tour.dayCount,ndt:tour.nightCount}, 'messages') }}
+                </li>
+                <li>
+                    {{ 'hotel' | trans({}, 'messages') }}
+                    <span class="stars">
+                        {% for st in 1..5 %}
+                            <i data-id="{{ st }}" class="fa fa-star" aria-hidden="true"></i>
+                        {% endfor %}
+                    </span>
+                </li>
+            </ul>
+            <div class="right_block">
+                <button>
+                    {{ 'add_to_cart' | trans({}, 'messages') }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="tour single">
+        <div class="container clear">
+            <div class="left_block">
+                <h1>{{ object.title }}</h1>
+                <div class="description">{{ tour.description |nl2br }}</div>
+                <div class="tour_day_block">
+                    {% for day in tour.dayBlock %}
+                        <div class="day_number">
+                            {{ 'day_number' | trans({num: loop.index}, 'messages') }}
+                        </div>
+                        <div class="day clear">
+                            <div class="left_block">
+                                <div class="day_title">{{ day.title }}</div>
+                                <div class="day_location">
+                                    {% set loc = day.location |split(',') %}
+                                    <i class="fa fa-map-marker"></i>
+                                    <ul>
+                                    {% for location in loc %}
+                                        <li>{{ location }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="day_description">
+                                    {{ day.description |nl2br }}
+                                </div>
+                                {% if day.hotel3star %}
+                                <div class="day_hotel">
+                                    {{ 'hotel' | trans({}, 'messages') }}:
+                                    <span>{{ day.hotel3star.title }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="right_block day_gallery clear">
+                                {% for m in day.gallery.media %}
+                                    <a href="{{ media(m) }}">
+                                        <span><i class="fa fa-search-plus"></i></span>
+                                        <img src="{{ media(m) }}" alt="{{ m.alt }}">{#,'gallery_tour'#}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="day_excursion clear">
+                            <div class="excursion_list left_block"></div>
+                            <div class="right_block add_excursion">
+                                <span>{{ 'add_excursion' | trans({}, 'messages') }}</span>
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="tour_description">
+                    {{ tour.info |nl2br }}
+                </div>
+            </div>
+
+            <div class="right_block" ng-controller="aMapCtr" id="singleID" data-id="">
+                <div class="map_block">
+                    {% verbatim %}
+                        <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map.options">
+                            <ui-gmap-markers models="Markers" coords="'self'" icon="'icon'">
+                            </ui-gmap-markers>
+                        </ui-gmap-google-map>
+                    {% endverbatim %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if tourInCategory %}
+        <div class="tour_block city_accommodation_block">
+            {#<div class="title">{{ 'rental_apartments_in' | trans({'city': object.location.title}, 'messages') }}</div>#}
+            <div class="container clear">
+                {% for item in tourInCategory %}
+                    <div class="tours_box single" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                        <div class="overlay">
+                            <div class="see_more">
+                                {% for t in item.tour  %}
+                                    <a href="" class="item">
+                                        {% if t.weekend %}
+                                            {{ 'weekend' | trans({}, 'messages') }}
+                                        {% else %}
+                                            {{ t.dayCount }}
+                                            {{ 'days' | trans({}, 'messages') }}
+                                        {% endif %}
+
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <div class="tours_title_block clear">
+                                <div class="left_block">
+                                    <p>{{ item.title }}</p>
+                                </div>
+                                <div class="right_block">
+                                    <span>{{ 'from' | trans({}, 'messages') }}</span>
+                                    {{ item.price | number_format(0, '', ',') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/angular/factory/locationFactory.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/angular/controller/aMapsController.js') }}"></script>
+    <script src="{{ asset('angular/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js') }}"></script>
+    <script src="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+{% endblock %}

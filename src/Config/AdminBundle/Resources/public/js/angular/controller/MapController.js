@@ -56,7 +56,6 @@ angular.module('admin')
                 events:events
             };
 
-
             function getMap(option,latitude,longitude,zoom){
                 return {
                     center: { latitude: latitude, longitude: longitude},
@@ -82,6 +81,11 @@ angular.module('admin')
                                 var lat = e.latitude;
                                 var lng = e.longitude;
                                 setLatLng(lat,lng);
+                            },
+                            tilesloaded: function (map) {
+                                $scope.$apply(function () {
+                                    $scope.mapInstance = map;
+                                });
                             }
                         }
                     },
@@ -111,4 +115,5 @@ angular.module('admin')
             GoogleMapApi.then(function(maps) {
                 maps.visualRefresh = true;
             });
-        }]);
+
+}]);

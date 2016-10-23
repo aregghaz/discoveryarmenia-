@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class TourName implements Translatable
 {
+    
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -31,6 +32,18 @@ class TourName implements Translatable
      * @ORM\Column(type="string", length=200, nullable=false)
      */
     protected $name = '';
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TourCategory",  inversedBy="room")
+     * @ORM\JoinColumn(name="tour_cat_id", referencedColumnName="id")
+     */
+    protected $category;
+
+    /**
+     * @var integer $image
+     * @ORM\ManyToOne(targetEntity="Config\MediaBundle\Entity\Media", cascade={"persist"})
+     */
+    protected $image;
 
     /**
      * @var string slug
@@ -51,6 +64,12 @@ class TourName implements Translatable
      * @ORM\OneToMany(targetEntity="Tour", mappedBy="tour_name",cascade={"persist"})
      */
     protected $tour;
+
+    /**
+     * @var integer $price
+     * @ORM\Column(type="integer",length=10,nullable=true)
+     */
+    protected $price;
 
     /**
      * @ORM\OneToMany(targetEntity="DA\MainBundle\Entity\Translations\TourNameTranslations", mappedBy="object", cascade={"persist", "remove"})
@@ -226,5 +245,53 @@ class TourName implements Translatable
     public function getTranslations()
     {
         return $this->translations;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Config\MediaBundle\Entity\Media $image
+     *
+     * @return TourName
+     */
+    public function setImage(\Config\MediaBundle\Entity\Media $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Config\MediaBundle\Entity\Media
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return TourName
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }

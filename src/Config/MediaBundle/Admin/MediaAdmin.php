@@ -112,7 +112,6 @@ class MediaAdmin extends Admin
                 'choices' => $context,
                 'required' => false,
                 'expanded' => false,
-                'data' => 'default',
             ))
             ->end()
             ->with('Properties', array(

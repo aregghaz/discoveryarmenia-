@@ -16,12 +16,15 @@
     "magic": "^1.1.0",
     "summernote": "^0.8.1",
     "lightgallery": "^1.2.19",
-    "malihu-custom-scrollbar-plugin": "^3.1.4",
+    "malihu-custom-scrollbar-plugin": "^3.1.5",
     "dropzone": "^4.3.0",
     "Sortable": "^1.4.2",
     "bootstrap-tokenfield": "^0.12.1",
     "semantic": "^2.2.4",
-    "angular-google-maps": "^2.3.2"
+    "angular-google-maps": "^2.3.2",
+    "flag-icon-css": "^2.6.0",
+    "slick-carousel": "^1.6.0",
+    "semantic-ui-calendar": "^0.0.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

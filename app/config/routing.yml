@@ -79,6 +79,11 @@ NelmioApiDocBundle:
 upload_rest:
     type:     rest
     resource: Config\MediaBundle\Controller\Rest\UploadRestController
+
+location_rest:
+    type:     rest
+    resource: DA\MainBundle\Controller\Rest\MapRestController
+
 media_rest:
     type:     rest
     resource: Config\MediaBundle\Controller\Rest\MediaRestController

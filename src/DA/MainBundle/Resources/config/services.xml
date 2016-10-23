@@ -109,6 +109,13 @@
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
 
+        <service id="tour.category.admin" class="DA\MainBundle\Admin\TourCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Tour category"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\TourCategory</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
         <service id="tour.admin" class="DA\MainBundle\Admin\TourAdmin">
             <tag name="sonata.admin" manager_type="orm" label="Tour day"/>
             <argument/>
@@ -127,6 +134,28 @@
             <tag name="sonata.admin" manager_type="orm" label="Order list"/>
             <argument/>
             <argument>DA\MainBundle\Entity\Order</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+
+        <service id="slider.admin" class="DA\MainBundle\Admin\SliderAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Slider"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Slider</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="slide.admin" class="DA\MainBundle\Admin\SlideAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Slide"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Slide</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+
+        <service id="social.admin" class="DA\MainBundle\Admin\SocialAdmin">
+            <tag name="sonata.admin" manager_type="orm" label="Social services"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Social</argument>
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
 

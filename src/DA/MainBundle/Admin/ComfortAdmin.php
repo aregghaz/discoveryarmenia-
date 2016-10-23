@@ -42,7 +42,18 @@ class ComfortAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('name', null, array('label' => 'Hotel'))
+            ->addIdentifier('name', null, array('label' => 'Name'))
+            ->add('category', 'choice', array(
+                'label'=> 'Category',
+                'choices' => array(
+                    1 => 'Bathroom (Ванная комната) (Լոգարան)',
+                    2 => 'Bedroom (Спальня) (Ննջարան)',
+                    3 => 'Media and Technology (Медиа и Технологии) (Տեխնիկա)',
+                    4 => 'Internet (Интернет) (Ինտերնետ)',
+                    5 => 'Reception (Стойка регистрации) (Ընդունարան)',
+                    6 => 'Overall (Общие) (Ընդհանուր)',
+                ),
+            ))
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
                 'delete' => array()
@@ -82,6 +93,10 @@ class ComfortAdmin extends AbstractAdmin
             'choices' => array(
                 1 => 'Bathroom (Ванная комната) (Լոգարան)',
                 2 => 'Bedroom (Спальня) (Ննջարան)',
+                3 => 'Media and Technology (Медиа и Технологии) (Տեխնիկա)',
+                4 => 'Internet (Интернет) (Ինտերնետ)',
+                5 => 'Reseption (Стойка регистрации) (Ընդունարան)',
+                6 => 'Overall (Общие) (Ընդհանուր)',
             ),
             'required' => true,
             'expanded' => false,

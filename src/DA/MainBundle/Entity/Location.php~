@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty as VirtualProperty;
 
 
 /**
@@ -42,12 +44,14 @@ class Location implements Translatable
 
     /**
      * @var int
+     * @Groups({"location"})
      * @ORM\Column(type="float",length=20,nullable=true)
      */
     protected $latitude;
 
     /**
      * @var int
+     * @Groups({"location"})
      * @ORM\Column(type="float",length=20,nullable=true)
      */
     protected $longitude;
@@ -433,5 +437,9 @@ class Location implements Translatable
     public function getTour()
     {
         return $this->tour;
+    }
+
+    public function getClassName(){
+        return 'Location';
     }
 }

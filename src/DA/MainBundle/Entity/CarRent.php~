@@ -18,6 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CarRent implements Translatable
 {
+    
+    static $catRentType = array(
+        'sedan' => 'Sedan',
+        '4x4' => '4x4',
+    );
+    
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id

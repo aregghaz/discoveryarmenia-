@@ -1,6 +1,7 @@
 <?php
 
 namespace DA\MainBundle\Entity\Repository;
+use Doctrine\ORM\Query;
 
 /**
  * HotelRepository
@@ -10,4 +11,74 @@ namespace DA\MainBundle\Entity\Repository;
  */
 class HotelRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getHotelsCity()
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT l FROM DAMainBundle:Location l
+                            JOIN l.hotel a
+                          
+                            ')
+        ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+    public function getHotelBySlug($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Hotel a
+                            WHERE a.slug = :slug
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
+
+
+    public function getHotelInCity($location)
+    {
+        $query = $this->getEntityManager()
+
+            ->createQuery('SELECT a,RAND() as HIDDEN rand FROM DAMainBundle:Hotel a
+                            WHERE a.location = :location
+                            ORDER BY  rand
+                            ')
+            ->setParameter('location',$location)
+            ->setMaxResults(3);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+    public function getBestPriceHotel()
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Hotel a
+                            WHERE a.best_price = TRUE 
+                            ')
+            ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+
 }

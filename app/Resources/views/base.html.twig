@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="{% block ngApp %}{% endblock %}">
+<html ng-app="discover">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,31 +16,94 @@
         {% endblock seo %}
         <title>{% block title %}Title{% endblock %}</title>
         {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic/dist/semantic.min.css') }}"/>
             <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/font-awesome/css/font-awesome.min.css') }}"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/magic/magic.min.css') }}"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/flag-icon-css/css/flag-icon.min.css') }}"/>
             {% stylesheets output='assets/css/core.css'
             'bundles/damain/css/style.less'
             filter='less,cssrewrite,?yui_css' %}
             <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}"/>
             {% endstylesheets %}
-            <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic/dist/semantic.min.css') }}"/>
+
         {% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body class="{% block bodyClass %}{% endblock %}">
+
         {% block login %}{% endblock %}
 
         {% block header %}
+            <header>
+                <div class="container clear">
+                    <div class="logo left_block">
+                        <a href="{{ path('home_page') }}">
+                            <img alt="Discover Aremnia" src="{{ asset('bundles/damain/images/company_logo.png') }}">
+                        </a>
+                    </div>
+                    <div class="general_menu left_block">
+                        <menu id="top_menu">
+                            {{ knp_menu_render('DAMainBundle:Builder:generalMenu') }}
+                        </menu>
+                    </div>
+                    <div class="right_block">
+                        <div class="login_block">
+                            <a href="#">
+                                {{ 'login_registration'| trans({}, 'messages') }}
+                            </a>
+                        </div>
+                        <div class="group_block clear">
+                            <div class="price_block">
+a
+                            </div>
+                            <div class="languages_block">
+                                {% include 'DAMainBundle:Blocks:language.html.twig' %}
+                            </div>
+                            <div class="chart_block">
+                                <a href="#">
+                                    <span class="order_count">3</span>
+                                    <img src="{{ asset('bundles/damain/images/chart.png') }}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
             {% block menu %}{% endblock %}
         {% endblock %}
 
         {% block body %}
-            {% block sideLeft %}{% endblock %}
-            {% block container %}{% endblock %}
-            {% block sideRight %}{% endblock %}
+
         {% endblock %}
 
-        {% block footer %}{% endblock %}
+        {% block footer %}
+            <footer>
+                <div class="top_block">
+                    <div class="container">
+
+                    </div>
+                </div>
+                <div class="bottom_block clear">
+                    <div class="container">
+                        <div class="logo left_block">
+                            <a href="#">
+                                <img src="{{ asset('bundles/damain/images/logo_f.png') }}" alt="Discover Armenia">
+                            </a>
+                            <br>
+                            <sapn>{{ 'now' | date('Y') }} all rights reserved</sapn>
+                        </div>
+                        <div class="address_info left_block"></div>
+                        <div class="social left_block"></div>
+                        <div class="r_b_block right_block">
+                            <a href="">
+                                <img src="{{ asset('bundles/damain/images/r_b.jpg') }}" alt="R & B partners">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}
 
         {% block javascripts %}
             <script>
@@ -56,8 +119,21 @@
 
                 }
             </script>
+            <script src="{{ asset('angular/bower_components/lodash/dist/lodash.min.js') }}"></script>
             <script src="{{ asset('angular/bower_components/jquery/dist/jquery.min.js') }}"></script>
-            <script src="{{ asset('angular/bower_components/semantic/dist/semantic.min.js') }}"></script>
+            <script src="{{ asset('angular/bower_components/angular/angular.min.js') }}"></script>
+
+            <script src="{{ asset('angular/bower_components/angular-route/angular-route.min.js') }}"></script>
+            <script src="{{ asset('angular/bower_components/angular-resource/angular-resource.min.js') }}"></script>
+
+            {% if app.debug %}
+            <script src="{{ asset('angular/app/scripts/prefix/app_dev.js') }}"></script>
+            {% else %}
+            <script src="{{ asset('angular/app/scripts/prefix/app.js') }}"></script>
+            {% endif %}
+            <script src="{{ asset('bundles/damain/js/angular/app.js') }}"></script>
+            <script src="{{ asset('angular/bower_components/angular-simple-logger/dist/angular-simple-logger.min.js') }}"></script>
+            <script src="{{ asset('angular/bower_components/angular-google-maps/dist/angular-google-maps.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

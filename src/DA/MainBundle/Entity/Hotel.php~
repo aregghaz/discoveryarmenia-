@@ -111,6 +111,17 @@ class Hotel implements Translatable
     protected $day_block5;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $best_price = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Location",  cascade={"persist"})
+     */
+    protected $current_location;
+    
+    /**
      * @ORM\OneToMany(targetEntity="DA\MainBundle\Entity\Translations\HotelTranslations", mappedBy="object", cascade={"persist", "remove"})
      */
     protected $translations;
@@ -566,5 +577,53 @@ class Hotel implements Translatable
     public function getDayBlock5()
     {
         return $this->day_block5;
+    }
+
+    /**
+     * Set bestPrice
+     *
+     * @param boolean $bestPrice
+     *
+     * @return Hotel
+     */
+    public function setBestPrice($bestPrice)
+    {
+        $this->best_price = $bestPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get bestPrice
+     *
+     * @return boolean
+     */
+    public function getBestPrice()
+    {
+        return $this->best_price;
+    }
+
+    /**
+     * Set currentLocation
+     *
+     * @param \DA\MainBundle\Entity\Location $currentLocation
+     *
+     * @return Hotel
+     */
+    public function setCurrentLocation(\DA\MainBundle\Entity\Location $currentLocation = null)
+    {
+        $this->current_location = $currentLocation;
+
+        return $this;
+    }
+
+    /**
+     * Get currentLocation
+     *
+     * @return \DA\MainBundle\Entity\Location
+     */
+    public function getCurrentLocation()
+    {
+        return $this->current_location;
     }
 }

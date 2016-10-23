@@ -1,0 +1,17 @@
+<ul>
+    <li class="current">
+        <span >
+            <span>{{ currentCurrency[0] }}</span>
+        </span>
+        <ul class="sub_currency">
+            {% set cur = "" %}
+            {% for value,key in currency if value != currentCurrency[0] %}
+                <li>
+                    <a href="{{ path('currency',{'iso':value}) }}">
+                        <span>{{ key }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>

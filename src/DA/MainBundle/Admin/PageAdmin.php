@@ -46,7 +46,8 @@ class PageAdmin extends AbstractAdmin
 
         $listMapper
             ->addIdentifier('name', null, array('label' => 'Name'))
-            ->add('slug', 'string', array(
+            ->add('slug')
+            ->add('slugs', 'string', array(
                 'label' => 'Link',
                     'template' => 'ConfigAdminBundle:Templates:link.html.twig')
             )
@@ -127,6 +128,17 @@ class PageAdmin extends AbstractAdmin
                 }
             $formMapper->end()
             ->end();
+        if($this->getSubject()->getSlug() == 'home') {
+            $formMapper->tab('Slider', array())
+                ->with(' ', array(
+                    'class' => 'col-md-12',
+                    'box_class' => 'box box-solid box-discover',
+                    // ...
+                ))
+                ->add('slider', 'sonata_type_model_list', array('required' => false))
+                ->end()
+            ->end();
+        }
     }
 
     /**

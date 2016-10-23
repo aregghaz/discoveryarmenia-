@@ -1,6 +1,8 @@
 <?php
 
 namespace DA\MainBundle\Entity\Repository;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 /**
  * TourRepository
@@ -10,4 +12,80 @@ namespace DA\MainBundle\Entity\Repository;
  */
 class TourRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getTourInCategory($id)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT t FROM DAMainBundle:TourName t
+                            WHERE t.category = :id
+                            ')
+        ->setParameter('id',$id)
+        ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+    public function getTourBySlug($slug,$id)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT t,tt FROM DAMainBundle:TourName t
+                            LEFT JOIN t.tour tt
+                            WHERE tt.id = :id and t.slug = :slug
+                            ')
+        ->setParameter('id',$id)
+        ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
+
+    public function getAllTours()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT t,tt FROM DAMainBundle:TourName t
+                            LEFT JOIN t.tour tt
+                            ');
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+    public function getCategory()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT cat FROM DAMainBundle:TourCategory cat
+                            ');
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+    public function getToursCity()
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT l FROM DAMainBundle:Location l
+                            JOIN l.tour t
+                            ')
+           ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
 }

@@ -85,6 +85,7 @@ sonata_admin:
           items:
               - tour.name.admin
               - tour.admin
+              - tour.category.admin
         sonata.admin.group.armenia:
           on_top:  true
           label:           Armenia
@@ -153,6 +154,13 @@ sonata_admin:
           icon:            '<i class="fa fa-archive"></i>'
           items:
               - comfort.admin
+        sonata.admin.group.settings:
+          on_top:  false
+          label:           Settings
+          label_catalogue: SonataAdminBundle
+          icon:            '<i class="fa fa-cog"></i>'
+          items:
+              - social.admin
         sonata.admin.group.Plugins:
           label:           Plugins
           label_catalogue: SonataAdminBundle
@@ -160,6 +168,7 @@ sonata_admin:
           items:
               - config.youtube.admin
               - config.contact.admin
+              - slider.admin
 
 
 

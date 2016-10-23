@@ -1,0 +1,38 @@
+{% set params = app.request.attributes.get('_route_params') %}
+{% set currentLocale = app.request.attributes.get('_locale') %}
+
+<ul>
+        {% set currentParam = params|merge({ '_locale': currentLocale }) %}
+        <li class="current">
+            <span >
+                <span class="flag-icon flag-icon-{{ currentLocale == 'en'? 'gb':currentLocale }}"></span>
+            </span>
+            <ul class="sub_lang">
+                {% for lang,name in languages %}
+                {% if lang == 'en' %}
+                    {% set type = "gb" %}
+                {% elseif lang == 'ru' %}
+                    {% set type = "ru" %}
+                {% elseif lang == 'am' %}
+                    {% set type = "am" %}
+                {% elseif lang == 'fr' %}
+                    {% set type = "fr" %}
+                {% endif %}
+                {% set pureParams = params|merge({ '_locale': lang }) %}
+                {% if app.request.attributes.get('_locale') != lang %}
+                    <li>
+                        <a href="{{ path(app.request.attributes.get('_route'), pureParams) }}"
+                           ><span class="flag-icon flag-icon-{{ type }}"></span>
+                        </a>
+                    </li>
+                {#{% else %}
+                    <li class="active hidden" >
+                        <a href="{{ path(app.request.attributes.get('_route'), pureParams) }}"
+                           title="{{ type }}"><span>{{ name }}</span>
+                        </a>
+                    </li>#}
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+</ul>

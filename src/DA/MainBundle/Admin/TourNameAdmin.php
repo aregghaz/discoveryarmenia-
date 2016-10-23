@@ -80,6 +80,9 @@ class TourNameAdmin extends AbstractAdmin
                     )
                 )
             ))
+            ->add('image', 'sonata_type_model_list', array('required' => false))
+            ->add('category')
+            ->add('price',null,array('label'=>'from price'))
             ->end()
             ->end();
     }

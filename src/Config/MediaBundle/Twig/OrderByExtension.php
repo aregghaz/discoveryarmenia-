@@ -12,6 +12,7 @@ class OrderByExtension extends Twig_Extension
         return array(
             'order' => new Twig_Filter_Method($this, 'order'),
             'sortPosition' => new Twig_Filter_Method($this, 'sortPosition'),
+            'orderList' => new Twig_Filter_Method($this, 'orderList'),
         );
     }
     public function order($array,$dir = 'asc') {
@@ -19,6 +20,20 @@ class OrderByExtension extends Twig_Extension
         foreach($array as $new){
             if($new->getPosition())
                 $newArray[$new->getPosition()]  = $new;
+            else
+                $newArray[]  = $new;
+        }
+        ksort($newArray);
+        return $newArray ;
+    }
+    public function orderList($array) {
+
+        var_dump(dump($array));exit;
+
+        $newArray = array();
+        foreach($array as $new){
+            if($new->getCategory())
+                $newArray[$new->getId()]  = $new;
             else
                 $newArray[]  = $new;
         }

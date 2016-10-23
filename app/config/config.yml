@@ -26,8 +26,8 @@ parameters:
       en: English
       ru: Русский
       #it: Italiano
-      am: Հայերեն
-      #fr: French
+      #am: Հայերեն
+      fr: French
       #de: Deutsch
       #es: Español
       #po: Português
@@ -70,7 +70,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ConfigUserBundle,ConfigAdminBundle ]
+    bundles:        [ ConfigUserBundle,ConfigAdminBundle,DAMainBundle,ConfigMediaBundle,ConfigContactBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -98,9 +98,9 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-       # dql:
-         #   numeric_functions:
-          #      RAND: Travel\MainBundle\DQL\Rand
+        dql:
+            numeric_functions:
+                RAND: DA\MainBundle\DQL\Rand
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -114,7 +114,7 @@ swiftmailer:
 knp_menu:
     # use "twig: false" to disable the Twig extension and the TwigRenderer
     twig:
-        template: TravelMainBundle:Menu:knp_menu.html.twig
+        template: DAMainBundle:Menu:knp_menu.html.twig
     #  if true, enables the helper for PHP templates
     templating: false
     # the renderer to use, list is also available by default
@@ -148,6 +148,14 @@ config_media:
     default:
       formats:
         thumb: { width: 150, quality: 70}
+    gallery:
+      formats:
+        gallery_thumb: { width: 250, quality: 70}
+        gallery_tour: { width: 180, quality: 70}
+    no_crop:
+      formats:
+
+
 #    test2:
 #      formats:
 #        thumb: { width: 150, quality: 70}

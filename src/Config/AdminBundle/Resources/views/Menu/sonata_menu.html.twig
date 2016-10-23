@@ -29,7 +29,9 @@
             {% set translation_domain = item.extra('translation_domain', 'messages') %}
             {% set social = {
             'youtube':'youtube',
-            'contact':'envelope'
+            'contact':'envelope',
+            'slider':'picture-o',
+            'Social':'cubes'
             } %}
 
             {% if item.name | lower in social |keys %}

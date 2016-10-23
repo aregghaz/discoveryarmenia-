@@ -29,7 +29,7 @@ class ExcursionAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('name', null, array('label' => 'Hotel'))
+            ->addIdentifier('name', null, array('label' => 'Name'))
             ->addIdentifier('location', null, array('label' => 'Location'))
             ->add('guide', null, array('label' => 'Guide'))
             ->add('ticket', null, array('label' => 'Ticket'))
@@ -85,9 +85,20 @@ class ExcursionAdmin extends AbstractAdmin
             ->add('location', 'sonata_type_model_autocomplete', array(
                 'property'=>'name',
             ))
+            ->add('current_location', 'entity', array(
+                'class' => 'DAMainBundle:Location',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l')
+                        ->Where('l.category = ?1')
+                        ->setParameter('1','excursion');
+                },
+                'choice_label' => 'name'
+            ))
             ->add('guide')
             ->add('ticket')
             ->add('transport')
+            ->add('best_price')
+            ->add('popular')
             ->add('duration',null,array(
                 'label'=>'Duration (minute)'
             ))

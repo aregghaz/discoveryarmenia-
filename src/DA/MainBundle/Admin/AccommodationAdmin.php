@@ -30,6 +30,15 @@ class AccommodationAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('name', null, array('label' => 'Name'))
+            ->add('category', 'choice', array(
+                'label'=> 'Category',
+                'choices' => array(
+                    'villa' => 'Villa',
+                    'apartment' => 'Apartment'
+                ),
+            ))
+            ->add('price_for_day', null, array('label' => 'Price for day'))
+            ->add('price_for_month', null, array('label' => 'Price for month'))
             ->add('rooms', null, array('label' => 'Rooms'))
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
@@ -49,7 +58,12 @@ class AccommodationAdmin extends AbstractAdmin
         $languages = $this->configurationPool->getContainer()->getParameter('languages');
 
             $formMapper
-            ->with('General', array(
+            ->tab('Accommodation', array(
+                'class'       => 'col-md-12',
+                'box_class'   => 'box box-solid box-discover',
+                // ...
+            ))
+            ->with(' ', array(
                 'class'       => 'col-md-8',
                 'box_class'   => 'box box-solid box-discover',
                 // ...
@@ -63,9 +77,11 @@ class AccommodationAdmin extends AbstractAdmin
                 'fields'=>array(
                     'title'=>array(
                         'field_type'=>'text',
+                        'required' => false,
                     ),
                     'description'=>array(
                         'field_type'=>'textarea',
+                        'required' => false,
                     )
                 )
             ))
@@ -75,11 +91,32 @@ class AccommodationAdmin extends AbstractAdmin
                 'box_class'   => 'box box-solid box-discover uploadinput',
                 // ...
             ))
+            ->add('image', 'sonata_type_model_list', array('required' => false))
             ->add('gallery', 'sonata_type_model_list', array('required' => false))
             ->add('price_for_day',null,array('required' => true))
             ->add('price_for_month',null,array('required' => true))
             ->add('rooms')
-            ->add('location')
+            ->add('location', 'entity', array(
+                'class' => 'DAMainBundle:Location',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l')
+                        ->Where('l.category = ?1')
+                        ->setParameter('1','city')
+                        ;
+                },
+                'choice_label' => 'name'
+            ))
+            ->add('current_location', 'entity', array(
+                'class' => 'DAMainBundle:Location',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l')
+                        ->Where('l.category = ?1')
+                        ->setParameter('1','apartment')
+                        ->orwhere('l.category = ?2')
+                        ->setParameter('2','villa');
+                },
+                'choice_label' => 'name'
+            ))
             ->add('category', 'choice', array(
                 'label'=> 'Category',
                 'choices' => array(
@@ -89,8 +126,44 @@ class AccommodationAdmin extends AbstractAdmin
                 'required' => true,
                 'expanded' => false,
             ))
+            ->add('best_price')
             ->end()
-            ->end();
+            ->end()
+        ->tab('Comfort', array(
+        'class'       => 'col-md-12',
+        'box_class'   => 'box box-solid box-discover',
+        // ...
+    ))
+        ->with('Comforts', array(
+            'class'       => 'col-md-12 ',
+            'box_class'   => 'box box-solid box-discover room_admin_block',
+        ))
+
+        //->add('comfort', 'sonata_type_model', array('multiple' => true, 'by_reference' => false))
+        ->add('comfort', 'entity',
+            array(
+                'class' => 'DAMainBundle:Comfort',
+                'property' => 'name',
+                'required' => false,
+                'attr'=> array(
+                    'class'=> 'list_comfort'
+                ),
+                'multiple' => true,
+                'expanded' => true,
+                'group_by' => function($val, $key, $index) {
+                    switch ($val->getCategory()){
+                        case 1 :
+                            return 'Bathroom (Ванная комната) (Լոգարան)';
+                            break;
+                        case 2 :
+                            return 'Bedroom (Спальня) (Ննջարան)';
+                            break;
+                    }
+                },
+            )
+        )
+        ->end()
+        ->end();
 
 
     }

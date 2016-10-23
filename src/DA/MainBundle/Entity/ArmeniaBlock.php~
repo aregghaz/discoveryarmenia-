@@ -58,7 +58,7 @@ class ArmeniaBlock implements Translatable
 
     /**
      * @var integer $armenia
-     * @ORM\ManyToOne(targetEntity="ArmeniaBlock",  inversedBy="block")
+     * @ORM\ManyToOne(targetEntity="Armenia",  inversedBy="block")
      * @ORM\JoinColumn(name="tour_id", referencedColumnName="id", onDelete="cascade")
      */
     protected $armenia;
@@ -221,5 +221,29 @@ class ArmeniaBlock implements Translatable
     public function getTranslations()
     {
         return $this->translations;
+    }
+
+    /**
+     * Set armenia
+     *
+     * @param \DA\MainBundle\Entity\ArmeniaBlock $armenia
+     *
+     * @return ArmeniaBlock
+     */
+    public function setArmenia(\DA\MainBundle\Entity\Armenia $armenia = null)
+    {
+        $this->armenia = $armenia;
+
+        return $this;
+    }
+
+    /**
+     * Get armenia
+     *
+     * @return \DA\MainBundle\Entity\Armenia
+     */
+    public function getArmenia()
+    {
+        return $this->armenia;
     }
 }

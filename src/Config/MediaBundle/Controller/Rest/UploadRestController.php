@@ -49,7 +49,7 @@ class UploadRestController extends FOSRestController
         $file = $request->files->all();
         $media = new Media();
         $media->setFile($file['file']);
-        $media->setContext('default');
+        $media->setContext('gallery');
         $em->persist($media);
         $em->flush();
         return $media;

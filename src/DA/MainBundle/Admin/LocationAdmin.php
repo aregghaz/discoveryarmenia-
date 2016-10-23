@@ -104,7 +104,9 @@ class LocationAdmin extends AbstractAdmin
                 'choices' => array(
                     'city' => 'City',
                     'hotel' => 'Hotel',
-                    'apartment' => 'Apartment'
+                    'apartment' => 'Apartment',
+                    'villa' => 'Villa',
+                    'excursion' => 'Excursion',
                 ),
                 'required' => true,
                 'expanded' => false,

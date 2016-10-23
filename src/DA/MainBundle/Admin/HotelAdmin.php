@@ -113,6 +113,15 @@ class HotelAdmin extends AbstractAdmin
             ->add('location', 'sonata_type_model_autocomplete', array(
                 'property'=>'name',
             ))
+            ->add('current_location', 'entity', array(
+                'class' => 'DAMainBundle:Location',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l')
+                        ->Where('l.category = ?1')
+                        ->setParameter('1','hotel');
+                },
+                'choice_label' => 'name'
+            ))
            /* ->add('comfort', null, array(
                 'label'=> 'Add Comfort',
                 'required' => false,
@@ -131,6 +140,7 @@ class HotelAdmin extends AbstractAdmin
                 'required' => true,
                 'expanded' => false,
             ))
+            ->add('best_price')
             ->end()
             ->end();
             $formMapper ->tab('Rooms', array(

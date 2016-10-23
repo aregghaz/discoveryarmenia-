@@ -1,0 +1,92 @@
+
+<div class="interested_block">
+    <div class="container">
+        <h4>{{ 'interested_title' | trans({}, 'messages') }}</h4>
+        <div class="links clear">
+
+            {% for link in interested %}
+
+                {% if link.category is defined  %}
+                    {% if link.generalName |length > 20 %}
+                        {% set name = link.generalName |slice(0,20) ~ ' . . .' %}
+                    {% else %}
+                        {% set name = link.generalName  %}
+                    {% endif %}
+                    {% if link.category is null %}
+                        <div class="link">
+                            <a href="{{ path('travel_inner',{'travel_inner':link.slug}) }}">{{ name }}</a>
+                        </div>
+                    {% else %}
+                        <div class="link">
+                            <a href="{{ path('travel_inner',{'travel_inner':link.slug}) }}">{{ name }}</a>
+                        </div>
+                    {% endif %}
+
+                {% else %}
+                    {% if link.categoryName |length > 20 %}
+                        {% set name = link.categoryName |slice(0,20) ~ ' . . .' %}
+                    {% else %}
+                        {% set name = link.categoryName  %}
+                    {% endif %}
+                    <div class="link">
+                        <a href="{{ path('travel_category',{'travel_category_slug':link.slug}) }}">{{ name }}</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="best_tours_block">
+    <div class="container">
+    <div class="section_title">
+        {{ 'best_tour_title' | trans({}, 'messages') }}
+    </div>
+    <div class="section_small_title">
+        {{ 'best_tour_small_title' | trans({}, 'messages') }}
+    </div>
+    <div class="best_tours_slider_bock">
+        <div class=" best_tour_slider clear">
+            {% for tour in bestTours %}
+                {% if tour.shortText |length > 130 %}
+                    {% set name = tour.shortText |slice(0,130) ~ ' . . .' %}
+                {% else %}
+                    {% set name = tour.shortText  %}
+                {% endif %}
+                <div class="tours_box" style="background: url('{{ media(tour.thumbnail,'original') }}') no-repeat;background-size: cover;background-position: center top;background-position: center center">
+                    {% if tour.startDate %}
+                        <div class="date_block">
+                            <p>{{ 'start_date' | trans({}, 'messages') }}</p>
+                            <p>{{ tour.startDate |date('d') }}</p>
+                            {% set month = tour.startDate |date('M') %}
+                            <p>{{ month | trans({}, 'messages') }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="info_block clear">
+                        <div class="tour_title left_block">
+                            {{ tour.generalName }}
+                            <div class="desc">
+                                {{ name }}
+                            </div>
+                        </div>
+                        <div class="price_block right_block">
+                            <p>{{ 'from' | trans({}, 'messages') }}</p>
+                            {% if is_granted('ROLE_USER') %}
+                                {% set price = tour.userPrice / change[1] %}
+                            {% else %}
+                                {% set price = tour.price / change[1] %}
+                            {% endif %}
+                            <p class="{{ change[0] }}">{{  price | round(0, 'ceil') }}{{ localizedcurrency(change[0]) }}</p>
+                            <p><i class="fa fa-clock-o"></i> {{ tour.daysCount }} {{ 'day' | trans({}, 'messages') }}</p>
+                        </div>
+                        <a href="{{ path('tours_inner',{ 'slug': tour.slug }) }}">
+                            {{ 'read_more' | trans({}, 'messages') }}
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+</div>

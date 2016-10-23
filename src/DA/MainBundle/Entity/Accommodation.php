@@ -67,6 +67,11 @@ class Accommodation implements Translatable
     protected $price_for_month;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $best_price = false;
+    /**
      * @var $rooms
      * @ORM\Column(type="integer",length=2)
      */
@@ -95,6 +100,11 @@ class Accommodation implements Translatable
      * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
      */
     protected $location;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Location",  cascade={"persist"})
+     */
+    protected $current_location;
 
     /**
      * @ORM\ManyToMany(targetEntity="Comfort", inversedBy="accommodation")
@@ -465,5 +475,53 @@ class Accommodation implements Translatable
     public function getComfort()
     {
         return $this->comfort;
+    }
+
+    /**
+     * Set currentLocation
+     *
+     * @param \DA\MainBundle\Entity\Location $currentLocation
+     *
+     * @return Accommodation
+     */
+    public function setCurrentLocation(\DA\MainBundle\Entity\Location $currentLocation = null)
+    {
+        $this->current_location = $currentLocation;
+
+        return $this;
+    }
+
+    /**
+     * Get currentLocation
+     *
+     * @return \DA\MainBundle\Entity\Location
+     */
+    public function getCurrentLocation()
+    {
+        return $this->current_location;
+    }
+
+    /**
+     * Set bestPrice
+     *
+     * @param boolean $bestPrice
+     *
+     * @return Accommodation
+     */
+    public function setBestPrice($bestPrice)
+    {
+        $this->best_price = $bestPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get bestPrice
+     *
+     * @return boolean
+     */
+    public function getBestPrice()
+    {
+        return $this->best_price;
     }
 }

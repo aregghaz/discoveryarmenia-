@@ -76,6 +76,12 @@ class Page implements Translatable
     protected $banner_image;
 
     /**
+     * @var integer $slider
+     * @ORM\ManyToOne(targetEntity="DA\MainBundle\Entity\Slider", cascade={"persist"})
+     */
+    protected $slider;
+
+    /**
      * @ORM\OneToMany(targetEntity="CustomField", mappedBy="object",cascade={"persist","remove"},orphanRemoval=true)
      */
     protected $custom_field;
@@ -350,5 +356,29 @@ class Page implements Translatable
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set slider
+     *
+     * @param \DA\MainBundle\Entity\Slider $slider
+     *
+     * @return Page
+     */
+    public function setSlider(\DA\MainBundle\Entity\Slider $slider = null)
+    {
+        $this->slider = $slider;
+
+        return $this;
+    }
+
+    /**
+     * Get slider
+     *
+     * @return \DA\MainBundle\Entity\Slider
+     */
+    public function getSlider()
+    {
+        return $this->slider;
     }
 }

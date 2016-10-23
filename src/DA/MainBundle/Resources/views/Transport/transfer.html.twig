@@ -1,0 +1,76 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="path_block">
+        <div class="container">
+            {% set slug = app.request.attributes.get('slug') %}
+            <ul>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('home_page',{'_locale':app.request.attributes.get('_locale')}) }}">
+                        {{ 'home' | trans({}, 'messages') }}</a>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a >{{ 'transport' | trans({}, 'messages') }}</a>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a >{{ page.title }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page_banner_block" style="background: url('{{ media(page.bannerImage) }}') no-repeat;background-size: cover;background-position: center center;">
+        <div class="container">
+            <div class="content">
+                <h1>{{ page.bannertitle }}</h1>
+                <p>{{ page.bannerDescription }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="transfer_block">
+        <div class="container">
+            <div class="description">
+                {{ page.description | raw }}
+            </div>
+            <div class="transfer_table table_block">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{ 'direction' | trans({}, 'messages') }}</th>
+                            {% for i,item in objects[0].types %}
+                                <th>{{ i | trans({icon: '<i class="fa fa-user"></i>'}, 'messages') | raw }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.direction }}</td>
+                                {% for i in item.types %}
+                                    <td>
+                                        <span class="add">{{ 'add' | trans({}, 'messages') }}</span>
+                                        <span>{{  i |number_format(0, '', ',') }}</span>
+                                        <i class="fa fa-suitcase"></i>
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+{% endblock %}

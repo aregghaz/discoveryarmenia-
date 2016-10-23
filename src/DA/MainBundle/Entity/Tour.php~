@@ -39,6 +39,12 @@ class Tour implements Translatable
     protected $day_count;
 
     /**
+     * @var $night_count
+     * @ORM\Column(type="integer",length=2,nullable=true)
+     */
+    protected $night_count;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
@@ -386,5 +392,29 @@ class Tour implements Translatable
     public function getWeekend()
     {
         return $this->weekend;
+    }
+
+    /**
+     * Set nightCount
+     *
+     * @param integer $nightCount
+     *
+     * @return Tour
+     */
+    public function setNightCount($nightCount)
+    {
+        $this->night_count = $nightCount;
+
+        return $this;
+    }
+
+    /**
+     * Get nightCount
+     *
+     * @return integer
+     */
+    public function getNightCount()
+    {
+        return $this->night_count;
     }
 }

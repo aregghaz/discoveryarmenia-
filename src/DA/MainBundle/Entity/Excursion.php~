@@ -73,6 +73,11 @@ class Excursion implements Translatable
     protected $location;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Location",  cascade={"persist"})
+     */
+    protected $current_location;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
@@ -95,6 +100,18 @@ class Excursion implements Translatable
      * @ORM\Column(type="string",length=4,nullable=true)
      */
     protected $duration;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $best_price = false;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $popular = false;
 
     /**
      * @var integer
@@ -457,5 +474,77 @@ class Excursion implements Translatable
     public function getTranslations()
     {
         return $this->translations;
+    }
+
+    /**
+     * Set currentLocation
+     *
+     * @param \DA\MainBundle\Entity\Location $currentLocation
+     *
+     * @return Excursion
+     */
+    public function setCurrentLocation(\DA\MainBundle\Entity\Location $currentLocation = null)
+    {
+        $this->current_location = $currentLocation;
+
+        return $this;
+    }
+
+    /**
+     * Get currentLocation
+     *
+     * @return \DA\MainBundle\Entity\Location
+     */
+    public function getCurrentLocation()
+    {
+        return $this->current_location;
+    }
+
+    /**
+     * Set bestPrice
+     *
+     * @param boolean $bestPrice
+     *
+     * @return Excursion
+     */
+    public function setBestPrice($bestPrice)
+    {
+        $this->best_price = $bestPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get bestPrice
+     *
+     * @return boolean
+     */
+    public function getBestPrice()
+    {
+        return $this->best_price;
+    }
+
+    /**
+     * Set popular
+     *
+     * @param boolean $popular
+     *
+     * @return Excursion
+     */
+    public function setPopular($popular)
+    {
+        $this->popular = $popular;
+
+        return $this;
+    }
+
+    /**
+     * Get popular
+     *
+     * @return boolean
+     */
+    public function getPopular()
+    {
+        return $this->popular;
     }
 }

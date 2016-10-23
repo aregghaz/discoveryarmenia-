@@ -1,0 +1,86 @@
+<div class="container">
+<div class="tour_order_block clear">
+    <div class="price_block left_block">
+        <p>{{ 'from' | trans({}, 'messages') }}</p>
+        {% if is_granted('ROLE_USER') %}
+            {% set price = single.userPrice / change[1] %}
+        {% else %}
+            {% set price = single.price / change[1] %}
+        {% endif %}
+        <p>{{  price | round(0, 'ceil') }}{{ localizedcurrency(change[0]) }}</p>
+    </div>
+    <div class="tour_title left_block">
+        {{ single.generalName }} <i class="fa fa-clock-o"></i>  {{ single.daysCount }} {{ 'day' | trans({}, 'messages') }}
+    </div>
+    <div class="button_block" id="order_open">
+        <button id="req">{{ 'send_request' | trans({}, 'messages') }}</button>
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </div>
+    <div class="request_form_block">
+        <div class="form_container clear">
+            <form action="{{ path('send_tour_request') }}" method="post" {{ form_enctype(form) }} >
+                <div class="top_block clear">
+                    <div class="input_block">
+                        {{ form_label(form.choose_day)  }}
+                        {% if single.startDate %}
+                            {{ form_widget(form.choose_day,{'attr':{'value':single.startDate|date("d.m.Y")~' - '~single.endDate|date("d.m.Y")}}) }}
+                        {% else %}
+                            {{ form_widget(form.choose_day,{'attr':{'value':''}}) }}
+                        {% endif %}
+                        {{ form_errors(form.choose_day) }}
+                    </div>
+                    <div id="aduls" class="input_block add">
+                        {{ form_label(form.aduls)  }}
+                        <button type="button" value="-"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+                        {{ form_widget(form.aduls,{'attr':{'value':0}}) }}
+                        <button type="button" value="+"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                        {{ form_errors(form.aduls) }}
+                    </div>
+                    <div id="children" class="input_block add">
+                        {{ form_label(form.children)  }}
+                        <button type="button" value="-"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+                        {{ form_widget(form.children,{'attr':{'value':0}}) }}
+                        <button type="button" value="+"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                        {{ form_errors(form.children) }}
+                    </div>
+                </div>
+                <div class="center_block clear">
+                    <div class="input_block">
+                        {{ form_label(form.name)  }}
+                        {{ form_widget(form.name) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                    <div class="input_block">
+                        {{ form_label(form.email)  }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    <div class="input_block">
+                        {{ form_label(form.city)  }}
+                        {{ form_widget(form.city) }}
+                        {{ form_errors(form.city) }}
+                    </div>
+                    <div class="input_block">
+                        {{ form_label(form.number)  }}
+                        {{ form_widget(form.number) }}
+                        {{ form_errors(form.number) }}
+                    </div>
+                </div>
+                <div class="bottom_block">
+                    <div class="input_block">
+                        {{ form_label(form.message)  }}
+                        {{ form_widget(form.message) }}
+                        {{ form_errors(form.message) }}
+                    </div>
+                </div>
+                <input type="hidden" name="price" value="{{  price | round(0, 'ceil') }}{{ localizedcurrency(change[0]) }}">
+                <input type="hidden" name="tour_name" value="{{  single.generalName }}">
+                <div class="submit_block">
+                    <input data-target=#succes" type="submit" value="{{ 'send_request' | trans({}, 'messages') }}">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</div>
