@@ -67,7 +67,12 @@ class PageAdmin extends AbstractAdmin
     {
         // get all languages
         $languages = $this->configurationPool->getContainer()->getParameter('languages');
-
+        if($this->getSubject()->getSlug() == 'contact') {
+            $contact = array('class'=>'text_editor');
+        }
+        else{
+            $contact = array();
+        }
         $formMapper
             ->with('Page', array(
                 'class'       => 'col-md-7',
@@ -99,6 +104,7 @@ class PageAdmin extends AbstractAdmin
                     'banner_description'=>array(
                         'field_type'=>'textarea',
                         'required' => false,
+                        'attr' => $contact
                     )
                 )
             ))

@@ -18,14 +18,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ContactController extends Controller
 {
     const TEMPLATE = 'ConfigContactBundle:Template:';
+
+    protected function rpHash($value) {
+        $hash = 5381;
+        $value = strtolower($value);
+
+
+        //$hash = md5($value);
+        for($i = 0; $i < strlen($value); $i++) {
+          //  $hash = (($hash << 5) + $hash) + ord(substr($value, $i));
+            $hash .=  ord(substr($value, $i));
+        }
+
+        return md5($hash);
+    }
+
     public function sendMailAction(Request $request,$hash){
 
         $session = $this->get('session');
         $token = $session->get('_token_form');
         $em = $this->getDoctrine()->getManager();
-        
-        
-        if(isset($hash) && !empty($hash) && $token === $hash){
+        $captcha = $request->request->get('captchaHash');
+        $salt = $this->rpHash($request->request->get('captcha'));
+
+
+        if(isset($hash) && !empty($hash) && $token === $hash && $captcha == $salt){
             if ($request->isMethod('POST')) {
                 $formId = $request->request->get('_token');
                 $form = $em->getRepository('ConfigContactBundle:Form')->getContactForm($formId);
@@ -44,7 +61,7 @@ class ContactController extends Controller
 
                 foreach ($parameters as $key => $parameter){
                     $cnt++;
-                    $pattern = '/{{'.$key.'}}/';
+                    $pattern = '/{'.$key.'}/';
                     $fromString = $form->getFrom();
                     $subjectString = $form->getSubject();
                     $fromResult = preg_replace($pattern,$parameter,$fromString);

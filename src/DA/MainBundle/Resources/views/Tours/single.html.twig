@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-    {% set tour = object.tour[0] %}
+    {% set tour = object %}
     <div class="path_block">
         <div class="container">
             {% set slug = app.request.attributes.get('slug') %}
@@ -25,7 +25,7 @@
                 </li>
                 <li >
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    <a>{{ object.title }}</a>
+                    <a>{{ object.tourName.title }}</a>
                 </li>
             </ul>
         </div>
@@ -59,7 +59,7 @@
     <div class="tour single">
         <div class="container clear">
             <div class="left_block">
-                <h1>{{ object.title }}</h1>
+                <h1>{{ object.tourName.title }}</h1>
                 <div class="description">{{ tour.description |nl2br }}</div>
                 <div class="tour_day_block">
                     {% for day in tour.dayBlock %}
@@ -110,8 +110,18 @@
                     {{ tour.info |nl2br }}
                 </div>
             </div>
-
-            <div class="right_block" ng-controller="aMapCtr" id="singleID" data-id="">
+            <div class="right_block" ng-controller="tMapCtr" id="singleID" data-id="{{ tour.id }}">
+                <div class="location_title">
+                    <i class="fa fa-map-marker"></i>
+                    {{ 'map_title' | trans({}, 'messages') }}
+                </div>
+                <div class="locations">
+                    <ul>
+                        {% for location in tour.location %}
+                            <li>{{ location.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
                 <div class="map_block">
                     {% verbatim %}
                         <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map.options">
@@ -125,7 +135,7 @@
     </div>
     {% if tourInCategory %}
         <div class="tour_block city_accommodation_block">
-            {#<div class="title">{{ 'rental_apartments_in' | trans({'city': object.location.title}, 'messages') }}</div>#}
+            <div class="title">{{ 'eq_tours' | trans({}, 'messages') }}</div>
             <div class="container clear">
                 {% for item in tourInCategory %}
                     <div class="tours_box single" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
@@ -164,7 +174,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/damain/js/angular/factory/locationFactory.js') }}"></script>
-    <script src="{{ asset('bundles/damain/js/angular/controller/aMapsController.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/angular/controller/tMapsController.js') }}"></script>
     <script src="{{ asset('angular/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js') }}"></script>
     <script src="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>

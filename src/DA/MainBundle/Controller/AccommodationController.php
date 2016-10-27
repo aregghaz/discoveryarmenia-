@@ -25,7 +25,9 @@ class AccommodationController extends Controller
             return $this->redirectToRoute('hotels_page',array('_locale'=> $_locale));
         }
         $em = $this->getDoctrine()->getManager();
-
+        $session = $this->get('session');
+        $session->remove('cityA');
+        $session->remove('starA');
         $accommodation = $em->getRepository('DAMainBundle:Accommodation')->getAccommodationByCategory($slug);
 
         $city = $em->getRepository('DAMainBundle:Accommodation')->getAccommodationCity($slug);
@@ -92,4 +94,55 @@ class AccommodationController extends Controller
         );
     }
 
+
+    /**
+     * @Route("/{_locale}/accommodation/{slug}/{c}/{star}", name="accommodation_filter", defaults={"_locale" = "en"}, requirements={"_locale" = "en|ru|am|fr"})
+     * @Template()
+     * @param $slug
+     * @param $_locale
+     * @param null $c
+     * @param null $star
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function filterAction($slug,$_locale,$c = null,$star = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $session = $this->get('session');
+
+        if($session->get('cityA') != $c){
+
+            $session->set('cityA',$c);
+        }
+        if($session->get('starA') != $star){
+            $session->set('starA',$star);
+        }
+
+        $accommodation = $em->getRepository('DAMainBundle:Accommodation')->filterA($slug,$c,$star);
+
+        $city = $em->getRepository('DAMainBundle:Accommodation')->getAccommodationCity($slug);
+
+
+        $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug($slug);
+
+        if(!$accommodation && ($slug !='apartment' && $slug != 'villa')){
+            //throw $this->createNotFoundException('The product does not exist');
+            $twig = $this->container->get('templating');
+
+            $content = $twig->render('DAMainBundle:Exception:error404.html.twig');
+
+            return new Response($content, 404, array('Content-Type', 'text/html'));
+        }
+
+
+        return $this->render('DAMainBundle:Accommodation:index.html.twig',
+            array(
+                'objects'=>$accommodation,
+                'page' => $page,
+                'city' => $city,
+                'star'=> !$session->get('starA') ? $star: $session->get('starA'),
+                'c'=>$session->get('cityA') ?$session->get('cityA') : $c
+            )
+        );
+    }
 }

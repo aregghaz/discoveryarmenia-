@@ -33,15 +33,23 @@
     <div class="filter_block">
         <div class="container clear">
             <div class="left_block clear">
-                <div class="city left_block">
+                <div class="city left_block" id="city" data-id = {{ c is defined ? c: '' }}>
                     <select class="ui search dropdown">
                         <option value="">{{ 'select_city' | trans({}, 'messages') }}</option>
                         {% for item in city %}
-                            <option value="{{ item.id }}">{{ item.title }}</option>
+                            {% if c is defined and c != 0 and c == item.id %}
+                                <option selected value="{{ item.id }}">{{ item }}</option>
+                            {% else %}
+                                <option value="{{ item.id }}">{{ item.title }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>
+                <div class="right_block refresh">
+                    <a href="{{ path('excursion_page',{slug:slug}) }}"><i class="fa fa-refresh"></i></a>
+                </div>
             </div>
+
             <div class="right_block">
                 <div class="map_button">
                     <i class="fa fa-map-marker"></i>
@@ -97,11 +105,11 @@
                 </div>
             {% endfor %}
 
-            <div class="see_next_block">
+            {#<div class="see_next_block">
                 <button>
                     {{ 'see_next' | trans({}, 'messages') }} {{ page.title }}
                 </button>
-            </div>
+            </div>#}
         </div>
     </div>
 {% endblock %}
@@ -110,4 +118,42 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            var prefix = $("body").attr('data-prefix');
+            var locale = $("body").attr('data-locale');
+            var slug = $('.filter_block').data('slug');
+            function hotelsFilter(city) {
+                if(!city){
+                    city = '0';
+                }
+
+
+                window.location.href = prefix+'/'+locale+'/excursion/'+city;
+            }
+            var city = $('#city').data('id');
+
+
+            $('select.dropdown').dropdown({
+                onChange: function (value, text, $selectedItem) {
+                    var parent = $selectedItem.parent().parent().parent().attr('id');
+                    //if (!city && !star){
+                    switch (parent) {
+                        case 'city':
+                            city = value;
+                            break;
+                        case 'star':
+                            star = value;
+                            break;
+
+                    }
+                    //}
+
+                    hotelsFilter(city);
+
+
+                }
+            });
+        });
+    </script>
 {% endblock %}

@@ -58,6 +58,7 @@ class Location implements Translatable
 
     /**
      * @var string
+     * @Groups({"filter"})
      * @Gedmo\Translatable
      * @ORM\Column(type="string", length=200, nullable=true)
      */

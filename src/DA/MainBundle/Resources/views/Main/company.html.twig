@@ -1,0 +1,31 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="info_block">
+        <div class="container clear">
+            <div class="left_block image">
+                <img src="{{ asset('bundles/damain/images/info_img.png') }}" alt="Discover Armenia">
+            </div>
+            <div class="right_block content">
+                <h2>{{ page.bannerTitle }}</h2>
+                <p>{{ page.bannerDescription }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="service_block">
+        <div class="container clear">
+            {{ page.description |raw }}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+{% endblock %}

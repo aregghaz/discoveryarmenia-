@@ -44,13 +44,29 @@ class ExcursionRepository extends \Doctrine\ORM\EntityRepository
         return $result[0];
     }
 
-    public function getBestExcursion()
+    public function getBestExcursions()
     {
 
         $query = $this->getEntityManager()
             ->createQuery('SELECT a FROM DAMainBundle:Excursion a
                             WHERE a.best_price = TRUE 
                             ')
+        ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+    public function getPopularExcursion()
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Excursion a
+                            WHERE a.popular = TRUE 
+                            ')
+            ->setMaxResults(9)
         ;
         $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
         $result = $query->getResult();
@@ -72,6 +88,31 @@ class ExcursionRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults(3);
         $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
         $result = $query->getResult();
+
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
+
+
+    public function filterExcursion($c)
+    {
+
+        $em = $this->getEntityManager()->createQueryBuilder();
+        $query = $em
+            ->select('a')
+            ->from('DAMainBundle:Excursion', 'a')
+        ;
+        if($c != '0'){
+            $query->andwhere('a.location = :city' );
+            $query->setParameter('city', $c);
+        }
+
+        $q = $query->getQuery();
+        $q->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+
+        $result = $q->getResult();
 
         if(!$result){
             return null;

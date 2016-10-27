@@ -22,7 +22,9 @@ class HotelController extends Controller
     public function indexAction($_locale)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $session = $this->get('session');
+        $session->remove('city');
+        $session->remove('star');
         $hotles = $em->getRepository('DAMainBundle:Hotel')->findAll();
 
         $city = $em->getRepository('DAMainBundle:Hotel')->getHotelsCity();
@@ -69,7 +71,7 @@ class HotelController extends Controller
         $comforts = $em->getRepository('DAMainBundle:Page')->getComfortByObject('hotel');
 
         if(!$hotel ){
-            //throw $this->createNotFoundException('The product does not exist');
+            //throw $this->createNotFoun{{ dump(city) }}dException('The product does not exist');
             $twig = $this->container->get('templating');
 
             $content = $twig->render('DAMainBundle:Exception:error404.html.twig');
@@ -85,6 +87,62 @@ class HotelController extends Controller
                 'comforts'=>$comforts,
                 'hotelInCity' =>$hotelInCity,
                 'bestPrice'=>$bestPrice
+            )
+        );
+    }
+
+
+    /**
+     * @Route("/{_locale}/hotels/{c}/{star}", name="filter_hotel", defaults={"_locale" = "en"}, requirements={"_locale" = "en|ru|am|fr"})
+     * @Template()
+     * @param null $c
+     * @param $star
+     * @return Response
+     */
+    public function filterAction($c = null,$star = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->get('session');
+     
+        if($session->get('city') != $c){
+
+            $session->set('city',$c);
+        }
+        if($session->get('star') != $star){
+            $session->set('star',$star);
+        }
+
+        
+        $hotles = $em->getRepository('DAMainBundle:Hotel')->filterHotel($c,$star);
+
+        $city = $em->getRepository('DAMainBundle:Hotel')->getHotelsCity();
+        $cityArray = array();
+
+
+        foreach ($city as $value){
+            $cityArray[$value->getId()] = $value;
+        }
+
+        $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('hotels');
+
+        /*if(!$accommodation && ($slug !='apartment' && $slug != 'villa')){
+            //throw $this->createNotFoundException('The product does not exist');
+            $twig = $this->container->get('templating');
+
+            $content = $twig->render('DAMainBundle:Exception:error404.html.twig');
+
+            return new Response($content, 404, array('Content-Type', 'text/html'));
+        }*/
+
+
+        return $this->render('DAMainBundle:Hotel:index.html.twig',
+            array(
+                'objects'=>$hotles,
+                'page' => $page,
+                'city' => $city,
+                'star'=> !$session->get('star') ? $star: $session->get('star'),
+                'c'=>$session->get('city') ?$session->get('city') : $c
             )
         );
     }

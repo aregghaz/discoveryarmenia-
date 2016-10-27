@@ -132,7 +132,7 @@ class DayBlock implements Translatable
     public function setName($name)
     {
         $this->name = $name;
-        
+        $this->title = $name;
         return $this;
     }
 

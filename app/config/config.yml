@@ -32,6 +32,10 @@ parameters:
       #es: Español
       #po: Português
       #jp: 日本語
+    currency:
+       USD: USD
+       RUB: RUB
+       EUR: EUR
 
 framework:
     esi:             { enabled: true }
@@ -64,6 +68,7 @@ twig:
         - 'A2lixTranslationFormBundle::form.html.twig'
     globals:
       languages: %languages%
+      currency: %currency%
 
 
 # Assetic Configuration

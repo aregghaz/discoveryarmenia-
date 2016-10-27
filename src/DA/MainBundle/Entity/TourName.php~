@@ -294,4 +294,28 @@ class TourName implements Translatable
     {
         return $this->price;
     }
+
+    /**
+     * Set category
+     *
+     * @param \DA\MainBundle\Entity\TourCategory $category
+     *
+     * @return TourName
+     */
+    public function setCategory(\DA\MainBundle\Entity\TourCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \DA\MainBundle\Entity\TourCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 }

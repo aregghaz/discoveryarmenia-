@@ -21,7 +21,8 @@ class ExcursionController extends Controller
     public function indexAction($_locale)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $session = $this->get('session');
+        $session->remove('cityE');
         $excursions = $em->getRepository('DAMainBundle:Excursion')->findAll();
 
         $city = $em->getRepository('DAMainBundle:Excursion')->getExcursionCity();
@@ -83,6 +84,47 @@ class ExcursionController extends Controller
                 'page' => $page,
                 'excursionInCity' =>$excursionInCity,
                 'bestPrice'=>$bestPrice
+            )
+        );
+    }
+
+
+    /**
+     * @Route("/{_locale}/excursion/{c}", name="excursion_filter", defaults={"_locale" = "en"}, requirements={"_locale" = "en|ru|am|fr"})
+     * @Template()
+     */
+    public function filterAction($_locale,$c)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+
+        if($session->get('cityE') != $c){
+
+            $session->set('cityE',$c);
+        }
+        $excursions = $em->getRepository('DAMainBundle:Excursion')->filterExcursion($c);
+
+        $city = $em->getRepository('DAMainBundle:Excursion')->getExcursionCity();
+
+
+        $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('excursion');
+
+        /*if(!$accommodation && ($slug !='apartment' && $slug != 'villa')){
+            //throw $this->createNotFoundException('The product does not exist');
+            $twig = $this->container->get('templating');
+
+            $content = $twig->render('DAMainBundle:Exception:error404.html.twig');
+
+            return new Response($content, 404, array('Content-Type', 'text/html'));
+        }*/
+
+
+        return $this->render('DAMainBundle:Excursion:index.html.twig',
+            array(
+                'objects'=>$excursions,
+                'page' => $page,
+                'city' => $city,
+                'c'=>$session->get('cityE') ?$session->get('cityE') : $c
             )
         );
     }

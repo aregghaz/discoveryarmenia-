@@ -1,0 +1,80 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/configcontact/css/captcha.css') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="path_block">
+        <div class="container">
+            {% set slug = app.request.attributes.get('slug') %}
+            <ul>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('home_page',{'_locale':app.request.attributes.get('_locale')}) }}">
+                        {{ 'home' | trans({}, 'messages') }}</a>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a >{{ page.title }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page_banner_block" style="background: url('{{ media(page.bannerImage) }}') no-repeat;background-size: cover;background-position: center center;">
+        <div class="container">
+            <div class="content">
+                <h1>{{ page.bannertitle }}</h1>
+                <p style="">{{ page.bannerDescription | raw}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact">
+        <div class="container clear">
+            <div class="left_block">
+                <div class="form_title">
+                    {{ 'send_message' | trans({}, 'messages') }}
+                </div>
+                <div class="form">{{ contactForm('5811a81500a76') }}</div>
+            </div>
+            <div class="right_block">
+                <div class="form_title">
+                    {{ 'location' | trans({}, 'messages') }}
+                </div>
+                <div class="maps clear" ng-controller="cMapCtr">
+                    <div class="left_block">
+                        <p>{{ 'armenia' | trans({}, 'messages') }}</p>
+                        {% verbatim %}
+                        <ui-gmap-google-map center='map.armenia.center' zoom='map.armenia.zoom' options="map.armenia.options">
+                            <ui-gmap-markers models="Markers1" coords="'self'" icon="'icon'">
+                            </ui-gmap-markers>
+                        </ui-gmap-google-map>
+                    {% endverbatim %}
+                    </div>
+                    <div class="right_block">
+                        <p>{{ 'france' | trans({}, 'messages') }}</p>
+                        {% verbatim %}
+                        <ui-gmap-google-map center='map.france.center' zoom='map.france.zoom' options="map.france.options">
+                            <ui-gmap-markers models="Markers2" coords="'self'" icon="'icon'">
+                            </ui-gmap-markers>
+                        </ui-gmap-google-map>
+                    {% endverbatim %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/angular/controller/cMapsController.js') }}"></script>
+    <script src="{{ asset('bundles/configcontact/js/jquery.plugin.min.js') }}"></script>
+    <script src="{{ asset('bundles/configcontact/js/jquery.realperson.min.js') }}"></script>
+    <script src="{{ asset('bundles/configcontact/js/captcha.js') }}"></script>
+{% endblock %}

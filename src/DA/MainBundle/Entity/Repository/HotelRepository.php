@@ -12,6 +12,10 @@ use Doctrine\ORM\Query;
 class HotelRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    const HOTEL = 'DAMainBundle:Hotel';
+    
+    
+    
     public function getHotelsCity()
     {
 
@@ -43,6 +47,34 @@ class HotelRepository extends \Doctrine\ORM\EntityRepository
             return null;
         }
         return $result[0];
+    }
+
+    public function filterHotel($city,$star)
+    {
+        $em = $this->getEntityManager()->createQueryBuilder();
+        $query = $em    
+            ->select('a')
+            ->from(self::HOTEL, 'a');
+        if($city != '0'){
+            $query->where('a.location = :city' );
+            $query->setParameter('city', $city);
+        }
+        if($star != '0'){
+            $query->andwhere('a.star = :star' );
+            $query->setParameter('star', $star);
+        }
+
+        $q = $query->getQuery();
+        $q->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+
+        $result = $q->getResult();
+
+        if(!$result){
+            return null;
+        }
+        return $result;
+        
+        
     }
 
 

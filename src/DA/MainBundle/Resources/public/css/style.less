@@ -334,6 +334,49 @@ header{
           }
         }
       }
+      .currency_block{
+        > ul{
+          > li{
+            list-style: none;
+            > span{
+              display: inline-block;
+              width: 100%;
+              margin-top: 10px;
+              text-align: center;
+              .flag-icon{
+                font-size: 19px;
+                border: 1px solid #e8e8e8;
+              }
+            }
+            ul.sub_currency{
+              text-align: center;
+              margin-top: 9px;
+              display: none;
+              background: #fff;
+              position: relative;
+              z-index: 450;
+              li{
+                list-style: none;
+                padding: 2px 0;
+                cursor: pointer;
+                background: #fff;
+                &:hover{
+                  background: #e8e8e8;
+                }
+                &:last-of-type{
+                  border-top: 1px solid #e8e8e8;
+                }
+                a{
+                  .flag-icon{
+                    font-size: 19px;
+                    border: 1px solid #e8e8e8;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
       .chart_block{
         text-align: center;
         position: relative;
@@ -566,6 +609,21 @@ header{
     background: #4b659d;
     color: #fff;
     padding: 5px 0;
+    .button{
+      float: left;
+      padding: 5px 15px;
+      border-right: 1px solid rgba(255,255,255,0.8);
+      &:last-of-type{
+        border-right: none;
+      }
+      button{
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        text-transform: uppercase;
+        background: transparent;
+      }
+    }
     .selection{
       background: transparent !important;
       color: #fff;
@@ -627,6 +685,14 @@ header{
       }
     }
     .right_block{
+      &.refresh{
+        a{
+          color: #fff;
+          display: block;
+          margin-top: 5px;
+          margin-left: 15px;
+        }
+      }
       .map_button{
         font-size: 16px;
         font-family: @Fregat;
@@ -1199,7 +1265,41 @@ header{
     margin-bottom: 0 !important;
   }
 }
-
+.excursion_slider{
+  .excursion_box{
+    margin: 0  20px 20px 20px !important;
+    transition: all .6s ease ;
+    border-radius: 5px;
+    overflow: hidden;
+    &:hover{
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+  }
+  .slick-dots{
+      li{
+        &.slick-active,&:hover{
+          button{
+            &:before{
+              content: '';
+              opacity: 1;
+              background: @generalColor;
+              border-radius: 50%;
+              border: 2px solid #fff;
+            }
+          }
+        }
+        button{
+          &:before{
+            content: '';
+            opacity: 1;
+            background: #4b659d;
+            border-radius: 50%;
+            border: 2px solid #fff;
+          }
+        }
+      }
+  }
+}
 .excursion_info{
   padding: 10px 15px;
   clear: both;
@@ -1328,6 +1428,7 @@ header{
     .link_button{
       width: 360px;
       margin: 0 auto;
+      clear: both;
       margin-top: 20px;
     }
   }
@@ -1382,6 +1483,30 @@ header{
         line-height: 18px;
         transition: all .6s ease;
       }
+      &.home{
+        width: 70%;
+        margin-left: 12px;
+        display: block;
+        font-family: @FregatBold;
+
+        p{
+          opacity: 0;
+          transition: all .4s ease;
+          font-size: 24px;
+          text-transform: uppercase;
+          &:first-of-type{
+            line-height: 13px;
+          }
+          &:nth-of-type(2){
+            font-size: 16px;
+            font-family: @Fregat;
+          }
+          &:nth-of-type(3){
+            font-size: 14px;
+            font-family: @Fregat;
+          }
+        }
+      }
     }
   }
   .tours_title_block{
@@ -1408,6 +1533,11 @@ header{
         text-transform: uppercase;
         &:nth-of-type(2){
           font-size: 16px;
+          font-family: @Fregat;
+        }
+        &:nth-of-type(3){
+          font-size: 14px;
+          font-family: @Fregat;
         }
       }
     }
@@ -1435,6 +1565,11 @@ header{
           &:hover{
             background: #fff;
             color: @menuLinkColor;
+          }
+        }
+        &.home{
+          p{
+            opacity: 1;
           }
         }
       }
@@ -1653,10 +1788,32 @@ header{
       width: 33%;
       max-width: 380px;
       .location_title{
+        font-size: 22px;
+        font-family: @AvantGardBold;
+        text-transform: uppercase;
+        color: @menuLinkColor;
+        margin-bottom: 10px;
+        i{
 
+        }
       }
       .locations{
-
+        margin-bottom: 15px;
+        ul{
+          display: inline-block;
+          li{
+            display: inline-block;
+            color: #7e7e7e;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-right: 1px solid;
+            padding-right: 10px;
+            margin-right: 6px;
+            &:last-of-type{
+              border-right: none;
+            }
+          }
+        }
       }
       .map_block{
         .angular-google-map-container {
@@ -1666,7 +1823,186 @@ header{
     }
   }
 }
+.tour_block.city_accommodation_block{
+  .tours_box{
+    width: 33.3333%;
+    max-width: 380px;
+    height: 250px;
+    &:nth-of-type(even){
+      margin: 0  20px;
+    }
+    .tours_title_block{
+      .left_block{
+        p{
+          font-size: 18px;
+        }
+      }
+      .right_block{
+        font-size: 18px;
+        padding-top: 0;
+      }
+    }
+  }
+}
 /* ==================== Tours ==================== */
+
+/* ==================== Service ==================== */
+.service_block{
+  margin-top: 20px;
+  .container{
+    color: #4a4a4a;
+    padding-bottom: 95px;
+    img{
+      margin: 0 10px 10px 10px;
+    }
+  }
+}
+/* ==================== Service ==================== */
+
+/* ==================== Contact ==================== */
+.contact{
+  padding-top: 20px;
+  padding-bottom: 50px;
+  .container{
+    .form_title{
+      text-transform: uppercase;
+      color: @menuLinkColor;
+      font-size: 24px;
+      font-family: @AvantGardBold;
+      margin-bottom: 20px;
+    }
+    .left_block{
+      width: 49%;
+      .form{
+        input,textarea{
+          float: right;
+          width: 70%;
+          border: 1px solid #ccc;
+          height: 35px;
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        textarea{
+          height: 180px;
+          max-height: 180px;
+          max-width: 70%;
+        }
+        label{
+          float: left;
+          width: 30%;
+          text-align: right;
+          color: #4c4f54;
+          font-size: 18px;
+          padding: 0 10px;
+          padding-top: 8px;
+        }
+        input{
+          &[name=captcha]{
+            width: 40%;
+            float: right;
+          }
+          &[type=submit]{
+            width: auto;
+            float: right;
+            background: @generalColor;
+            text-transform: uppercase;
+            color: #fff;
+            padding: 10px 92px;
+          }
+        }
+      }
+    }
+    .right_block{
+      width: 49%;
+      p{
+        color: @menuLinkColor;
+        margin-bottom: 5px;
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+      .maps{
+        .angular-google-map-container { height: 220px; }
+      }
+    }
+  }
+}
+.realperson-challenge {
+  display: block;
+  color: #000;
+  width: 50%;
+  float: left;
+  height: 35px;
+}
+.realperson-text {
+  font-family: "Courier New",monospace !important;
+  font-size: 6px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 3px;
+  float: right;
+  padding-top: 9px;
+  cursor: pointer;
+}
+.realperson-regen {
+  padding-top: 4px;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+}
+.realperson-disabled {
+  opacity: 0.5;
+  filter: Alpha(Opacity=50);
+}
+.realperson-disabled .realperson-regen {
+  cursor: default;
+}
+/* ==================== Contact ==================== */
+
+/* ==================== Armenia ==================== */
+.armenia{
+  margin-top: 20px;
+  .container{
+    margin-bottom: 90px;
+    .armenia_block{
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+      .block_title{
+        font-size: 24px;
+        font-family: @FregatBold;
+        color: #4a4a4a;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .description{
+        font-size: 16px;
+        color: #4a4a4a;
+      }
+      .left_block{
+        width: 49%;
+      }
+      .right_block{
+        width: 49%;
+        img{
+          width: 100%;
+        }
+        iframe{
+          width: 100% !important;
+        }
+      }
+      &:nth-of-type(even){
+        .left_block{
+          float: right;
+        }
+        .right_block{
+          float: left;
+        }
+      }
+    }
+  }
+}
+/* ==================== Armenia ==================== */
 
 /* ==================== Excursion ==================== */
 .popular_excursion_block{

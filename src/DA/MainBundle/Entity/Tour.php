@@ -7,7 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty as VirtualProperty;
 
 /**
  * Class Tour
@@ -73,8 +74,15 @@ class Tour implements Translatable
     /**
      * @ORM\ManyToMany(targetEntity="Location", inversedBy="tour")
      * @ORM\JoinTable(name="location_cross")
+     * @Groups({"location"})
      */
     protected $location;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $best_tour = false;
 
     /**
      * @ORM\OneToMany(targetEntity="DayBlock", mappedBy="tour",cascade={"persist","remove"},orphanRemoval=true)
@@ -416,5 +424,29 @@ class Tour implements Translatable
     public function getNightCount()
     {
         return $this->night_count;
+    }
+
+    /**
+     * Set bestTour
+     *
+     * @param boolean $bestTour
+     *
+     * @return Tour
+     */
+    public function setBestTour($bestTour)
+    {
+        $this->best_tour = $bestTour;
+
+        return $this;
+    }
+
+    /**
+     * Get bestTour
+     *
+     * @return boolean
+     */
+    public function getBestTour()
+    {
+        return $this->best_tour;
     }
 }

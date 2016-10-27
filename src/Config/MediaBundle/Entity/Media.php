@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty as VirtualProperty;
 /**
  * Class Media
  * @package Config\Media\Entity
@@ -104,8 +106,9 @@ class Media extends File  implements  Translatable
      * @ORM\Column(type="integer",length=11, nullable=true)
      */
     protected $position = 0;
-
+    
     /**
+     * @Groups({"filter"})
      * @var string $path
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -185,6 +188,8 @@ class Media extends File  implements  Translatable
             ? null
             : '/'.  FileManager::getUploadDir().'/'.$size.'_'.$name;
     }
+
+
     public function getWebPath()
     {
         return null === $this->path

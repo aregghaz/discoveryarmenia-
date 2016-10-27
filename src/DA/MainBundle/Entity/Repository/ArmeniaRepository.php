@@ -1,6 +1,7 @@
 <?php
 
 namespace DA\MainBundle\Entity\Repository;
+use Doctrine\ORM\Query;
 
 /**
  * ArmeniaRepository
@@ -10,4 +11,19 @@ namespace DA\MainBundle\Entity\Repository;
  */
 class ArmeniaRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getArmeniaBySlug($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT a FROM DAMainBundle:Armenia a
+                            WHERE a.slug = :slug
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
 }

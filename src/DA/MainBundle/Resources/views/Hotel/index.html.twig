@@ -33,22 +33,38 @@
     <div class="filter_block">
         <div class="container clear">
             <div class="left_block clear">
-                <div class="city left_block">
-                    <select class="ui search dropdown">
+                <div class="city left_block" id="city" data-id = {{ c is defined ? c: '' }}>
+                    <select class="ui search dropdown" >
+
                         <option value="">{{ 'select_city' | trans({}, 'messages') }}</option>
                         {% for item in city %}
-                            <option value="{{ item.id }}">{{ item.title }}</option>
+                            {% if c is defined and c != 0 and c == item.id %}
+                                <option selected value="{{ item.id }}">{{ item }}</option>
+                            {% else %}
+                                <option value="{{ item.id }}">{{ item.title }}</option>
+                            {% endif %}
+
                         {% endfor %}
                     </select>
                 </div>
-                <div class="rooms right_block">
+                <div class="right_block refresh">
+                    <a href="{{ path('hotels_page') }}"><i class="fa fa-refresh"></i></a>
+                </div>
+                <div class="rooms right_block" id="star" data-id = {{ star is defined ? star: '' }}>
+
                     <select class="ui search dropdown">
-                        <option value="">{{ 'select_rooms' | trans({}, 'messages') }}</option>
+                        <option value="">{{ 'select_star' | trans({}, 'messages') }}</option>
                         {% for item in 1..6 %}
-                            <option value="{{ item }}">{{ item }}</option>
+                            {% if star is defined and star != 0 and item == star %}
+                                <option selected value="{{ item }}">{{ item }}</option>
+                            {% else %}
+                                <option value="{{ item }}">{{ item }}</option>
+                            {% endif %}
+
                         {% endfor %}
                     </select>
                 </div>
+
             </div>
             <div class="right_block">
                 <div class="map_button">
@@ -62,9 +78,22 @@
     <div class="accommodation_block">
         <div class="container clear">
             {% for item in objects %}
+
                 <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                     <a href="{{ path('single_hotel',{'slug':item.slug}) }}">
-                        <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>7</div>
+                        <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>
+                            {% set d  = 'now' | date('d') %}
+                            {% set m  = 'now' | date('m') %}
+                            {% if d <= 15 %}
+                                {% set priceMonth = 'm'~m|number_format~'-1' %}
+                            {% else %}
+                                {% set priceMonth = 'm'~m|number_format~'-2' %}
+                            {% endif %}
+                            {% if item.room[0] is defined%}
+                                {{ item.room[0].price[priceMonth] | number_format(0, '', ',') }}
+                            {% endif %}
+
+                        </div>
                         <div class="overlay">
                             <div class="see_more">
                                 {{ 'see_more' | trans({}, 'messages') }}
@@ -86,11 +115,11 @@
                 </div>
             {% endfor %}
 
-            <div class="see_next_block">
+            {#<div class="see_next_block">
                 <button>
                     {{ 'see_next' | trans({}, 'messages') }} {{ page.title }}
                 </button>
-            </div>
+            </div>#}
         </div>
     </div>
 {% endblock %}
@@ -99,4 +128,43 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+    <script>
+        var prefix = $("body").attr('data-prefix');
+        var locale = $("body").attr('data-locale');
+        function hotelsFilter(city,star) {
+            if(!city){
+                city = '0';
+            }
+            if(!star){
+                star = '0';
+            }
+
+            window.location.href = prefix+'/'+locale+'/hotels/'+city+'/'+star;
+        }
+        var city = $('#city').data('id');
+        var star = $('#star').data('id');
+
+
+        $('select.dropdown').dropdown({
+            onChange: function (value, text, $selectedItem) {
+                var parent = $selectedItem.parent().parent().parent().attr('id');
+                //if (!city && !star){
+                switch (parent) {
+                    case 'city':
+                        city = value;
+                        break;
+                    case 'star':
+                        star = value;
+                        break;
+
+                }
+                //}
+
+                hotelsFilter(city,star);
+
+
+            }
+        })
+        ;
+    </script>
 {% endblock %}

@@ -7,7 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty as VirtualProperty;
 
 /**
  * Class Room
@@ -59,6 +60,7 @@ class Room implements Translatable
 
     /**
      * @var array
+     * @Groups({"filter"})
      * @ORM\Column(type="array", nullable=true)
      */
     public $price = array(

@@ -1,6 +1,7 @@
 <?php
 
 namespace DA\MainBundle\Entity\Repository;
+use Doctrine\ORM\Query;
 
 /**
  * ServiceRepository
@@ -10,4 +11,19 @@ namespace DA\MainBundle\Entity\Repository;
  */
 class ServiceRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getServiceBySlug($slug)
+    {
+
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT s FROM DAMainBundle:Service s
+                            WHERE s.slug = :slug
+                            ')
+            ->setParameter('slug',$slug);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
 }

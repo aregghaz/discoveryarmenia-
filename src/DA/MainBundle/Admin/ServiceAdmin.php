@@ -89,6 +89,7 @@ class ServiceAdmin extends AbstractAdmin
                     'description'=>array(
                         'field_type'=>'textarea',
                         'required' => false,
+                        'attr' => array('class'=>'text_editor')
                     )
                 )
             ))

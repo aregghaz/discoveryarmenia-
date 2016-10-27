@@ -59,9 +59,9 @@ class TourController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tour = $em->getRepository('DAMainBundle:Tour')->getTourBySlug($slug,$id);
+        $tour = $em->getRepository('DAMainBundle:Tour')->getTourBySlug($id);
         $tourInCategory = $em->getRepository('DAMainBundle:Tour')
-            ->getTourInCategory($tour->getCategory()->getId());
+            ->getTourInCategory($tour->getTourName()->getCategory()->getId());
 
         /*if(count($accommodationInCity) != 3){
             $accommodationInCity == null;

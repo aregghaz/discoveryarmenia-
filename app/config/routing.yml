@@ -84,6 +84,10 @@ location_rest:
     type:     rest
     resource: DA\MainBundle\Controller\Rest\MapRestController
 
+filter_rest:
+    type:     rest
+    resource: DA\MainBundle\Controller\Rest\FilterRestController
+
 media_rest:
     type:     rest
     resource: Config\MediaBundle\Controller\Rest\MediaRestController

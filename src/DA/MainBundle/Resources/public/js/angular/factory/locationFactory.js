@@ -6,8 +6,8 @@ angular.module('discover')
             getLocation: {method: 'GET',isArray: true}
         });
     })
-    .factory('DestinationCords', function ($resource) {
-        return $resource("/destination/",{},{
+    .factory('ToursLocationCords', function ($resource) {
+        return $resource("/api/location/tour/:ID",{},{
             getLocation: {method: 'GET',isArray: true}
         });
     });

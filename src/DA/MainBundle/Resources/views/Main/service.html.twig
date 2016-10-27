@@ -1,0 +1,60 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="path_block">
+        <div class="container">
+            {% set slug = app.request.attributes.get('slug') %}
+            <ul>
+                <li class="link">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="{{ path('home_page',{'_locale':app.request.attributes.get('_locale')}) }}">
+                        {{ 'home' | trans({}, 'messages') }}</a>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a >{{ object.title }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page_banner_block" style="background: url('{{ media(object.bannerImage) }}') no-repeat;background-size: cover;background-position: center center;">
+        <div class="container">
+            <div class="content">
+                <h1>{{ object.bannertitle }}</h1>
+                <p>{{ object.bannerDescription }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="filter_block">
+        <div class="container clear">
+            <div class="button">
+                <button>
+                    <i class="fa fa-paper-plane"></i>
+                    {{ 'send_request' | trans({}, 'messages') }}
+                </button>
+            </div>
+            <div class="button">
+                <button>
+                    <i class="fa fa-suitcase"></i>
+                    {{ 'add_to_cart' | trans({}, 'messages') }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="service_block">
+        <div class="container clear">
+            {{ object.description |raw }}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+{% endblock %}

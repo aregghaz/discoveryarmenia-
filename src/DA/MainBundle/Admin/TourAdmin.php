@@ -44,6 +44,7 @@ class TourAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->addIdentifier('day_count', null, array('label' => 'Days'))
             ->addIdentifier('tour_name', null, array('label' => 'Name'))
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
@@ -102,6 +103,7 @@ class TourAdmin extends AbstractAdmin
             ->add('day_count')
             ->add('night_count')
             ->add('weekend')
+            ->add('best_tour')
             ->end()
             ->with('Days', array(
                 'class'       => 'col-md-12',

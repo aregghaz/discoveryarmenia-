@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+    var prefix = $("body").attr('data-prefix');
+    var locale = $("body").attr('data-locale');
     /* header -------------------------------- */
         var menuLi = $('.general_menu menu li');
         menuLi.each(function () {
@@ -42,6 +43,11 @@ $(document).ready(function () {
         },function () {
             $('.sub_lang').stop().slideUp(400);
         });
+        $('.currency_block ul > li').hover(function () {
+           $('.sub_currency').stop().slideDown(400);
+        },function () {
+            $('.sub_currency').stop().slideUp(400);
+        });
 
         $('li.dropdown').hover(function () {
             $('.sub-menu',this).stop().fadeIn(600);
@@ -62,6 +68,37 @@ $(document).ready(function () {
                     return '<span class="tab">' + $('.slick-thumbs li:nth-child(' + (i + 1) + ')').html() + '</span>';
                 }
             });
+            $('.excursion_slider').slick({
+                dots: true,
+                infinite: false,
+                speed: 1200,
+                draggable: false,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            centerPadding: '40px',
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            centerPadding: '40px',
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+            
+            
         }
         catch (err){
 
@@ -69,12 +106,7 @@ $(document).ready(function () {
     /* slider -------------------------------- */
 
     /* semantec -------------------------------- */
-        $('select.dropdown').dropdown({
-            onChange: function (val) {
-                console.log(val);
-            }
-        })
-        ;
+        
     /* semantec -------------------------------- */
 
     /* carousel -------------------------------- */
@@ -119,24 +151,27 @@ $(document).ready(function () {
     /* calendar -------------------------------- */
 
     /* scroll -------------------------------- */
-        var top = $('#tour_info').offset().top;
-        $(window).scroll(function () {
-            var scrollTop = $(this).scrollTop();
-            if(scrollTop > top){
-                $('#tour_info').css({
-                    position: 'fixed',
-                    top: 0,
-                    left: 0
-                });
-            }
-            else{
-                $('#tour_info').css({
-                    position: 'relative',
-                    top: 0,
-                    left: 0
-                });
-            }
-        });
+        if($('#tour_info').length > 0){
+            var top = $('#tour_info').offset().top;
+            $(window).scroll(function () {
+                var scrollTop = $(this).scrollTop();
+                if(scrollTop > top){
+                    $('#tour_info').css({
+                        position: 'fixed',
+                        top: 0,
+                        left: 0
+                    });
+                }
+                else{
+                    $('#tour_info').css({
+                        position: 'relative',
+                        top: 0,
+                        left: 0
+                    });
+                }
+            });
+        }
+
     /* scroll -------------------------------- */
 
 });

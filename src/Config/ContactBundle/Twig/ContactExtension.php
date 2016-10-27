@@ -38,9 +38,9 @@ class ContactExtension extends Twig_Extension
         $output = '<form role="form" action="'.$rout.'" method="post" novalidate>';
         
         foreach ($inputs as $input){
-            $output .= '<div class="'.$groupClass.'">';
+            $output .= '<div class="'.$groupClass.' clear">';
             if($input->getLabel()){
-                $output .= '<labe>'.$input->getLabel().'</labe>';
+                $output .= '<label>'.$input->getLabel().'</label>';
             }
             switch ($input->getType()){
                 case 'textarea':
@@ -50,6 +50,17 @@ class ContactExtension extends Twig_Extension
                                     id="'.$token.'_form" type="'.$input->getType().'" 
                                     name="'.$token.'['.$input->getName().']'.'"
                     ></textarea>';
+                    break;
+                case 'captcha':
+                    $output .= '
+                                  
+                                    <input  class="'.$inputClass.'"
+                                                id="'.$token.'_form" 
+                                                name="'.$input->getType().'" 
+                                                type="text" 
+                                                placeholder="'.$input->getPlaceHolder().'"
+                                            >
+                                   ';
                     break;
                 default:
                     $output .= '<input  

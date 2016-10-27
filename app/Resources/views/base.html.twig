@@ -30,7 +30,12 @@
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body class="{% block bodyClass %}{% endblock %}">
+    {% if app.debug %}
+        {% set prefix = '/app_dev.php' %}
+    {% else %}
+        {% set prefix = '' %}
+    {% endif %}
+    <body class="{% block bodyClass %}{% endblock %}" data-prefix="{{ prefix }}" data-locale="{{ app.request.attributes.get('_locale') }}">
 
         {% block login %}{% endblock %}
 
@@ -54,8 +59,8 @@
                             </a>
                         </div>
                         <div class="group_block clear">
-                            <div class="price_block">
-a
+                            <div class="currency_block">
+                                {{ render(controller('DAMainBundle:Main:currency', { '_locale': app.request.attributes.get('_locale') })) }}
                             </div>
                             <div class="languages_block">
                                 {% include 'DAMainBundle:Blocks:language.html.twig' %}

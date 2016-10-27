@@ -29,6 +29,34 @@ class AccommodationRepository extends \Doctrine\ORM\EntityRepository
         }
         return $result;
     }
+    public function filterA($slug,$c,$star)
+    {
+
+        $em = $this->getEntityManager()->createQueryBuilder();
+        $query = $em
+            ->select('a')
+            ->from('DAMainBundle:Accommodation', 'a')
+            ->where('a.category = :slug')
+            ->setParameter('slug', $slug)
+        ;
+        if($c != '0'){
+            $query->andwhere('a.location = :city' );
+            $query->setParameter('city', $c);
+        }
+        if($star != '0'){
+            $query->andwhere('a.rooms = :star' );
+            $query->setParameter('star', $star);
+        }
+        $q = $query->getQuery(); 
+        $q->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+
+        $result = $q->getResult();
+
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
     public function getBestPriceAccommodationByCategory($slug)
     {
 

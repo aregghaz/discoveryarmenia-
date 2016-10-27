@@ -29,21 +29,36 @@ class TourRepository extends \Doctrine\ORM\EntityRepository
         return $result;
     }
 
-    public function getTourBySlug($slug,$id)
+    public function getTourBySlug($id)
     {
         $query = $this->getEntityManager()
-            ->createQuery('SELECT t,tt FROM DAMainBundle:TourName t
-                            LEFT JOIN t.tour tt
-                            WHERE tt.id = :id and t.slug = :slug
+            ->createQuery('SELECT t FROM DAMainBundle:Tour t
+                          
+                            WHERE t.id = :id 
                             ')
         ->setParameter('id',$id)
-        ->setParameter('slug',$slug);
+        ;
         $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
         $result = $query->getResult();
         if(!$result){
             return null;
         }
         return $result[0];
+    }
+    public function getBestTours()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT t FROM DAMainBundle:Tour t
+                          
+                            WHERE t.best_tour =  TRUE 
+                            ')
+             ->setMaxResults(4);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
     }
 
     public function getAllTours()

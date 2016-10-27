@@ -51,61 +51,88 @@
         <div class="title">
             {{ 'popular_author_tours'| trans({}, 'messages') }}
         </div>
-        <div class="container clear">
-            {#<div class="tour_block">
-                <div class="overlay">
-                    <div class="content">
-                        <div class="left_block">
-                            <div class="tour_title">
-                                <p></p>
-                                <span></span>
-                            </div>
-                            <div class="description">
+        <div class="tour_block">
+            <div class="container clear">
+                {% for item in tours %}
+                    <div class="tours_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                        <a  href="{{ path('tour_single',{id:item.id,slug:item.tourName.slug}) }}">
+                            <div class="overlay">
+                                <div class="see_more home">
+                                    <p>{{ item.tourName }}</p>
+                                    <p>{{ 'day_night' | trans({dnt:item.dayCount,ndt:item.nightCount}, 'messages') }}</p>
+                                    <p>{{ item.description }}</p>
+                                </div>
+                                <div class="tours_title_block clear">
+                                    <div class="left_block">
+                                        <p>{{ item.tourName }}</p>
+                                        <p>{{ 'day_night' | trans({dnt:item.dayCount,ndt:item.nightCount}, 'messages') }}</p>
 
+                                    </div>
+                                    <div class="right_block">
+                                        {{ item.price | number_format(0, '', ',') }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="right_block">
-                            <p class="all_in"></p>
-                            <p class="price"></p>
-                        </div>
-                    </div>
-                    <div class="add_chart">
-                        <a href="#">
-                            <img src="{{ asset('bundles/damain/images/chart.png') }}" alt="add chart">
                         </a>
                     </div>
+                {% endfor %}
+                <div class="link_button">
+                    <a href="{{ path('tours_page') }}">{{ 'see_all_tours'| trans({}, 'messages') }}</a>
                 </div>
-            </div>#}
-            <div class="link_button">
-                <a href="#">{{ 'see_all_tours'| trans({}, 'messages') }}</a>
             </div>
         </div>
+
     </div>
 
     <div class="popular_excursion_block">
         <div class="title">
             {{ 'popular_excursion'| trans({}, 'messages') }}
         </div>
-        <div class="container">
-            <div class="excursion_carousel">
-                <div class="excursion_block">
-                    <div class="top_block">
-                        <div class="excursion_title">
+        <div class="accommodation_block excursion_block">
+            <div class="container clear excursion_slider">
+                {% for item in excursions %}
 
+                    <div class="excursion_box">
+                        <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                            <a href="{{ path('excursion_single',{'slug':item.slug}) }}">
+                                <div class="overlay">
+                                    <div class="see_more">
+                                        {{ 'see_more' | trans({}, 'messages') }}
+                                    </div>
+                                    <div class="accommodation_title_block clear">
+                                        <div class="left_block">
+                                            <p>{{ item.title }}</p>
+                                            <p>{{ item.location.title }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                    <div class="bottom_block">
                         <div class="excursion_info">
-                            <ul>
-                                <li></li>
-                            </ul>
-                            <span></span>
-                        </div>
-                        <div class="price">
-
+                            <div class="top_block clear">
+                                <ul class="left_block">
+                                    {% if item.guide %}
+                                        <li> {{ 'guide' | trans({}, 'messages') }}</li>
+                                    {% endif %}
+                                    {% if item.guide %}
+                                        <li> {{ 'ticket' | trans({}, 'messages') }}</li>
+                                    {% endif %}
+                                    {% if item.guide %}
+                                        <li> {{ 'transport' | trans({}, 'messages') }}</li>
+                                    {% endif %}
+                                </ul>
+                            <span class="right_block">
+                                {% set hours = item.duration / 60  %}
+                                {% set minute = item.duration % 60 %}
+                                {{ 'time' | trans({hours:hours|round(0, 'floor'),minute:minute}, 'messages') | raw }}
+                            </span>
+                            </div>
+                            <div class="bottom_block">
+                                {{ item.price |number_format(0, '', ',') }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

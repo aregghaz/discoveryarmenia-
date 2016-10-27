@@ -101,9 +101,19 @@ class Builder implements ContainerAwareInterface
 
         $menu->addChild('services', array(
             'route' => false,
-            'routeParameters' => array('slug' =>$da->getSlug()),
             'attributes'=>array('class'=>'dropdown')))
             ->setLabel($da->getTitle());
+        $services = $em->getRepository('DAMainBundle:Service')->findAll();
+        $menu['services']->setChildrenAttribute('class', 'sub-menu clear');
+        foreach ($services as $item){
+            $menu['services']->addChild($item->getSlug(),
+                array(
+                    'route' => 'service_page',
+                    'routeParameters' => array('slug' =>$item->getSlug())
+                )
+            )->setLabel($item->getTitle());
+        }
+
 
         /* ------- services ------- */
 
@@ -112,11 +122,19 @@ class Builder implements ContainerAwareInterface
         $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('armenia');
 
         $menu->addChild('armenia', array(
-            'route' => false,
-            'routeParameters' => array('slug' =>$da->getSlug()),
+            'route' => null, 'attributes'=>array('class'=>'dropdown')
         ))
             ->setLabel($da->getTitle());
-
+        $armenia = $em->getRepository('DAMainBundle:Armenia')->findAll();
+        $menu['armenia']->setChildrenAttribute('class', 'sub-menu clear');
+        foreach ($armenia as $item){
+            $menu['armenia']->addChild($item->getSlug(),
+                array(
+                    'route' => 'armenia_page',
+                    'routeParameters' => array('slug' =>$item->getSlug())
+                )
+            )->setLabel($item->getTitle());
+        }
         /* ------- armenia ------- */
 
         /* ------- company ------- */
@@ -124,8 +142,7 @@ class Builder implements ContainerAwareInterface
         $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('company');
 
         $menu->addChild('company', array(
-            'route' => false,
-            'routeParameters' => array('slug' =>$da->getSlug()),
+            'route' => 'company_page',
         ))
             ->setLabel($da->getTitle());
 
@@ -136,9 +153,7 @@ class Builder implements ContainerAwareInterface
         $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('contact');
 
         $menu->addChild('contact', array(
-            'route' => false,
-            'routeParameters' => array('slug' =>$da->getSlug()),
-
+            'route' => 'contact_page',
         ))
             ->setLabel($da->getTitle());
 

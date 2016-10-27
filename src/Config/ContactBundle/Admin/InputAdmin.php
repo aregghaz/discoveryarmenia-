@@ -70,7 +70,7 @@ class InputAdmin extends AbstractAdmin
                     'radio' => 'radio',
                     'checkbox' => 'checkbox',
                     'tel' => 'tel',
-                    'tel' => 'tel',
+                    'captcha' => 'captcha',
                 ),
                 'required' => true,
             ))
