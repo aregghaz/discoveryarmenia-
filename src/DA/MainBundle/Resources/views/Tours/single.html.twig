@@ -35,7 +35,8 @@
             <ul class="left_block">
                 <li>
                     {{ 'from' | trans({}, 'messages') }}
-                    <span class="price">{{ tour.price }}</span>
+                    {% set price = tour.price / change[1] %}
+                    <span class="price">{{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}</span>
                 </li>
                 <li>
                     {{ 'day_night' | trans({dnt:tour.dayCount,ndt:tour.nightCount}, 'messages') }}
@@ -159,7 +160,8 @@
                                 </div>
                                 <div class="right_block">
                                     <span>{{ 'from' | trans({}, 'messages') }}</span>
-                                    {{ item.price | number_format(0, '', ',') }}
+                                    {% set price = item.price / change[1] %}
+                                    {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
                                 </div>
                             </div>
                         </div>

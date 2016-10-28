@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use FOS\UserBundle\Model\UserInterface;
-
+use Symfony\Component\Security\Core\SecurityContext;
 /**
  * Overriding Registration controller from FosUserBundle
  *
@@ -35,7 +35,18 @@ class RegistrationController extends ContainerAware
         $form = $this->container->get('fos_user.registration.form');
         $formHandler = $this->container->get('fos_user.registration.form.handler');
         $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
-
+        $request = $this->container->get('request');
+        /* @var $request \Symfony\Component\HttpFoundation\Request */
+        $session = $request->getSession();
+        /* @var $session \Symfony\Component\HttpFoundation\Session\Session */
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        } elseif (null !== $session && $session->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        } else {
+            $error = '';
+        }
         $process = $formHandler->process($confirmationEnabled);
         if ($process) {
             $user = $form->getData();
@@ -51,7 +62,7 @@ class RegistrationController extends ContainerAware
             $username = $form->getData()->getUsername();
 
             $subject = 'Registration Activation';
-            $email = 'iyerevan@yerevan.am';
+            $email = 'bayazetyan@gmail.com';
             $the_message = 'iYerevan account <br /><br />
                             Dear '.$username.', <br />
                             To finish setting up this iYerevan account, you just need to verify your Account. <br />
@@ -81,7 +92,7 @@ class RegistrationController extends ContainerAware
         }
 
         return $this->container->get('templating')->renderResponse('ConfigUserBundle:Registration:register.html.'.$this->getEngine(), array(
-            'form' => $form->createView(),
+            'form' => $form->createView(),'error'         => $error,
         ));
     }
 

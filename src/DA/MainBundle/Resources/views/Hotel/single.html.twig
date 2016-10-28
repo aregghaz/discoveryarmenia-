@@ -72,7 +72,7 @@
                                     <input type="text" placeholder="Date/Time">
                                 </div>
                             </div>
-                            <div class="input_block">
+                            <div class="input_block visitor">
                                 <label for="setFrom">{{ 'visitors' | trans({}, 'messages') }}</label>
                                 <div class="ui" id="visitors">
                                     <input type="number" min="1" name="visitors" />
@@ -120,7 +120,10 @@
                                         {% else %}
                                             {% set priceMonth = 'm'~m|number_format~'-2' %}
                                         {% endif %}
-                                        <td>{{ room.price[priceMonth] | number_format(0, '', ',') }}</td>
+                                        <td>
+                                            {% set price = room.price[priceMonth] / change[1] %}
+                                            {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                                        </td>
                                         <td><button>{{ 'add_to_cart' | trans({}, 'messages') }}</button></td>
                                     </tr>
                                 {% endfor %}
@@ -168,7 +171,19 @@
                             {% for item in bestPrice %}
                                 <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                                     <a href="{{ path('single_hotel',{'slug':item.slug}) }}">
-                                        <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>7</div>
+                                        <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>
+                                            {% set d  = 'now' | date('d') %}
+                                            {% set m  = 'now' | date('m') %}
+                                            {% if d <= 15 %}
+                                                {% set priceMonth = 'm'~m|number_format~'-1' %}
+                                            {% else %}
+                                                {% set priceMonth = 'm'~m|number_format~'-2' %}
+                                            {% endif %}
+                                            {% if item.room[0] is defined%}
+                                                {% set price = item.room[0].price[priceMonth] / change[1] %}
+                                                {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                                            {% endif %}
+                                        </div>
                                         <div class="overlay">
                                             <div class="see_more">
                                                 {{ 'see_more' | trans({}, 'messages') }}
@@ -204,7 +219,19 @@
                     {% for item in hotelInCity %}
                         <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                             <a href="{{ path('single_hotel',{'slug':item.slug}) }}">
-                                <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>7</div>
+                                <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>
+                                    {% set d  = 'now' | date('d') %}
+                                    {% set m  = 'now' | date('m') %}
+                                    {% if d <= 15 %}
+                                        {% set priceMonth = 'm'~m|number_format~'-1' %}
+                                    {% else %}
+                                        {% set priceMonth = 'm'~m|number_format~'-2' %}
+                                    {% endif %}
+                                    {% if item.room[0] is defined%}
+                                        {% set price = item.room[0].price[priceMonth] / change[1] %}
+                                        {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                                    {% endif %}
+                                </div>
                                 <div class="overlay">
                                     <div class="see_more">
                                         {{ 'see_more' | trans({}, 'messages') }}

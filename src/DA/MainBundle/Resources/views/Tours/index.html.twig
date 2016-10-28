@@ -30,26 +30,28 @@
         </div>
     </div>
     <div class="filter_block">
-        <div class="container clear">
-            <ul class="carRentFilter clear">
-                <li>
-                    <span class="square"></span>
-                    <span class="text">{{ 'all' | trans({}, 'messages') }}</span>
-                </li>
-                {% for type in tourType %}
-                    <li>
-                        <span class="square"></span>
-                        <span class="text">{{ type | upper }}</span>
+        <form class="controls" id="Filters">
+            <div class="container clear">
+                <ul class="carRentFilter clear">
+                    <li class="filter checkbox" id="Reset">
+                        <input type="checkbox" value=".all"/>
+                        <label>{{ 'all' | trans({}, 'messages') }}</label>
                     </li>
-                {% endfor %}
-            </ul>
-        </div>
+                    {% for type in tourType %}
+                        <li class="filter checkbox">
+                            <input type="checkbox" value=".{{ type | lower }}"/>
+                            <label>{{ type | upper }}</label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </form>
     </div>
 
     <div class="tour_block">
-        <div class="container clear">
+        <div class="container clear" id="Container">
             {% for item in objects %}
-                <div class="tours_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                <div class="tours_box mix {{ item.category | lower }}" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                     <div class="overlay">
                         <div class="see_more">
                             {% for t in item.tour  %}
@@ -70,17 +72,21 @@
                             </div>
                             <div class="right_block">
                                 <span>{{ 'from' | trans({}, 'messages') }}</span>
-                                {{ item.price | number_format(0, '', ',') }}
+                                {% set price = item.price / change[1] %}
+                                {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-            <div class="see_next_block">
+            <div class="no_result cd-fail-message">
+                <span>{{ 'no_result' | trans({}, 'messages') }}</span>
+            </div>
+            {#<div class="see_next_block">
                 <button>
                     {{ 'see_next' | trans({}, 'messages') }} {{ page.title }}
                 </button>
-            </div>
+            </div>#}
         </div>
     </div>
 {% endblock %}
@@ -88,5 +94,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/jquery.mixitup.min.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/main.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
 {% endblock %}

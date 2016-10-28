@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use SoapClient;
 
 class TransportController extends Controller
 {
@@ -22,6 +23,13 @@ class TransportController extends Controller
     public function transferAction($slug,$_locale)
     {
         $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug($slug);
         if($slug == 'car-rent'){
             $car_rent = $em->getRepository('DAMainBundle:CarRent')->findAll();
@@ -30,7 +38,8 @@ class TransportController extends Controller
                 array(
                     'objects'=>$car_rent,
                     'page' => $page,
-                    'carType'=>$carType
+                    'carType'=>$carType,
+                    'change' => $cnt,
                 )
             );
         }
@@ -41,6 +50,7 @@ class TransportController extends Controller
                 array(
                     'objects'=>$transfer,
                     'page' => $page,
+                    'change' => $cnt,
                 )
             );
         }
@@ -61,7 +71,13 @@ class TransportController extends Controller
     public function carRentAction($slug,$_location)
     {
         $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
 
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         $car_rent = $em->getRepository('DAMainBundle:CarRent')->findAll();
 
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug($slug);
@@ -80,7 +96,34 @@ class TransportController extends Controller
             array(
                 'objects'=>$car_rent,
                 'page' => $page,
+                'change' => $cnt,
             )
         );
+    }
+    
+    
+    
+    
+    
+    public function connect(){
+        $date = new \DateTime;
+
+
+        $d = $date->format('d-m-Y');
+        $soap = new Soap();
+
+
+        $b = $soap->ExchangeRatesLatest( $d);
+
+        $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+
+        $currency = array();
+        foreach ($result as $key=>$value){
+            if($key == 0 || $key == 50 || $key == 9){
+                $currency[$value->ISO] = array($value->ISO,$value->Rate);
+            }
+        }
+
+        return $currency;
     }
 }

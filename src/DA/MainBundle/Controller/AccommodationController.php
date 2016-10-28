@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
+use SoapClient;
 
 class AccommodationController extends Controller
 {
@@ -28,6 +28,12 @@ class AccommodationController extends Controller
         $session = $this->get('session');
         $session->remove('cityA');
         $session->remove('starA');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         $accommodation = $em->getRepository('DAMainBundle:Accommodation')->getAccommodationByCategory($slug);
 
         $city = $em->getRepository('DAMainBundle:Accommodation')->getAccommodationCity($slug);
@@ -49,7 +55,8 @@ class AccommodationController extends Controller
             array(
                 'objects'=>$accommodation,
                 'page' => $page,
-                'city' => $city
+                'city' => $city,
+                'change' => $cnt,
             )
         );
     }
@@ -60,7 +67,13 @@ class AccommodationController extends Controller
     public function singleAction($slug,$category,$_locale)
     {
         $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
 
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         $accommodation = $em->getRepository('DAMainBundle:Accommodation')->getAccommodationBySlug($slug);
         $bestPrice = $em->getRepository('DAMainBundle:Accommodation')->getBestPriceAccommodationByCategory($accommodation->getCategory());
         $accommodationInCity = $em->getRepository('DAMainBundle:Accommodation')
@@ -89,7 +102,8 @@ class AccommodationController extends Controller
                 'page' => $page,
                 'comforts'=>$comforts,
                 'accommodationInCity' =>$accommodationInCity,
-                'bestPrice'=>$bestPrice
+                'bestPrice'=>$bestPrice,
+                'change' => $cnt,
             )
         );
     }
@@ -117,7 +131,12 @@ class AccommodationController extends Controller
         if($session->get('starA') != $star){
             $session->set('starA',$star);
         }
+        $cnt = $session->get('currentCurr');
 
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         $accommodation = $em->getRepository('DAMainBundle:Accommodation')->filterA($slug,$c,$star);
 
         $city = $em->getRepository('DAMainBundle:Accommodation')->getAccommodationCity($slug);
@@ -141,8 +160,28 @@ class AccommodationController extends Controller
                 'page' => $page,
                 'city' => $city,
                 'star'=> !$session->get('starA') ? $star: $session->get('starA'),
-                'c'=>$session->get('cityA') ?$session->get('cityA') : $c
+                'c'=>$session->get('cityA') ?$session->get('cityA') : $c,
+                'change' => $cnt,
             )
         );
+    }
+
+
+
+    public function connect(){
+        $date = new \DateTime;
+
+
+        $d = $date->format('d-m-Y');
+        $soap = new Soap();
+        $b = $soap->ExchangeRatesLatest( $d);
+        $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+        $currency = array();
+        foreach ($result as $key=>$value){
+            if($key == 0 || $key == 50 || $key == 9){
+                $currency[$value->ISO] = array($value->ISO,$value->Rate);
+            }
+        }
+        return $currency;
     }
 }

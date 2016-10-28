@@ -1,69 +1,83 @@
-<div class="path_block">
-    <div class="container">
-        <span>{{ 'registration' | trans({}, 'messages') }}</span>
-    </div>
+{% extends 'ConfigUserBundle::layout.html.twig' %}
 
-</div>
 
-<div class="registration">
-    <div class="container">
-        {#{% if is_granted('ROLE_USER') == false %}
-            <h1>{{ 'login_title' | trans({}, 'messages') }}</h1>
-            <div class="login_box clear">
-                {% form_theme form with ['TravelMainBundle:Form:form_div_layout.html.twig'] %}
-                <form class="form-inline clear" action="{{ path("fos_user_security_check") }}" method="post" role="form" autocomplete="off" novalidate="novalidate">
-                    <div class="input_block clear">
-                        <input type="text" required="required"  id="users" name="_username" placeholder="Account Name" >
-                    </div>
 
-                    <div class="input_block clear">
-                        <input type="password" required="required" name="_password" id="password" placeholder="Password" >
-
-                    </div>
-                    {% if error is defined %}
-                        <div class="error_login">
-                            {{ 'login_error' | trans({}, 'messages') }}
+{% block login %}
+    <div class="login">
+        <div class="container row">
+            {% if email is defined and email %}
+                <div class="card user_activation">
+                    {{ 'user_activation_text' |trans({'email':email}, 'messages') }}
+                </div>
+            {% endif %}
+            <div class="card">
+                <div class="home_block">
+                    <a href="{{ path('home_page') }}"><i class="fa fa-home"></i></a>
+                </div>
+                <div class="login_block">
+                    <form class="form-inline clear" action="{{ path('lab_user_security_check',{'_locale':app.request.attributes.get('_locale')}) }}" method="post" role="form" autocomplete="off">
+                        <div class="input_block input-field clear">
+                            <label class=""  for="user_name" autocomplete="off"> {{ 'login_or_email'|trans({}, 'messages') }}</label>
+                            <input type="text" id="user_name"  id="users" name="_username" value="{#{{ email?email:'' }}#}" readonly="readonly" onfocus="this.removeAttribute('readonly');" >
                         </div>
-                    {% endif %}
-                    #}{#<div class="check_block clear">
-                        <label for="remember_me">
-                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
-                            {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
-                        </label>
-                    </div>
-                    <div class="forgot_block clear">
-                        <a href="{{ path('fos_user_resetting_request') }}">{{ 'forgotten_password'|trans({}, 'SonataUserBundle') }}</a>
-                    </div>#}{#
-                    <div class="submit_block">
-                        <input type="submit"  value="{{ 'submit' | trans({}, 'messages') }}">
-                    </div>
+                        <div class="input_block input-field clear">
+                            <label class=""  for="password">{{ 'password'|trans({}, 'messages') }}</label>
+                            <input id="password" readonly="readonly" type="password"  name="_password" id="password"  onfocus="this.removeAttribute('readonly');" >
 
-                </form>
+                            {% if error %}
+                                <div class="error">
+                                    {{ 'Incorrect login or password' }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="submit_block">
+                            <button type="submit" class="waves-effect waves-light btn light-blue darken-3"  value="submit">{{ 'submit'|trans({}, 'messages') }}</button>
+                        </div>
+                    </form>
+                </div>
+                <h4>{{ 'registration_title' | trans({}, 'messages') }}</h4>
+                <div class="reg_box clear">
+                    {% form_theme form with ['DAMainBundle:Form:form_div_layout.html.twig'] %}
+                    <form action="{{ path('lab_user_registration_register',{'_locale':app.request.attributes.get('_locale')}) }}" {{ form_enctype(form) }} method="POST" novalidate="novalidate" class="fos_user_registration_register form-horizontal">
+                        <div class="input_block clear {{ form.username.vars['errors'] | length ? 'error': '' }}">
+                            {{ form_widget(form.username, {'attr' : {'class':''}}) }}
+                        </div>
+                        <div class="input_block clear">
+                            {{ form_widget(form.company_name, {'attr' : {'class':''}}) }}
+                            {{ form_errors(form.company_name) }}
+                        </div>
+                        <div class="input_block clear">
+                            {{ form_widget(form.country, {'attr' : {'class':''}}) }}
+                            {{ form_errors(form.country) }}
+                        </div>
+                        <div class="input_block clear">
+                            {{ form_widget(form.city, {'attr' : {'class':''}}) }}
+                            {{ form_errors(form.city) }}
+                        </div>
+                        <div class="input_block clear">
+                            {{ form_widget(form.streetAddress, {'attr' : {'class':''}}) }}
+                            {{ form_errors(form.streetAddress) }}
+                        </div>
+                        <div class="input_block clear {{ form.email.vars['errors'] | length ? 'error': '' }} ">
+                            {{ form_widget(form.email, {'attr' : {'class':''}}) }}
+                        </div>
+                        <div class="input_block clear {{ form.plainPassword.vars['valid']  ? '': 'error' }}">
+                            {{ form_widget(form.plainPassword, {'attr' : {'placeholder': 'registration_title' | trans({}, 'messages') }}) }}
+                        </div>
+                        {{ form_widget(form._token) }}
+                        <div class="submit_block clear">
+                            <input type="submit" value="{{ 'registration'|trans({}, 'messages') }}"  />
+                        </div>
+                    </form>
+
+                </div>
             </div>
-        {% endif %}#}
-        <h1>{{ 'registration_title' | trans({}, 'messages') }}</h1>
-        <div class="reg_box clear">
-            <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" novalidate="novalidate" class="fos_user_registration_register form-horizontal">
-
-                <div class="input_block clear {{ form.username.vars['errors'] | length ? 'error': '' }}">
-                    {{ form_widget(form.username, {'attr' : {'class':''}}) }}
-                    {{ form_label(form.username) }}
-                </div>
-                <div class="input_block clear {{ form.email.vars['errors'] | length ? 'error': '' }} ">
-                    {{ form_widget(form.email, {'attr' : {'class':''}}) }}
-                    {{ form_label(form.email) }}
-                </div>
-
-
-                <div class="input_block clear {{ form.plainPassword.vars['valid']  ? '': 'error' }}">
-                    {{ form_widget(form.plainPassword, {'attr' : {'placeholder': 'registration_title' | trans({}, 'messages') }}) }}
-                </div>
-                {{ form_widget(form._token) }}
-                <div class="submit_block clear">
-                    <input type="submit" value="{{ 'registration'|trans({}, 'messages') }}"  />
-                </div>
-            </form>
 
         </div>
     </div>
-</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

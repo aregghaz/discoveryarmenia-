@@ -23,6 +23,14 @@ class ExcursionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
         $session->remove('cityE');
+
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
+        
         $excursions = $em->getRepository('DAMainBundle:Excursion')->findAll();
 
         $city = $em->getRepository('DAMainBundle:Excursion')->getExcursionCity();
@@ -44,7 +52,8 @@ class ExcursionController extends Controller
             array(
                 'objects'=>$excursions,
                 'page' => $page,
-                'city' => $city
+                'city' => $city,
+                'change' => $cnt,
             )
         );
     }
@@ -56,6 +65,13 @@ class ExcursionController extends Controller
     public function singleAction($slug,$_locale)
     {
         $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
 
         $excursion = $em->getRepository('DAMainBundle:Excursion')->getExcursionnBySlug($slug);
         $bestPrice = $em->getRepository('DAMainBundle:Excursion')->getBestExcursion();
@@ -83,7 +99,8 @@ class ExcursionController extends Controller
                 'object'=>$excursion,
                 'page' => $page,
                 'excursionInCity' =>$excursionInCity,
-                'bestPrice'=>$bestPrice
+                'bestPrice'=>$bestPrice,
+                'change' => $cnt,
             )
         );
     }
@@ -102,6 +119,14 @@ class ExcursionController extends Controller
 
             $session->set('cityE',$c);
         }
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
+
+
         $excursions = $em->getRepository('DAMainBundle:Excursion')->filterExcursion($c);
 
         $city = $em->getRepository('DAMainBundle:Excursion')->getExcursionCity();
@@ -124,8 +149,31 @@ class ExcursionController extends Controller
                 'objects'=>$excursions,
                 'page' => $page,
                 'city' => $city,
-                'c'=>$session->get('cityE') ?$session->get('cityE') : $c
+                'c'=>$session->get('cityE') ?$session->get('cityE') : $c,
+                'change' => $cnt,
             )
         );
+    }
+
+    public function connect(){
+        $date = new \DateTime;
+
+
+        $d = $date->format('d-m-Y');
+        $soap = new Soap();
+
+
+        $b = $soap->ExchangeRatesLatest( $d);
+
+        $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+
+        $currency = array();
+        foreach ($result as $key=>$value){
+            if($key == 0 || $key == 50 || $key == 9){
+                $currency[$value->ISO] = array($value->ISO,$value->Rate);
+            }
+        }
+
+        return $currency;
     }
 }

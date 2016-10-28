@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use SoapClient;
 
 class TourController extends Controller
 {
@@ -23,6 +24,14 @@ class TourController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
+        
         $excursions = $em->getRepository('DAMainBundle:Tour')->getAllTours();
 
         $city = $em->getRepository('DAMainBundle:Tour')->getToursCity();
@@ -46,7 +55,8 @@ class TourController extends Controller
                 'objects'=>$excursions,
                 'page' => $page,
                 'city' => $city,
-                'tourType' => $tourType
+                'tourType' => $tourType,
+                'change' => $cnt,
             )
         );
     }
@@ -59,6 +69,14 @@ class TourController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
+        
         $tour = $em->getRepository('DAMainBundle:Tour')->getTourBySlug($id);
         $tourInCategory = $em->getRepository('DAMainBundle:Tour')
             ->getTourInCategory($tour->getTourName()->getCategory()->getId());
@@ -66,7 +84,7 @@ class TourController extends Controller
         /*if(count($accommodationInCity) != 3){
             $accommodationInCity == null;
         }*/
-
+            
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('tours');
 
         if(!$tour ){
@@ -84,8 +102,30 @@ class TourController extends Controller
                 'object'=>$tour,
                 'page' => $page,
                 'tourInCategory' =>$tourInCategory,
+                'change' => $cnt,
             )
         );
     }
 
+    public function connect(){
+        $date = new \DateTime;
+
+
+        $d = $date->format('d-m-Y');
+        $soap = new Soap();
+
+
+        $b = $soap->ExchangeRatesLatest( $d);
+
+        $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+
+        $currency = array();
+        foreach ($result as $key=>$value){
+            if($key == 0 || $key == 50 || $key == 9){
+                $currency[$value->ISO] = array($value->ISO,$value->Rate);
+            }
+        }
+
+        return $currency;
+    }
 }

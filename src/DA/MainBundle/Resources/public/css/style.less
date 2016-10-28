@@ -164,6 +164,14 @@ menu{
 .single{
   padding-top: 20px;
 }
+.no_result{
+  min-height: 350px;
+  display: flex;
+  span{
+    margin: auto;
+    font-size: 24px;
+  }
+}
 /* ==================== Override Semantic class ==================== */
 .slick-dotted.slick-slider {
    margin-bottom: 0;
@@ -276,6 +284,10 @@ header{
         text-transform: uppercase;
         max-height: 29px;
         line-height: 13px;
+        transition: all .4s ease;
+        &:hover{
+          background: @generalColor;
+        }
       }
     }
     .group_block{
@@ -720,6 +732,11 @@ header{
         .text{
 
         }
+        &.active{
+          .square{
+            background: @generalColor;
+          }
+        }
       }
     }
   }
@@ -916,7 +933,7 @@ header{
             height: 26px;
             padding: 0 10px;
           }
-          &:nth-last-of-type(2){
+          &.visitor{
             width: 11%;
           }
         }
@@ -2013,6 +2030,167 @@ header{
 }
 /* ==================== Excursion ==================== */
 
+/* ==================== Login ==================== */
+.login{
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  margin-top: 0 !important;
+  .container{
+    display: flex;
+  }
+  .card{
+    padding: 15px 10px;
+    overflow: hidden;
+    background: #fff;
+    max-width: 655px;
+    width: 60%;
+    margin: auto !important;
+    border-top: 5px solid @generalColor;
+    .login_block{
+      padding-top: 10px;
+      .input_block{
+        float: left;
+        width: 36%;
+        box-sizing: border-box;
+        &:nth-of-type(1){
+          margin-right: 3%;
+        }
+        input{
+          padding: 0 15px;
+          box-sizing: border-box;
+          height: 33px;
+          border: 1px solid #ccc;
+          width: 100%;
+        }
+        input:focus {
+          border-bottom: 1px solid #ccc;
+          box-shadow: none;
+        }
+        label{
+          display: block;
+          width: 100%;
+        }
+        label.active {
+          color: #0277bd;
+        }
+        .error{
+          text-align: center;
+          color: #ad0202;
+          font-size: 13px;
+          margin-bottom: 5px;
+        }
+      }
+      .check_block,.forgot_block{
+        box-sizing: border-box;
+        padding-left: 15px;
+
+      }
+      [type="checkbox"]:checked+label:before{
+        border-right: 2px solid #0277bd;
+        border-bottom: 2px solid #0277bd;
+      }
+      .submit_block{
+        float: right;
+        width: 25%;
+        text-align: right;
+        padding-right: 15px;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        padding-top: 19px;
+        button{
+          border: 1px solid #ccc;
+          background: @generalColor;
+          color: #fff;
+          text-transform: uppercase;
+          box-sizing: border-box;
+          padding: 9px 22px;
+          outline: none;
+          font-size: 18px;
+          line-height: 13px;
+        }
+      }
+    }
+    h4{
+      margin-top: 20px;
+      font-size: 24px;
+      font-family: @FregatBold;
+      color: #4a4a4a;
+      margin-bottom: 10px;
+      line-height: 16px;
+    }
+    .reg_box{
+      .input_block{
+        float: left;
+        width: 48%;
+        margin-bottom: 20px;
+        > div > div {
+          float: left;
+          width: 48%;
+          &:last-of-type{
+            float: right;
+          }
+          input{
+            width: 100%;
+          }
+        }
+        &:nth-of-type(even){
+          float: right;
+        }
+        input{
+          padding: 0 15px;
+          box-sizing: border-box;
+          height: 33px;
+          border: 1px solid #ccc;
+          width: 100%;
+        }
+        &:nth-of-type(7){
+          width: 100%;
+        }
+      }
+      .submit_block{
+        float: right;
+        width: 25%;
+        text-align: right;
+        padding-right: 15px;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        padding-top: 17px;
+        input{
+          border: 1px solid #ccc;
+          background: @generalColor;
+          color: #fff;
+          text-transform: uppercase;
+          box-sizing: border-box;
+          padding: 10px 22px;
+          outline: none;
+          font-size: 18px;
+          line-height: 13px;
+        }
+      }
+    }
+  }
+  .user_activation{
+    margin-bottom: 30px;
+    padding: 3px 15px;
+    text-align: center;
+  }
+}
+.error_input{
+  display: none;
+}
+.error input{
+  border: 1px solid red !important;
+}
+.home_block{
+  text-align: right;
+  a{
+    font-size: 25px;
+    color: @generalColor;
+  }
+}
+/* ==================== Login ==================== */
+
 /* ==================== Footer ==================== */
 footer{
   .top_block{
@@ -2159,4 +2337,105 @@ footer{
 .mCS-inset-3.mCSB_scrollTools .mCSB_buttonRight{ background-position: -57px -123px; }
 
 /* ==================== Gallery thumb block ==================== */
+.checkbox{
+  display: block;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
 
+.checkbox input[type="checkbox"]{
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+.checkbox label{
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+  padding-left: 1.5em;
+}
+
+.checkbox label:before,
+.checkbox label:after{
+  content: '';
+  display: block;
+  position: absolute;
+}
+
+.checkbox label:before{
+  left: 0;
+  top: 0;
+  width: 11px;
+  height: 11px;
+  margin-right: 10px;
+  background: transparent;
+  border: 1px solid;
+}
+
+.checkbox label:after{
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 9px;
+  height: 9px;
+  background: #fca955;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkbox input:checked ~ label:after{
+  opacity: 1;
+}
+
+.checkbox input:focus ~ label:before{
+  background: transparent;
+}
+.container .fail-message{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+
+  -webkit-transition: 150ms;
+  -moz-transition: 150ms;
+  transition: 150ms;
+}
+
+.container .fail-message:before{
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.container .fail-message span{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.container.fail .fail-message{
+  opacity: 1;
+  pointer-events: auto;
+}
+#Container .mix{
+  display: none;
+}
+#Container{
+  min-height: 350px;
+}

@@ -69,7 +69,12 @@
 
                                     </div>
                                     <div class="right_block">
-                                        {{ item.price | number_format(0, '', ',') }}
+                                        {#{% if is_granted('ROLE_USER') %}
+                                            {% set price = tour.userPrice / change[1] %}
+                                        {% else %}#}
+                                            {% set price = item.price / change[1] %}
+                                       {# {% endif %}#}
+                                        <p class="{{ change[0] }}">{{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +133,8 @@
                             </span>
                             </div>
                             <div class="bottom_block">
-                                {{ item.price |number_format(0, '', ',') }}
+                                {% set price = item.price / change[1] %}
+                                {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
                             </div>
                         </div>
                     </div>

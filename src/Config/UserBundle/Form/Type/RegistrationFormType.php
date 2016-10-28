@@ -14,6 +14,7 @@ namespace Config\UserBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+//use FOS\UserBundle\Form\Type\RegistrationFormType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -30,14 +31,54 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
-            ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
+            ->add('username', null, array(
+                'label' => 'form.login',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.login')
+            ))
+            ->add('company_name', null, array(
+                'label' => 'form.company_name',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.company_name')
+            ))
+            ->add('country', null, array(
+                'label' => 'form.country',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.country')
+            ))
+            ->add('email', 'email', array(
+                'label' => 'form.email',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.email')
+            ))
+            ->add('streetAddress', 'email', array(
+                'label' => 'form.streetAddress',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.streetAddress')
+            ))
+            ->add('city', null, array(
+                'label' => 'form.city',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.city')
+            ))
+            ->add('phone', null, array(
+                'label' => 'form.phone',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.phone')
+            ))
+            ->add('website', null, array(
+                'label' => 'form.website',
+                'translation_domain' => 'messages',
+                'attr'=> array('placeholder'=>'form.website')
+            ))
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('label' => 'form.password'),
-                'second_options' => array('label' => 'form.password_confirmation'),
-                'invalid_message' => 'fos_user.password.mismatch',
+                'options' => array('translation_domain' => 'messages'),
+                'first_options' => array('label' => false,'attr'=> array('placeholder'=>'form.password')),
+                'second_options' => array('label' => false,'attr'=> array('placeholder'=>'form.password_confirmation')),
+                'invalid_message' => 'test' ,
+                'label' => false,
+                'error_bubbling' => false,
             ))
         ;
     }
@@ -52,6 +93,6 @@ class RegistrationFormType extends AbstractType
 
     public function getName()
     {
-        return 'config_user_registration';
+        return 'lab_user_registration';
     }
 }

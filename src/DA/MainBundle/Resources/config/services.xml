@@ -159,5 +159,16 @@
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
 
+        <service id="currency.twig_extension"
+                 class="DA\MainBundle\Twig\CurrencyExtension"
+                 public="false">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="lab_user.registration.form.type" class="Config\UserBundle\Form\Type\RegistrationFormType">
+            <tag name="form.type" alias="fos_user_registration" />
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
+
     </services>
 </container>

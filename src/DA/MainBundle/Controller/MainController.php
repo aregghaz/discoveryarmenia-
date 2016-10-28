@@ -22,7 +22,15 @@ class MainController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
 
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
+        
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('home');
         $tours = $em->getRepository('DAMainBundle:Tour')->getBestTours();
         $excursions = $em->getRepository('DAMainBundle:Excursion')->getPopularExcursion();
@@ -30,7 +38,8 @@ class MainController extends Controller
             array(
                 'page'=>$page,
                 'tours'=>$tours,
-                'excursions'=>$excursions
+                'excursions'=>$excursions,
+                'change' => $cnt,
             )
         );
     }

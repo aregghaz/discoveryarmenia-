@@ -54,7 +54,7 @@
                     </div>
                     <div class="right_block">
                         <div class="login_block">
-                            <a href="#">
+                            <a href="{{ path('lab_user_registration_register',{'_locale':app.request.attributes.get('_locale')}) }}">
                                 {{ 'login_registration'| trans({}, 'messages') }}
                             </a>
                         </div>

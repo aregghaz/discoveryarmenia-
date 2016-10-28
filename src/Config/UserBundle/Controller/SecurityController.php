@@ -11,6 +11,7 @@
 
 namespace Config\UserBundle\Controller;
 
+use Config\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -19,6 +20,8 @@ class SecurityController extends ContainerAware
 {
     public function loginAction()
     {
+        $form = $this->container->get('fos_user.registration.form');
+        //$form = $this->createForm(new RegistrationFormType());
         $request = $this->container->get('request');
         /* @var $request \Symfony\Component\HttpFoundation\Request */
         $session = $request->getSession();
@@ -47,7 +50,8 @@ class SecurityController extends ContainerAware
             'last_username' => $lastUsername,
             'error'         => $error,
             'csrf_token' => $csrfToken,
-            'email' => ''
+            'email' => '',
+            'form' => $form->createView(),
         ));
     }
 

@@ -1,13 +1,14 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/Materialize/dist/css/materialize.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic/dist/semantic.min.css') }}"/>
     {% stylesheets output='css/user_style.css'
     'bundles/configuser/css/user_style.less'
     filter='less,cssrewrite,?yui_css' %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}"/>
     {% endstylesheets %}
+    {{ parent() }}
+
 {% endblock %}
 
 

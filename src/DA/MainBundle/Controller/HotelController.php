@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
+use SoapClient;
 
 class HotelController extends Controller
 {
@@ -25,6 +25,12 @@ class HotelController extends Controller
         $session = $this->get('session');
         $session->remove('city');
         $session->remove('star');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         $hotles = $em->getRepository('DAMainBundle:Hotel')->findAll();
 
         $city = $em->getRepository('DAMainBundle:Hotel')->getHotelsCity();
@@ -46,7 +52,8 @@ class HotelController extends Controller
             array(
                 'objects'=>$hotles,
                 'page' => $page,
-                'city' => $city
+                'city' => $city,
+                'change' => $cnt,
             )
         );
     }
@@ -57,7 +64,13 @@ class HotelController extends Controller
     public function  singleAction($slug,$_locale)
     {
         $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
 
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         $hotel = $em->getRepository('DAMainBundle:Hotel')->getHotelBySlug($slug);
         $bestPrice = $em->getRepository('DAMainBundle:Hotel')->getBestPriceHotel();
         $hotelInCity = $em->getRepository('DAMainBundle:Hotel')
@@ -86,7 +99,8 @@ class HotelController extends Controller
                 'page' => $page,
                 'comforts'=>$comforts,
                 'hotelInCity' =>$hotelInCity,
-                'bestPrice'=>$bestPrice
+                'bestPrice'=>$bestPrice,
+                'change' => $cnt,
             )
         );
     }
@@ -112,7 +126,12 @@ class HotelController extends Controller
         if($session->get('star') != $star){
             $session->set('star',$star);
         }
+        $cnt = $session->get('currentCurr');
 
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
         
         $hotles = $em->getRepository('DAMainBundle:Hotel')->filterHotel($c,$star);
 
@@ -142,8 +161,31 @@ class HotelController extends Controller
                 'page' => $page,
                 'city' => $city,
                 'star'=> !$session->get('star') ? $star: $session->get('star'),
-                'c'=>$session->get('city') ?$session->get('city') : $c
+                'c'=>$session->get('city') ?$session->get('city') : $c,
+                'change' => $cnt,
             )
         );
+    }
+
+    public function connect(){
+        $date = new \DateTime;
+
+
+        $d = $date->format('d-m-Y');
+        $soap = new Soap();
+
+
+        $b = $soap->ExchangeRatesLatest( $d);
+
+        $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+
+        $currency = array();
+        foreach ($result as $key=>$value){
+            if($key == 0 || $key == 50 || $key == 9){
+                $currency[$value->ISO] = array($value->ISO,$value->Rate);
+            }
+        }
+
+        return $currency;
     }
 }

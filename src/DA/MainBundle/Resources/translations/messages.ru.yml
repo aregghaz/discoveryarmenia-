@@ -1,1 +1,15 @@
 login_registration: Вход / Регистрация
+
+
+form:
+  login: Логин
+  company_name: Company name
+  country: Country
+  website: Website
+  city: Town / City
+  zip: Postcode / Zip
+  phone: Telephone number
+  email: Email address
+  password: Password
+  password_confirmation: Confirm password
+  streetAddress: Address

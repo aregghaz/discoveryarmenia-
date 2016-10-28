@@ -35,7 +35,9 @@
                 <div class="description">{{ object.description }}</div>
                 <div class="price">
                 <span>{{ 'price_for_day' | trans({}, 'messages') }}: </span>
-                    {{ object.priceForDay |number_format(0, '', ',') }}</div>
+                    {% set price = object.priceForDay / change[1] %}
+                    {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                    </div>
                 <div class="request_form_block clear">
                     <div class="input_block">
                         <label for="setFrom">{{ 'setFrom' | trans({}, 'messages') }}</label>
@@ -49,7 +51,7 @@
                             <input type="text" placeholder="Date/Time">
                         </div>
                     </div>
-                    <div class="input_block">
+                    <div class="input_block visitor">
                         <label for="setFrom">{{ 'visitors' | trans({}, 'messages') }}</label>
                         <div class="ui" id="visitors">
                             <input type="number" min="1" name="visitors" />
@@ -119,7 +121,10 @@
                                 {% for item in bestPrice %}
                                     <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                                         <a href="{{ path('accommodation_single',{'category':item.category,'slug':item.slug}) }}">
-                                            <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>{{ item.priceForDay }}</div>
+                                            <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>
+                                                {% set price = item.priceForDay / change[1] %}
+                                                {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                                            </div>
                                             <div class="overlay">
                                                 <div class="see_more">
                                                     {{ 'see_more' | trans({}, 'messages') }}
@@ -152,7 +157,10 @@
                     {% for item in accommodationInCity %}
                         <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                             <a href="{{ path('accommodation_single',{'category':item.category,'slug':item.slug}) }}">
-                                <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>{{ item.priceForDay }}</div>
+                                <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>
+                                    {% set price = item.priceForDay / change[1] %}
+                                    {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                                </div>
                                 <div class="overlay">
                                     <div class="see_more">
                                         {{ 'see_more' | trans({}, 'messages') }}

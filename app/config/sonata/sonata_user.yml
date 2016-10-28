@@ -9,6 +9,9 @@ fos_user:
           type:               fos_user_profile
           name:               fos_user_profile_form
           validation_groups:  [Profile]
+    registration:
+      form:
+          type: lab_user_registration
     change_password:
       form:
           type:               fos_user_change_password

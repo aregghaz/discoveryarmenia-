@@ -56,7 +56,8 @@
                                 {% for i in item.types %}
                                     <td>
                                         <span class="add">{{ 'add' | trans({}, 'messages') }}</span>
-                                        <span>{{  i |number_format(0, '', ',') }}</span>
+                                        {% set price = i / change[1] %}
+                                        <span>{{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}</span>
                                         <i class="fa fa-suitcase"></i>
                                     </td>
                                 {% endfor %}

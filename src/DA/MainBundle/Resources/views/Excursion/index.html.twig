@@ -61,6 +61,11 @@
 
     <div class="accommodation_block excursion_block">
         <div class="container clear">
+            {% if objects is null %}
+                <div class="no_result">
+                    <span>{{ 'no_result' | trans({}, 'messages') }}</span>
+                </div>
+            {% endif %}
             {% for item in objects %}
 
                 <div class="excursion_box">

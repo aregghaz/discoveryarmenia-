@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="filter_block" data-slug="{{ slug }}">
+    <div class="filter_block" data-slug="{{ slug }}" id="filter">
         <div class="container clear">
             <div class="left_block clear">
                 <div class="city left_block" id="city" data-id = {{ c is defined ? c: '' }}>
@@ -72,10 +72,19 @@
 
     <div class="accommodation_block">
         <div class="container clear">
+            {% if objects is null %}
+                <div class="no_result">
+                    <span>{{ 'no_result' | trans({}, 'messages') }}</span>
+                </div>
+            {% endif %}
             {% for item in objects %}
                 <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                     <a href="{{ path('accommodation_single',{'category':item.category,'slug':item.slug}) }}">
-                        <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>{{ item.priceForDay | number_format(0, '', ',') }}</div>
+                        <div class="price">
+                            <span>{{ 'from' | trans({}, 'messages') }}</span>
+                            {% set price = item.priceForDay / change[1] %}
+                            {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                        </div>
                         <div class="overlay">
                             <div class="see_more">
                                 {{ 'see_more' | trans({}, 'messages') }}

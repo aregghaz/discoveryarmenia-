@@ -71,3 +71,18 @@ send_message: Send message
 armenia: Armenia
 france: France
 select_star: Select star
+no_result: No result found
+registration_title: Registratin
+
+form:
+  login: Nickname
+  company_name: Company name
+  country: Country
+  website: Website
+  city: Town / City
+  zip: Postcode / Zip
+  phone: Telephone number
+  email: Email address
+  password: Password
+  password_confirmation: Confirm password
+  streetAddress: Address

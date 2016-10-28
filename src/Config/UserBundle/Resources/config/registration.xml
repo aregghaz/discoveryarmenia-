@@ -22,8 +22,6 @@
                 <argument type="service" id="fos_user.registration.form.handler" on-invalid="null" />
             </call>
         </service>
-
-
     </services>
 
 

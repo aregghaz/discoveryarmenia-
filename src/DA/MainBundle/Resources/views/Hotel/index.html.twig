@@ -77,6 +77,11 @@
 
     <div class="accommodation_block">
         <div class="container clear">
+            {% if objects is null %}
+                <div class="no_result">
+                    <span>{{ 'no_result' | trans({}, 'messages') }}</span>
+                </div>
+            {% endif %}
             {% for item in objects %}
 
                 <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
@@ -90,7 +95,8 @@
                                 {% set priceMonth = 'm'~m|number_format~'-2' %}
                             {% endif %}
                             {% if item.room[0] is defined%}
-                                {{ item.room[0].price[priceMonth] | number_format(0, '', ',') }}
+                                {% set price = item.room[0].price[priceMonth] / change[1] %}
+                                {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
                             {% endif %}
 
                         </div>
