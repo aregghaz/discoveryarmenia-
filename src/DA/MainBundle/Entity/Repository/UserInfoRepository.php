@@ -1,6 +1,7 @@
 <?php
 
 namespace DA\MainBundle\Entity\Repository;
+use Doctrine\ORM\Query;
 
 /**
  * UserInfoRepository
@@ -10,4 +11,35 @@ namespace DA\MainBundle\Entity\Repository;
  */
 class UserInfoRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getUserByIp($ip)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT t FROM DAMainBundle:UserInfo t
+                            WHERE t.user_ip = :ip
+                            ')
+            ->setParameter('ip',$ip)
+        ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
+    public function getOrderByUser($id)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT t FROM DAMainBundle:Order t
+                            WHERE t.user_info = :id
+                            ')
+            ->setParameter('id',$id)
+        ;
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result[0];
+    }
 }

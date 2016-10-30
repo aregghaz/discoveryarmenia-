@@ -44,7 +44,7 @@ security:
             oauth_user_provider:
               service: hwi_oauth.user.provider.fosub_bridge
           form_login:
-            login_path: /%kernel.default_locale%/login
+            login_path: /%kernel.default_locale%/user/login
             check_path: /%kernel.default_locale%/login_check
             provider: fos_userbundle
             failure_path:   null
@@ -53,7 +53,7 @@ security:
             use_referer: true
           anonymous: true
           logout:
-            path:           /%kernel.default_locale%/logout
+            path:           /logout
             target:         /
 
     access_control:

@@ -1,0 +1,26 @@
+{% extends 'ConfigUserBundle::layout.html.twig' %}
+
+
+
+{% block login %}
+    <div class="login">
+        <div class="container row">
+            {% if email is defined and email %}
+                <div class="card user_activation">
+                    {{ 'user_activation_text' |trans({'email':email}, 'messages') }}
+                </div>
+            {% endif %}
+            <div class="card">
+                <div class="home_block">
+                    <a href="{{ path('home_page') }}"><i class="fa fa-home"></i></a>
+                </div>
+                {{ name }}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

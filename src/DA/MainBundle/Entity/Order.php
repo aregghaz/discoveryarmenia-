@@ -39,7 +39,7 @@ class Order
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=100,nullable=false)
+     * @ORM\Column(type="string",length=100,nullable=true)
      */
     protected $user_mail;
 
@@ -57,7 +57,7 @@ class Order
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=100,nullable=false)
+     * @ORM\Column(type="string",length=100,nullable=true)
      */
     protected $user_telephone;
 
@@ -71,14 +71,7 @@ class Order
      * @var array
      * @ORM\Column(type="array",nullable=true)
      */
-    protected $order_list = array(
-        'hotel'=>array(),
-        'excursion' => array(),
-        'service' => array(),
-        'tour' => array(),
-        'carRent' => array(),
-        'transfer' => array()
-    );
+    protected $order_list = array();
 
     /**
      * @var \DateTime $created

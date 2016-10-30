@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -63,7 +64,7 @@
                     <div class="image_block">
                         <img src="{{ media(item.image) }}" alt="">
                     </div>
-                    <div class="car_info_block">
+                    <div class="car_info_block car{{ item.id }}">
                         <div class="car_title">
                             {{ item.name }}
                         </div>
@@ -76,17 +77,22 @@
                             </ul>
                         </div>
                         <div class="price_block clear">
-                            {% for i,price in item.priceList %}
+                            {% for i,pri in item.priceList %}
                                 <div class="price clear">
                                     <span class="left_block">{{ i | trans({}, 'messages')}}</span>
-                                    {% set price = price / change[1] %}
-                                    <span class="right_block">{{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}</span>
+                                    {% set price = pri / change[1] %}
+                                    <span class="right_block {{ i }}" data-price="{{ pri }}">{{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}</span>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="send_request">
-                        <button data-hovertext="{{ 'add_to_cart' | trans({}, 'messages') }}">
+                    <div class="send_request openmodal">
+                        <button class="addd"
+                                data-type="rent_car"
+                                data-id="{{ item.id }}"
+                                data-price="0"
+                                data-name="{{ item.name }}"
+                                data-hovertext="{{ 'add_to_cart' | trans({}, 'messages') }}">
                             {{ 'send_request' | trans({}, 'messages') }}
                         </button>
                     </div>
@@ -97,12 +103,43 @@
         </div>
 
     </div>
+    <div class="ui  modal orderModal first">
+        <i class="close icon"></i>
+        <div class="content modalContent">
+            <div class="request_form_block clear">
+                <div class="input_block">
+                    <label for="setFrom">{{ 'setFrom' | trans({}, 'messages') }}</label>
+                    <div class="ui calendar" id="setFrom">
+                        <input type="text" placeholder="Date/Time">
+                    </div>
+                </div>
+                <div class="input_block">
+                    <label for="setFrom">{{ 'setTo' | trans({}, 'messages') }}</label>
+                    <div class="ui calendar" id="setTo">
+                        <input type="text" placeholder="Date/Time">
+                    </div>
+                </div>
+                <div class="input_block visitor">
+                    <label for="setFrom">{{ 'visitors' | trans({}, 'messages') }}</label>
+                    <div class="ui" id="visitors">
+                        <input type="number" min="1" name="visitors" />
+                    </div>
+                </div>
+                <div class="add_cart_block">
+                    <button class="add_to_cart">
+                        {{ 'add_to_cart' | trans({}, 'messages') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+    <script src="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/jquery.mixitup.min.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/main.js') }}"></script>
     <script>

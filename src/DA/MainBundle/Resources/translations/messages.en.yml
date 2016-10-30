@@ -86,3 +86,18 @@ form:
   password: Password
   password_confirmation: Confirm password
   streetAddress: Address
+contact:
+  name: Name
+  city: City
+  telephone: Telephone
+  email: E-mail
+  message: Message
+
+order_list: Order list
+service_type: Service type
+added_to_cart: successfully added to cart
+rent_car: Car rent
+transfer: Transfer
+accommodation: Accommodation
+excursion: Excursion
+total_price: total price

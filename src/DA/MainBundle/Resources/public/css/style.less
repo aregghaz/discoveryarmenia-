@@ -274,6 +274,8 @@ header{
   .right_block{
     margin-top: 10px;
     max-width: 150px;
+    min-width: 150px;
+    text-align: center;
     .login_block{
       a{
         font-size: 14px;
@@ -393,10 +395,10 @@ header{
         text-align: center;
         position: relative;
         .order_count{
+          display: none;
           position: absolute;
           border: 2px solid #fff;
           background: #53668d;
-          display: block;
           width: 18px;
           height: 18px;
           color: #fff;
@@ -416,6 +418,7 @@ header{
   }
 }
 /* ==================== Header ==================== */
+
 
 /* ==================== Home page ==================== */
 .home_slider_block{
@@ -969,6 +972,8 @@ header{
           .item{
             font-size: 16px;
             margin-bottom: 25px;
+            float: left;
+            width: 25%;
             .category_title{
               font-family: @FregatBold;
               line-height: 11px;
@@ -1380,6 +1385,13 @@ header{
 
   }
 }
+.best_price_block{
+  .excursion_box{
+    float: none;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+}
 .best_price_block .excursion_info {
   padding: 10px 15px;
   clear: both;
@@ -1392,6 +1404,7 @@ header{
     margin-bottom: 5px;
   }
 }
+
 /* ==================== Excursiont block ==================== */
 
 /* ==================== Gallery block ==================== */
@@ -1400,6 +1413,7 @@ header{
   .general_image{
     img{
       width: 100%;
+      height: 427px;
     }
   }
   .image_thumb_block{
@@ -2207,6 +2221,158 @@ footer{
 }
 /* ==================== Footer ==================== */
 
+/* ==================== Order list ==================== */
+.basket_block{
+  padding-top: 45px;
+  .container{
+    .order_title{
+      font-size: 22px;
+      color: #5a5a5a;
+      text-transform: uppercase;
+      font-family: @AvantGardBold;
+      margin-bottom: 20px;
+    }
+    .order_list_table{
+      form{
+        >table{
+          >thead{
+            >tr{
+              background: @menuLinkColor;
+              th{
+
+              }
+            }
+          }
+          >tbody{
+            >tr{
+              &:last-of-type{
+                &:hover{
+                  background: transparent;
+                }
+              }
+              &:hover{
+                background: @generalColor;
+                td{
+                  background: transparent;
+                }
+              }
+              td{
+                background: #ebebeb;
+                vertical-align: middle;
+                &:last-of-type{
+                  background: transparent;
+                  border: none;
+                }
+                .basketCalendar{
+                  text-align: center;
+                  > div{
+                    display: inline-block;
+                  }
+                }
+                input[readonly]{
+                  background: transparent;
+                  border: none;
+                  color: #5b5b5b;
+                  text-align: center;
+                }
+                input{
+                  border: 1px solid #fff;
+                  background: transparent;
+                  color: #5b5b5b;
+                  text-align: center;
+                }
+                span{
+                  i{
+                    font-size: 20px;
+                    cursor: pointer;
+                    margin: 0 5px;
+                  }
+
+                }
+                .ok{
+                  display: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.send_request_block{
+  text-align: center;
+  margin-bottom: 30px;
+  span{
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 45px;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #fff;
+    background: @generalColor;
+    font-family: @AvantGardBold;
+  }
+}
+.request_form{
+  display: none;
+  width: 50%;
+  margin: 0 auto;
+  .input_row{
+    margin-bottom: 15px;
+    label{
+      display: block;
+    }
+    input{
+      width: 100%;
+      border: 1px solid #ccc;
+      height: 38px;
+      padding: 5px 15px;
+      outline: none;
+    }
+    textarea{
+      width: 100%;
+      max-width: 100%;
+      border: 1px solid #ccc;
+      height: 100px;
+      padding: 5px 15px;
+      outline: none;
+    }
+  }
+  .submit_row {
+    text-align: center;
+    input{
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      padding: 10px 45px;
+      text-transform: uppercase;
+      font-size: 18px;
+      color: #fff;
+      background: #fca955;
+      font-family: 'AvantGardeCTT-Bold';
+    }
+  }
+}
+.modalContent{
+  text-align: center;
+  p{
+    font-size: 24px;
+    font-family: @Fregat;
+    color: #8c8c8c;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    a{
+      background: @generalColor;
+      color: #fff;
+      font-size: 18px;
+      padding: 10px 45px;
+    }
+  }
+}
+/* ==================== Order list ==================== */
 
 
 
@@ -2438,4 +2604,43 @@ footer{
 }
 #Container{
   min-height: 350px;
+}
+.request_form_block{
+  margin-bottom: 20px;
+  .input_block{
+    float: left;
+    width: 25%;
+    max-width: 206px;
+    margin-right: 20px;
+    label{
+      font-size: 16px;
+      color: #3f3f3f;
+      font-family: @Fregat;
+    }
+    input{
+      border: 2px solid #e1e1e1;
+      width: 100%;
+      height: 26px;
+      padding: 0 10px;
+    }
+    &.visitor{
+      width: 11%;
+    }
+  }
+  .add_cart_block{
+    float: right;
+    padding-top: 20px;
+    min-width: 25%;
+    button{
+      width: 100%;
+      max-height: 26px;
+      background: #ffb400;
+      font-size: 16px;
+      color: #fff;
+      padding: 7px 25px;
+      border: none;
+      line-height: 13px;
+      outline: none;
+    }
+  }
 }

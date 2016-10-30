@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -53,9 +54,12 @@
                         {% for item in objects %}
                             <tr>
                                 <td>{{ item.direction }}</td>
-                                {% for i in item.types %}
-                                    <td>
-                                        <span class="add">{{ 'add' | trans({}, 'messages') }}</span>
+                                {% for ic,i in item.types %}
+                                    <td class="openmodal">
+                                        <span class="add addd" data-type="transfer"
+                                              data-id="{{ item.id }}"
+                                              data-price="{{ i }}"
+                                              data-name="{{ item.direction ~ ' ' ~ ic | trans({icon: ''}, 'messages') | raw}}">{{ 'add' | trans({}, 'messages') }}</span>
                                         {% set price = i / change[1] %}
                                         <span>{{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}</span>
                                         <i class="fa fa-suitcase"></i>
@@ -68,10 +72,42 @@
             </div>
         </div>
     </div>
+    <div class="ui  modal orderModal first">
+        <i class="close icon"></i>
+        <div class="content modalContent">
+            <div class="request_form_block clear">
+                <div class="input_block">
+                    <label for="setFrom">{{ 'setFrom' | trans({}, 'messages') }}</label>
+                    <div class="ui calendar" id="setFrom">
+                        <input type="text" placeholder="Date/Time">
+                    </div>
+                </div>
+                <div class="input_block">
+                    <label for="setFrom">{{ 'setTo' | trans({}, 'messages') }}</label>
+                    <div class="ui calendar" id="setTo">
+                        <input type="text" placeholder="Date/Time">
+                    </div>
+                </div>
+                <div class="input_block visitor">
+                    <label for="setFrom">{{ 'visitors' | trans({}, 'messages') }}</label>
+                    <div class="ui" id="visitors">
+                        <input type="number" min="1" name="visitors" />
+                    </div>
+                </div>
+                <div class="add_cart_block">
+                    <button class="add_to_cart">
+                        {{ 'add_to_cart' | trans({}, 'messages') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
 
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+    <script src="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
 {% endblock %}

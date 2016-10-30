@@ -74,7 +74,7 @@ class ExcursionController extends Controller
         }
 
         $excursion = $em->getRepository('DAMainBundle:Excursion')->getExcursionnBySlug($slug);
-        $bestPrice = $em->getRepository('DAMainBundle:Excursion')->getBestExcursion();
+        $bestPrice = $em->getRepository('DAMainBundle:Excursion')->getBestExcursions();
         $excursionInCity = $em->getRepository('DAMainBundle:Excursion')
             ->getExcursionInCity($excursion->getLocation()->getId());
 

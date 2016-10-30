@@ -54,9 +54,15 @@
                     </div>
                     <div class="right_block">
                         <div class="login_block">
-                            <a href="{{ path('lab_user_registration_register',{'_locale':app.request.attributes.get('_locale')}) }}">
-                                {{ 'login_registration'| trans({}, 'messages') }}
-                            </a>
+                            {% if is_granted('ROLE_USER') %}
+                                {#<span>{{ app.user.username }}</span>#}
+                                <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+                            {% else %}
+                                <a href="{{ path('lab_user_registration_register',{'_locale':app.request.attributes.get('_locale')}) }}">
+                                    {{ 'login_registration'| trans({}, 'messages') }}
+                                </a>
+                            {% endif %}
+
                         </div>
                         <div class="group_block clear">
                             <div class="currency_block">
@@ -66,8 +72,8 @@
                                 {% include 'DAMainBundle:Blocks:language.html.twig' %}
                             </div>
                             <div class="chart_block">
-                                <a href="#">
-                                    <span class="order_count">3</span>
+                                <a href="{{ path('basket_page') }}">
+                                    {{ render(controller('DAMainBundle:Main:count')) }}
                                     <img src="{{ asset('bundles/damain/images/chart.png') }}" alt="">
                                 </a>
                             </div>
@@ -109,6 +115,15 @@
                 </div>
             </footer>
         {% endblock %}
+
+
+        <div class="ui small modal accpetModal">
+            <i class="close icon"></i>
+            <div class="content modalContent">
+                <p>{{ 'added_to_cart' | trans({}, 'messages') }}</p>
+                <p><a href="{{ path('basket_page') }}">{{ 'cart' | trans({}, 'messages') }}</a></p>
+            </div>
+        </div>
 
         {% block javascripts %}
             <script>

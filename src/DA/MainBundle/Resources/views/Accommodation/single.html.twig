@@ -58,7 +58,13 @@
                         </div>
                     </div>
                     <div class="add_cart_block">
-                        <button>{{ 'add_to_cart' | trans({}, 'messages') }}</button>
+                        <button class="add_to_cart"
+                                data-type="accommodation"
+                                data-id="{{ object.id }}"
+                                data-price="{{ object.priceForDay }}"
+                                data-name="{{ object.title }}">
+                            {{ 'add_to_cart' | trans({}, 'messages') }}
+                        </button>
                     </div>
                 </div>
                 {% if object.gallery %}

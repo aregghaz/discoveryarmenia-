@@ -2,6 +2,7 @@
 
 namespace DA\MainBundle\Controller;
 
+use DA\MainBundle\Form\Type\ContactType;
 use Gedmo\Mapping\Driver\Chain;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -19,9 +20,10 @@ class MainController extends Controller
      * @Route("/{_locale}", name="home_page", defaults={"_locale" = "en"}, requirements={"_locale" = "en|ru|am|fr"})
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
         
         $session = $this->get('session');
         $cnt = $session->get('currentCurr');
@@ -154,6 +156,113 @@ class MainController extends Controller
         $session->set('currentCurr',$all[$iso]);
 
         return $this->redirect($this->container->get('request')->headers->get('referer'));
+    }
+
+
+
+    /**
+     * @Route("/{_locale}/basket.html", name="basket_page", defaults={"_locale" = "en"}, requirements={"_locale" = "en|ru|am|fr"})
+     * @Template()
+     */
+    public function basketAction($slug,Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ip = $request->getClientIp();
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
+        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByIp($ip);
+        $order = $em->getRepository('DAMainBundle:UserInfo')->getOrderByUser($annonUsuer);
+
+        $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('basket');
+        $form = $this->createForm(new ContactType());
+        
+        
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            $data = $request->request->all();
+            unset($data['contact']);
+            var_dump(dump($data));exit;
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Discover Armenia')
+                ->setFrom($form->get('email')->getData())
+                ->setTo(array(
+                    'postmaster@zbox.work',
+                ))
+                ->setBody(
+                    $this->renderView(
+                        'TravelMainBundle:Mail:contact.html.twig',
+                        array(
+                            'name' => $form->get('name')->getData(),
+                            'city' => $form->get('city')->getData(),
+                            'telephone' => $form->get('telephone')->getData(),
+                            'email' => $form->get('email')->getData(),
+                            'message' => $form->get('message')->getData(),
+                            'data' => $data
+                        )
+                    ),
+                    'text/html'
+                );
+
+            $this->get('mailer')->send($message);
+
+            $request->getSession()->getFlashBag()->add('success-contact', 'mail_send');
+
+            return $this->redirect($this->container->get('request')->headers->get('referer'));
+
+        }
+        
+        
+        
+        return $this->render('DAMainBundle:Main:basket.html.twig',
+            array(
+                'page'=>$page,
+                'order'=>$order,
+                'change' => $cnt,
+                'form' => $form->createView()
+            )
+        );
+    }
+
+    /**
+     * @Route("/count/basket", name="basket_count")
+     * @Template()
+     */
+    public function countAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ip = $request->getClientIp();
+        $session = $this->get('session');
+        $cnt = $session->get('currentCurr');
+
+        if(!$cnt){
+            $currency = $this->connect();
+            $cnt = $currency['USD'];
+        }
+
+        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByIp($ip);
+        $order = $em->getRepository('DAMainBundle:UserInfo')->getOrderByUser($annonUsuer);
+
+        $t = 0;
+        if($order){
+            foreach ($order->getOrderList() as $val){
+                $t += count($val);
+            }
+        }
+        else{
+            $t = null;
+        }
+
+
+        return $this->render('DAMainBundle:Main:count.html.twig',
+            array(
+                'count'=>$t,
+            )
+        );
     }
 
 

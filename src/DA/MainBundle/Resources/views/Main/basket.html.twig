@@ -1,0 +1,132 @@
+{% extends 'DAMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.css') }}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="info_block">
+        <div class="container clear">
+            <div class="left_block image">
+                <img src="{{ asset('bundles/damain/images/basket.png') }}" alt="Discover Armenia">
+            </div>
+            <div class="right_block content">
+                <h2>{{ page.bannerTitle }}</h2>
+                <p>{{ page.bannerDescription }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="basket_block">
+        <div class="container clear">
+            {% if order != null %}
+                <div class="order_title">
+                    {{ 'order_list' | trans({}, 'messages') }}
+                </div>
+                <div class="order_list_table table_block">
+                    <form method="post" action="{{ path('basket_page') }}" {{ form_enctype(form) }}>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>{{ 'service_type' | trans({}, 'messages') }}</th>
+                            <th>{{ 'date' | trans({}, 'messages') }}</th>
+                            <th>{{ 'visitors' | trans({}, 'messages') }}</th>
+                            <th>{{ 'price' | trans({}, 'messages') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set total =  0 %}
+                        {% for i,type in order.orderList %}
+                            {% for item in type %}
+                                <tr class="row{{ loop.index }}{{ item.id }}">
+                                    <td>
+                                        <p>{{ item.title }}</p>
+                                        <input type="hidden" name="{{ item.type }}{{ loop.index }}{{ item.id }}[item_{{ item.title }}]" value="{{ item.title }}">
+                                        <p>{{ i | trans({}, 'messages') }}</p>
+                                    </td>
+                                    <td>
+                                        <div class="ui basketCalendar" >
+                                            <div>
+                                            <input type="text" placeholder="Date/Time" name="{{ item.type }}{{ loop.index }}{{ item.id }}[setFrom_{{ i }}_{{ item.id }}]" value="{{ item.setFrom }}" readonly="readonly">
+                                            </div>
+                                            {% if item.setTo is defined %}
+                                            -
+                                                <div class="">
+                                                <input type="text" placeholder="Date/Time" name="{{ item.type }}{{ loop.index }}{{ item.id }}[setTo_{{ i }}_{{ item.id }}]" value="{{ item.setTo }}" readonly="readonly">
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                     </td>
+                                    <td>
+                                        <input type="number" readonly="readonly" name="{{ item.type }}{{ loop.index }}{{ item.id }}[visitors_{{ i }}_{{ item.id }}]" value="{{ item.visitors }}">
+                                    </td>
+                                    {% set price = item.price / change[1] %}
+                                    <td class="pp" data-p="{{ price | round(0, 'ceil') }}" data-c="{{ localizedcurrency(change[0]) }}">{{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}</td>
+                                    <td>
+                                        <span class="edit" data-id="{{ loop.index }}{{ item.id }}"><i class="fa fa-pencil"></i></span>
+                                        <span class="ok" data-id="{{ loop.index }}{{ item.id }}"><i class="fa fa-check"></i></span>
+                                        <span class="remove" data-id="{{ loop.index }}{{ item.id }}"><i class="fa fa-trash"></i></span>
+                                    </td>
+                                </tr>
+                                {% set total = total + price %}
+                            {% endfor %}
+                        {% endfor %}
+                        <tr>
+
+                            <td class="total" data-p="{{  total  | round(0, 'ceil') }}" colspan="4" style="text-align: right;padding-right: 10px">{{ 'total_price' | trans({}, 'messages') }} <span>{{ total  | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }} </span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                        <div class="send_request_block">
+                            <span>
+                                {{ 'send_request' | trans({}, 'messages') }}
+                            </span>
+                        </div>
+                        <div class="request_form">
+                            <div class="input_row clear">
+                                {{ form_label(form.name)  }}
+                                {{ form_widget(form.name) }}
+                                {{ form_errors(form.name) }}
+                            </div>
+                            <div class="input_row clear">
+                                {{ form_label(form.city)  }}
+                                {{ form_widget(form.city) }}
+                                {{ form_errors(form.city) }}
+                            </div>
+                            <div class="input_row clear">
+                                {{ form_label(form.telephone)  }}
+                                {{ form_widget(form.telephone) }}
+                                {{ form_errors(form.telephone) }}
+                            </div>
+                            <div class="input_row clear">
+                                {{ form_label(form.email)  }}
+                                {{ form_widget(form.email) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                            <div class="input_row clear">
+                                {{ form_label(form.message)  }}
+                                {{ form_widget(form.message) }}
+                                {{ form_errors(form.message) }}
+                            </div>
+                            <div class="submit_row clear">
+                                <input class="ClickDisabled" type="submit" value="Send">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+    <script src="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
+    <script>
+
+    </script>
+{% endblock %}

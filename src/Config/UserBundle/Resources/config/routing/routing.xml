@@ -26,7 +26,7 @@
         <requirement key="_method">POST</requirement>
     </route>
 
-    <route id="lab_user_security_login" pattern="/{_locale}/login">
+    <route id="lab_user_security_login" pattern="/{_locale}/user/login">
         <default key="_controller">ConfigUserBundle:Security:login</default>
     </route>
 

@@ -124,7 +124,14 @@
                                             {% set price = room.price[priceMonth] / change[1] %}
                                             {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
                                         </td>
-                                        <td><button>{{ 'add_to_cart' | trans({}, 'messages') }}</button></td>
+                                        <td><button class="add_to_cart"
+                                                    data-type="room"
+                                                    data-id="{{ room.id }}"
+                                                    data-price="{{ room.price[priceMonth] }}"
+                                                    data-name="{{ object.title ~' '~ room.type }}"
+                                                    >
+                                                {{ 'add_to_cart' | trans({}, 'messages') }}
+                                            </button></td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

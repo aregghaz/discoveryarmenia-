@@ -84,9 +84,9 @@ location_rest:
     type:     rest
     resource: DA\MainBundle\Controller\Rest\MapRestController
 
-filter_rest:
+basket_rest:
     type:     rest
-    resource: DA\MainBundle\Controller\Rest\FilterRestController
+    resource: DA\MainBundle\Controller\Rest\BasketRestController
 
 media_rest:
     type:     rest
