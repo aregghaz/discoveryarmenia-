@@ -59,7 +59,7 @@ class UserInfo
     private $updated;
 
     /**
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="user_info",cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="user_info",cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $order;
 

@@ -2,6 +2,8 @@
 
 namespace DA\MainBundle\Controller;
 
+use DA\MainBundle\Entity\Order;
+use DA\MainBundle\Entity\UserInfo;
 use DA\MainBundle\Form\Type\ContactType;
 use Gedmo\Mapping\Driver\Chain;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -186,7 +188,7 @@ class MainController extends Controller
             $form->handleRequest($request);
             $data = $request->request->all();
             unset($data['contact']);
-            var_dump(dump($data));exit;
+
             $message = \Swift_Message::newInstance()
                 ->setSubject('Discover Armenia')
                 ->setFrom($form->get('email')->getData())
@@ -208,11 +210,15 @@ class MainController extends Controller
                     'text/html'
                 );
 
+            $em->remove($annonUsuer);
+
+            $em->flush();
+
             $this->get('mailer')->send($message);
 
             $request->getSession()->getFlashBag()->add('success-contact', 'mail_send');
 
-            return $this->redirect($this->container->get('request')->headers->get('referer'));
+            return $this->redirect($this->generateUrl('home_page'));
 
         }
         

@@ -27,7 +27,7 @@ class Order
     /**
      * @var integer $user_info
      * @ORM\ManyToOne(targetEntity="UserInfo",  inversedBy="order")
-     * @ORM\JoinColumn(name="user_info_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_info_id", referencedColumnName="id",onDelete="cascade")
      */
     protected $user_info;
 
