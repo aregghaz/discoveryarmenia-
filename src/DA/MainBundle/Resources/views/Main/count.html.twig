@@ -1,5 +1,4 @@
-{{ dump(count) }}
-{% if count %}
+{% if count is not null %}
     <span class="order_count" style="display: block">{{ count }}</span>
 {% else %}
     <span class="order_count"></span>
