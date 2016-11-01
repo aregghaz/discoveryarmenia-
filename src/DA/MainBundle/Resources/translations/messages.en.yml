@@ -59,6 +59,7 @@ send_request: Send request
 ticket: Ticket
 guide: Guide
 time: <i class="fa fa-clock-o"></i>hours h. minute m.
+time2: hours h. minute m.
 days: days
 weekend: Weekend
 day_night: dnt days / ndt nights

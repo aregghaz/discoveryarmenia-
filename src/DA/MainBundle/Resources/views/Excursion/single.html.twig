@@ -54,7 +54,8 @@
                 </div>
                 <div class="price">
                     <span>{{ 'price' | trans({}, 'messages') }}: </span>
-                    {{ object.price |number_format(0, '', ',') }}
+                    {% set price = object.price / change[1] %}
+                    {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
                 </div>
                 <div class="description">{{ object.description }}</div>
                 <div class="request_form_block clear">

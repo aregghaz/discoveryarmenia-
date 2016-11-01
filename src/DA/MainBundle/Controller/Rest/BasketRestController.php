@@ -80,6 +80,9 @@ class BasketRestController extends FOSRestController
                 case 'excursion':
                     $req['excursion'] =  array($array['id']=>$array);
                     break;
+                case 'tour':
+                    $req['tour'] =  array($array['id']=>$array);
+                    break;
             }
             $order->setOrderList($req);
         }
@@ -129,6 +132,15 @@ class BasketRestController extends FOSRestController
                     }
                     else{
                         $list['excursion'] =  array($array['id']=>$array);
+                    }
+                    break;
+                case 'tour':
+                    $req =  $array;
+                    if(array_key_exists('tour',$list)){
+                        array_push($list['tour'],$req);
+                    }
+                    else{
+                        $list['tour'] =  array($array['id']=>$array);
                     }
                     break;
             }

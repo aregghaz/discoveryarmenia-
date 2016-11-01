@@ -32,7 +32,7 @@ class TourController extends Controller
             $cnt = $currency['USD'];
         }
         
-        $excursions = $em->getRepository('DAMainBundle:Tour')->getAllTours();
+        $tours = $em->getRepository('DAMainBundle:Tour')->getAllTours();
 
         $city = $em->getRepository('DAMainBundle:Tour')->getToursCity();
 
@@ -52,7 +52,7 @@ class TourController extends Controller
 
         return $this->render('DAMainBundle:Tours:index.html.twig',
             array(
-                'objects'=>$excursions,
+                'objects'=>$tours,
                 'page' => $page,
                 'city' => $city,
                 'tourType' => $tourType,
@@ -78,6 +78,7 @@ class TourController extends Controller
         }
         
         $tour = $em->getRepository('DAMainBundle:Tour')->getTourBySlug($id);
+        $excursions = $em->getRepository('DAMainBundle:Excursion')->findAll();
         $tourInCategory = $em->getRepository('DAMainBundle:Tour')
             ->getTourInCategory($tour->getTourName()->getCategory()->getId());
 
@@ -103,6 +104,7 @@ class TourController extends Controller
                 'page' => $page,
                 'tourInCategory' =>$tourInCategory,
                 'change' => $cnt,
+                'excursion'=>$excursions,
             )
         );
     }

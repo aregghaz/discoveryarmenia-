@@ -50,8 +50,11 @@
                     </span>
                 </li>
             </ul>
-            <div class="right_block">
-                <button>
+            <div class="right_block openmodal">
+                <button class="addd"     data-type="tour"
+                        data-id="{{ object.id }}"
+                        data-price="{{ object.price }}"
+                        data-name="{{ object.tourName.title }} hotle 3">
                     {{ 'add_to_cart' | trans({}, 'messages') }}
                 </button>
             </div>
@@ -83,9 +86,20 @@
                                     {{ day.description |nl2br }}
                                 </div>
                                 {% if day.hotel3star %}
-                                <div class="day_hotel">
+                                <div class="day_hotel"
+                                     {% if day.hotel3star %}
+                                         data-hotel3="{{ day.hotel3star.title }},{{ day.hotel3star.slug }}"
+                                     {% endif %}
+                                     {% if day.hotel4star %}
+                                         data-hotel4="{{ day.hotel4star.title }},{{ day.hotel4star.slug }}"
+                                     {% endif %}
+                                     {% if day.hotel5star %}
+                                         data-hotel5="{{ day.hotel5star.title }},{{ day.hotel5star.slug }}"
+                                     {% endif %}
+
+                                >
                                     {{ 'hotel' | trans({}, 'messages') }}:
-                                    <span>{{ day.hotel3star.title }}</span>
+                                    <span><a href="{{ path('single_hotel',{'slug':day.hotel3star.slug}) }}">{{ day.hotel3star.title }}</a></span>
                                 </div>
                                 {% endif %}
                             </div>
@@ -101,7 +115,7 @@
                         <div class="day_excursion clear">
                             <div class="excursion_list left_block"></div>
                             <div class="right_block add_excursion">
-                                <span>{{ 'add_excursion' | trans({}, 'messages') }}</span>
+                                <span class="openexcursion">{{ 'add_excursion' | trans({}, 'messages') }}</span>
                                 <i class="fa fa-plus"></i>
                             </div>
                         </div>
@@ -170,14 +184,218 @@
             </div>
         </div>
     {% endif %}
+
+
+
+    <div class="ui fullscreen modal excursionModal">
+        <i class="close icon"></i>
+        <div class="header">
+            {{ 'excursion' | trans({}, 'messages') }}
+        </div>
+        <div class="content">
+            <div class="accommodation_block excursion_block">
+                <div class="container clear pgnt1">
+                    {% if excursion is null %}
+                        <div class="no_result">
+                            <span>{{ 'no_result' | trans({}, 'messages') }}</span>
+                        </div>
+                    {% endif %}
+                    {% for item in excursion %}
+
+                        <div class="excursion_box">
+                            <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                                <a href="#">
+                                    <div class="overlay">
+                                        {% set hours = item.duration / 60  %}
+                                        {% set minute = item.duration % 60 %}
+                                        <div class="see_more addExc"
+                                            data-name="{{ item.title }}"
+                                            data-price="{{ item.price }}"
+                                            data-duration="{{ 'time2' | trans({hours:hours|round(0, 'floor'),minute:minute}, 'messages') | raw }}"
+                                            >
+                                            {{ 'add' | trans({}, 'messages') }}
+                                        </div>
+                                        <div class="accommodation_title_block clear">
+                                            <div class="left_block">
+                                                <p>{{ item.title }}</p>
+                                                <p>{{ item.location.title }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="excursion_info">
+                                <div class="top_block clear">
+                                    <ul class="left_block">
+                                        {% if item.guide %}
+                                            <li> {{ 'guide' | trans({}, 'messages') }}</li>
+                                        {% endif %}
+                                        {% if item.guide %}
+                                            <li> {{ 'ticket' | trans({}, 'messages') }}</li>
+                                        {% endif %}
+                                        {% if item.guide %}
+                                            <li> {{ 'transport' | trans({}, 'messages') }}</li>
+                                        {% endif %}
+                                    </ul>
+                            <span class="right_block">
+                                {{ 'time' | trans({hours:hours|round(0, 'floor'),minute:minute}, 'messages') | raw }}
+                            </span>
+                                </div>
+                                <div class="bottom_block">
+                                    {% set price = item.price / change[1] %}
+                                    {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {#<div class="see_next_block">
+                        <button>
+                            {{ 'see_next' | trans({}, 'messages') }} {{ page.title }}
+                        </button>
+                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui  modal orderModal first">
+        <i class="close icon"></i>
+        <div class="content modalContent">
+            <div class="request_form_block clear">
+                <div class="input_block">
+                    <label for="setFrom">{{ 'setFrom' | trans({}, 'messages') }}</label>
+                    <div class="ui calendar" id="setFrom">
+                        <input type="text" placeholder="Date/Time">
+                    </div>
+                </div>
+                <div class="input_block">
+                    <label for="setFrom">{{ 'setTo' | trans({}, 'messages') }}</label>
+                    <div class="ui calendar" id="setTo">
+                        <input type="text" placeholder="Date/Time">
+                    </div>
+                </div>
+                <div class="input_block visitor">
+                    <label for="setFrom">{{ 'visitors' | trans({}, 'messages') }}</label>
+                    <div class="ui" id="visitors">
+                        <input type="number" min="1" name="visitors" />
+                    </div>
+                </div>
+                <div class="add_cart_block">
+                    <button class="add_to_cart">
+                        {{ 'add_to_cart' | trans({}, 'messages') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/damain/js/angular/factory/locationFactory.js') }}"></script>
+    <script src="{{ asset('bundles/damain/js/pager.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/angular/controller/tMapsController.js') }}"></script>
     <script src="{{ asset('angular/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js') }}"></script>
     <script src="{{ asset('angular/bower_components/semantic-ui-calendar/dist/calendar.min.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
+
+    <script>
+        $(".pgnt1").quickPager({
+            pageSize: 3,
+            currentPage: 1
+        });
+
+        $('.openexcursion').click(function () {
+            var elem = $(this).parent().prev();
+            elem.addClass('this');
+            $('.fullscreen.excursionModal')
+                    .modal('show')
+            ;
+
+        });
+        $('.addExc').click(function (e) {
+            e.preventDefault();
+            var elem = $('.this');
+            var title = $(this).data('name');
+            var price = $(this).data('price');
+            var duration = $(this).data('duration');
+            elem.append('<p>'+title+' | '+duration+' <i class="fa fa-trash removeExc"></i></p>');
+            $('.excursion_list').removeClass('this');
+            $('.fullscreen.excursionModal')
+                    .modal('hide');
+            ;
+            $('.removeExc').click(function () {
+                $(this).parent().remove();
+            });
+        });
+        var s2 = false;
+        var s3 = false;
+        var s4 = false;
+        $('.stars i').click(function (index) {
+            var i = $(this).index();
+            var title = $('.addd').data('name');
+            if(i==4){
+
+                if(s4 == false){
+                    $('.addd').attr('data-name',title+' hotel '+(i+1)+'');
+                    $('.stars i').css('color','#fca955');
+                    s4 = true;
+                    s3 = true;
+                    s2 = true;
+                }
+                else{
+                    $(this).css('color','#fff');
+                    s4 = false;
+                }
+
+            }
+            else if(i==3){
+                if(s3 == false){
+                    var hotel = $('.day_hotel').data('hotel'+(i+1));
+
+                    if(hotel){
+                        var h = hotel.split(",")
+                        $('.day_hotel span a').text(h[0]);
+                        $('.day_hotel span a').attr('href','/app_dev.php/en/hotels/'+h[1]+'.html');
+                    }
+                    $(this).css('color','#fca955');
+                    $(this).prev().css('color','#fca955');
+                    s3 = true;
+                    s2 = true;
+                }
+                else{
+                    s3 = false;
+                    s4 = false;
+                    $(this).css('color','#fff');
+                    $(this).next().css('color','#fff');
+
+                }
+
+            }
+            else if(i== 2){
+                if(s2 == false){
+                    var hotel = $('.day_hotel').data('hotel'+(i+1));
+
+                    if(hotel){
+                        var h = hotel.split(",")
+                        $('.day_hotel span a').text(h[0]);
+                        $('.day_hotel span a').attr('href','/app_dev.php/en/hotels/'+h[1]+'.html');
+                    }
+                    $(this).css('color','#fca955');
+                    s2 = true;
+                }
+                else{
+                    s2 = false;
+                    s3 = false;
+                    s4 = false;
+                    $(this).css('color','#fff');
+                    $(this).next().css('color','#fff');
+                    $(this).next().next().css('color','#fff');
+                }
+            }
+
+        });
+    </script>
 {% endblock %}

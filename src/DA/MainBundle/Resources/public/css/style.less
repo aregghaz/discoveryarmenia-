@@ -2372,6 +2372,28 @@ footer{
     }
   }
 }
+.simplePagerNav{
+  li{
+    display: inline-block;
+    margin: 0 5px;
+
+    border: 1px solid #ccc;
+    a{
+      padding: 5px 10px;
+      display: block;
+      &:hover{
+        background: @generalColor;
+        color: #fff;
+      }
+    }
+  }
+  .currentPage{
+    a{
+      background: @generalColor;
+      color: #fff;
+    }
+  }
+}
 /* ==================== Order list ==================== */
 
 
