@@ -2210,12 +2210,116 @@ footer{
   .top_block{
     background: #4b659d;
     padding: 20px 0;
+    .footer_menu{
+      ul{
+        li{
+          width: 9.6%;
+          display: inline-block;
+          margin-bottom: 15px;
+          text-align: center;
+          &:last-of-type{
+            margin-right: 0;
+          }
+          a{
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 14px;
+          }
+        }
+      }
+    }
   }
   .bottom_block{
     padding: 18px 0 23px 0;
     background: #627baf;
     .logo{
       color: #fff;
+    }
+    .address_info{
+      margin-left: 50px;
+      ul{
+        li{
+          display: inline-block;
+          &:first-of-type{
+            margin-right: 50px;
+          }
+          p{
+            font-size: 14px;
+            color: #fff;
+            &:first-of-type{
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+    .social{
+      text-align: center;
+      margin-left: 100px;
+      margin-top: 30px;
+      ul{
+        li{
+          display: inline-block;
+          margin-right: 15px;
+          a{
+            color: #fff;
+            i{
+              font-size: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.social_links{
+  position: fixed;
+  left: 0;
+  top: 93px;
+  ul{
+    li{
+      list-style: none;
+      background: #54688f;
+      a{
+        padding: 5px;
+        display: block;
+        text-align: center;
+        i{
+          color: #fff;
+          font-size: 20px;
+        }
+      }
+    }
+    li.fb:hover{
+      background: #eaeaea;
+      i{
+        color: #4b659d;
+      }
+    }
+    li.tw:hover{
+      background: #3da6ff;
+      i{
+        color: #fff;
+      }
+    }
+    li.yu:hover{
+      background: #e42727;
+      i{
+        color: #fff;
+      }
+    }
+    li.inst:hover{
+      background: #fff;
+      i{
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a039ab+0,fdac4a+100 */
+        color: #a039ab; /* Old browsers */
+        color: -moz-linear-gradient(top,  #a039ab 0%, #fdac4a 100%); /* FF3.6-15 */
+        color: -webkit-linear-gradient(top,  #a039ab 0%,#fdac4a 100%); /* Chrome10-25,Safari5.1-6 */
+        color: linear-gradient(to bottom,  #a039ab 0%,#fdac4a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a039ab', endColorstr='#fdac4a',GradientType=0 ); /* IE6-9 */
+
+      }
     }
   }
 }

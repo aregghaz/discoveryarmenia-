@@ -36,7 +36,14 @@
         {% set prefix = '' %}
     {% endif %}
     <body class="{% block bodyClass %}{% endblock %}" data-prefix="{{ prefix }}" data-locale="{{ app.request.attributes.get('_locale') }}">
-
+        <div class="social_links">
+            <ul>
+                <li class="fb"><a href=""><i class="fa fa-facebook"></i></a></li>
+                <li class="tw"><a href=""><i class="fa fa-twitter"></i></a></li>
+                <li class="inst"><a href=""><i class="fa fa-instagram"></i></a></li>
+                <li class="yu"><a href=""><i class="fa fa-youtube"></i></a></li>
+            </ul>
+        </div>
         {% block login %}{% endblock %}
 
         {% block header %}
@@ -92,7 +99,9 @@
             <footer>
                 <div class="top_block">
                     <div class="container">
-
+                        <div class="footer_menu">
+                            {{ knp_menu_render('DAMainBundle:Builder:footerMenu') }}
+                        </div>
                     </div>
                 </div>
                 <div class="bottom_block clear">
@@ -104,8 +113,30 @@
                             <br>
                             <sapn>{{ 'now' | date('Y') }} all rights reserved</sapn>
                         </div>
-                        <div class="address_info left_block"></div>
-                        <div class="social left_block"></div>
+                        <div class="address_info left_block">
+                            <ul>
+                                <li>
+                                    <p>Армения</p>
+                                    <p>г. Ереван, ул. Езник Кохбаци 42</p>
+                                    <p>Тел.: +37494121988</p>
+                                    <p>Эл. почта: contact@discoverarmenia.tours</p>
+                                </li>
+                                <li>
+                                    <p>Армения</p>
+                                    <p>г. Ереван, ул. Езник Кохбаци 42</p>
+                                    <p>Тел.: +37494121988</p>
+                                    <p>Эл. почта: contact@discoverarmenia.tours</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="social left_block">
+                                <ul>
+                                    <li class="fb"><a href=""><i class="fa fa-facebook"></i></a></li>
+                                    <li class="tw"><a href=""><i class="fa fa-twitter"></i></a></li>
+                                    <li class="inst"><a href=""><i class="fa fa-instagram"></i></a></li>
+                                    <li class="yu"><a href=""><i class="fa fa-youtube"></i></a></li>
+                                </ul>
+                        </div>
                         <div class="r_b_block right_block">
                             <a href="">
                                 <img src="{{ asset('bundles/damain/images/r_b.jpg') }}" alt="R & B partners">

@@ -102,3 +102,4 @@ transfer: Transfer
 accommodation: Accommodation
 excursion: Excursion
 total_price: total price
+cart_empty: Cart is empty

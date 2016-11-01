@@ -116,6 +116,10 @@
                         </div>
                     </form>
                 </div>
+            {% else %}
+                <div class="no_result">
+                    <span>{{ 'cart_empty' | trans({}, 'messages') }}</span>
+                </div>
             {% endif %}
         </div>
     </div>

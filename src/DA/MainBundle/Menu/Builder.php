@@ -161,4 +161,113 @@ class Builder implements ContainerAwareInterface
 
         return $menu;
     }
+
+    public function footerMenu(FactoryInterface $factory, array $options){
+
+        $em = $this->container->get('doctrine')->getManager();
+
+        $menu = $factory->createItem('footer');
+
+        /* ------- accommodation ------- */
+
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('hotels');
+        $menu->addChild('hotels', array(
+            'route' => 'hotels_page'))
+            ->setLabel($da->getTitle());
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('apartment');
+        $menu->addChild('apartment', array(
+            'route' => 'hotels_page',
+            'routeParameters' => array('slug' =>$da->getSlug())))
+            ->setLabel($da->getTitle());
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('villa');
+        $menu->addChild('apartment', array(
+            'route' => 'hotels_page',
+            'routeParameters' => array('slug' =>$da->getSlug())))
+            ->setLabel($da->getTitle());
+        /* ------- accommodation ------- */
+
+        /* ------- transport ------- */
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('car-with-driver');
+        $menu->addChild('car-with-driver', array(
+            'route' => 'transport_page',
+            'routeParameters' => array('slug' =>$da->getSlug())))
+            ->setLabel($da->getTitle());
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('car-rent');
+        $menu->addChild('car-rent', array(
+            'route' => 'transport_page',
+            'routeParameters' => array('slug' =>$da->getSlug())))
+            ->setLabel($da->getTitle());
+        /* ------- transport ------- */
+
+        /* ------- excursion ------- */
+
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('excursion');
+
+        $menu->addChild('excursion', array(
+            'route' => 'excursion_page',
+        ))
+            ->setLabel($da->getTitle());
+
+        /* ------- excursion ------- */
+
+        /* ------- tours ------- */
+
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('tours');
+
+        $menu->addChild('tours', array(
+            'route' => 'tours_page'
+        ))
+            ->setLabel($da->getTitle());
+
+        /* ------- tours ------- */
+
+        /* ------- services ------- */
+
+        $services = $em->getRepository('DAMainBundle:Service')->findAll();
+        foreach ($services as $item){
+            $menu->addChild($item->getSlug(), array(
+                'route' => 'service_page',
+                'routeParameters' => array('slug' =>$item->getSlug())
+                )
+            )
+                ->setLabel($item->getTitle());
+        }
+        /* ------- services ------- */
+
+        /* ------- armenia ------- */
+        $armenia = $em->getRepository('DAMainBundle:Armenia')->findAll();
+        foreach ($armenia as $item){
+            $menu->addChild($item->getSlug(), array(
+                    'route' => 'service_page',
+                    'routeParameters' => array('slug' =>$item->getSlug())
+                )
+            )
+                ->setLabel($item->getTitle());
+        }
+        /* ------- armenia ------- */
+
+        /* ------- company ------- */
+
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('company');
+
+        $menu->addChild('company', array(
+            'route' => 'company_page',
+        ))
+            ->setLabel($da->getTitle());
+
+        /* ------- company ------- */
+
+        /* ------- contact ------- */
+
+        $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('contact');
+
+        $menu->addChild('contact', array(
+            'route' => 'contact_page',
+        ))
+            ->setLabel($da->getTitle());
+
+        /* ------- contact ------- */
+
+        return $menu;
+    }
 }
