@@ -85,6 +85,12 @@ class Page implements Translatable
      * @ORM\OneToMany(targetEntity="CustomField", mappedBy="object",cascade={"persist","remove"},orphanRemoval=true)
      */
     protected $custom_field;
+
+    /**
+     * @var integer $seo
+     * @ORM\ManyToOne(targetEntity="Seo", cascade={"persist","remove"})
+     */
+    protected $seo;
     
     /**
      * @ORM\OneToMany(targetEntity="DA\MainBundle\Entity\Translations\PageTranslations", mappedBy="object", cascade={"persist", "remove"})
@@ -380,5 +386,29 @@ class Page implements Translatable
     public function getSlider()
     {
         return $this->slider;
+    }
+
+    /**
+     * Set seo
+     *
+     * @param \DA\MainBundle\Entity\Seo $seo
+     *
+     * @return Page
+     */
+    public function setSeo(\DA\MainBundle\Entity\Seo $seo = null)
+    {
+        $this->seo = $seo;
+
+        return $this;
+    }
+
+    /**
+     * Get seo
+     *
+     * @return \DA\MainBundle\Entity\Seo
+     */
+    public function getSeo()
+    {
+        return $this->seo;
     }
 }

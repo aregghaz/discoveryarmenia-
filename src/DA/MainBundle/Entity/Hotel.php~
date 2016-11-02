@@ -7,7 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty as VirtualProperty;
 
 /**
  * Class Hotel
@@ -36,6 +37,7 @@ class Hotel implements Translatable
      * @var string slug
      *
      * @Gedmo\Slug(fields={"name"})
+     * @Groups({"filter"})
      * @ORM\Column(type="string", length=200, unique=true, nullable=false)
      */
     protected $slug;
@@ -43,6 +45,7 @@ class Hotel implements Translatable
     /**
      * @var string
      * @Gedmo\Translatable
+     * @Groups({"filter"})
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $title;
@@ -63,12 +66,14 @@ class Hotel implements Translatable
 
     /**
      * @var $star
+     * @Groups({"filter"})
      * @ORM\Column(type="integer",length=1,nullable=true)
      */
     protected $star;
     
     /**
      * @var integer $image
+     * @Groups({"filter"})
      * @ORM\ManyToOne(targetEntity="Config\MediaBundle\Entity\Media", cascade={"persist"})
      */
     protected $image;
@@ -81,11 +86,13 @@ class Hotel implements Translatable
 
     /**
      * @ORM\ManyToOne(targetEntity="Location",  inversedBy="hotel")
+     * @Groups({"location","filter"})
      * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
      */
     protected $location;
 
     /**
+     * @Groups({"filter"})
      * @ORM\OneToMany(targetEntity="Room", mappedBy="hotel",cascade={"persist","remove"},orphanRemoval=true)
      */
     protected $room;

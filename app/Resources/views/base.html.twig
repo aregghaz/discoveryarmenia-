@@ -3,18 +3,20 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="{% block ogTitle %}{% endblock %}" />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="{% block ogImage %}{% endblock %}" />
-        <meta property="og:url" content="{% block ogUrl %}{% endblock %}" />
-        <meta property="og:description" content="{% block ogDescription %}{% endblock %}" />
-        <meta property="og:image:width" content="{% block ogWidth %}{% endblock %}" >
-        <meta property="og:image:height" content="{% block ogHeight %}{% endblock %}" >
+        {% block facebook %}
+            <meta property="og:title" content="" />
+            <meta property="og:type" content="article" />
+            <meta property="og:image" content="" />
+            <meta property="og:url" content="" />
+            <meta property="og:description" content="" />
+            <meta property="og:image:width" content="200" >
+            <meta property="og:image:height" content="200" >
+        {% endblock facebook %}
         {% block seo %}
-        <meta name="description" content="">
-        <meta name="keywords" content="">
+            <meta name="description" content="">
+            <meta name="keywords" content="">
         {% endblock seo %}
-        <title>{% block title %}Title{% endblock %}</title>
+        <title>{% block title %}Discover Armenia{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" media="all" href="{{ asset('angular/bower_components/semantic/dist/semantic.min.css') }}"/>
             <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/font-awesome/css/font-awesome.min.css') }}"/>

@@ -425,4 +425,28 @@ class Tour implements Translatable
     {
         return $this->night_count;
     }
+
+    /**
+     * Set bestTour
+     *
+     * @param boolean $bestTour
+     *
+     * @return Tour
+     */
+    public function setBestTour($bestTour)
+    {
+        $this->best_tour = $bestTour;
+
+        return $this;
+    }
+
+    /**
+     * Get bestTour
+     *
+     * @return boolean
+     */
+    public function getBestTour()
+    {
+        return $this->best_tour;
+    }
 }

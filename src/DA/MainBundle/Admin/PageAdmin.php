@@ -11,7 +11,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Knp\Menu\ItemInterface as MenuItemInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
-//use Travel\MainBundle\Entity\Seo;
+use DA\MainBundle\Entity\Seo;
 
 class PageAdmin extends AbstractAdmin
 {
@@ -73,6 +73,7 @@ class PageAdmin extends AbstractAdmin
         else{
             $contact = array();
         }
+        $data = new Seo();
         $formMapper
             ->with('Page', array(
                 'class'       => 'col-md-7',
@@ -144,7 +145,28 @@ class PageAdmin extends AbstractAdmin
                 ->add('slider', 'sonata_type_model_list', array('required' => false))
                 ->end()
             ->end();
+
         }
+        $formMapper ->tab('SEO', array(
+            'class'       => 'col-md-12',
+            'box_class'   => 'box box-solid box-discover',
+            // ...
+        ))
+            ->with('SEO settings')
+            ->add('seo','sonata_type_admin',
+                array(
+                    'label' => false,
+                    'required' => false,
+                    'btn_add' => false,
+                    'delete' => false
+                ),
+                array(
+                    'compound' => true,
+                    'by_reference' => true
+                )
+            )
+            ->end()
+            ->end();
     }
 
     /**

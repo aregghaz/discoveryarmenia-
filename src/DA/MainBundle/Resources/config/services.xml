@@ -159,6 +159,15 @@
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
 
+        <!-- SEO -->
+        <service id="seo.block.admin" class="DA\MainBundle\Admin\SeoAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Settings" label="SEO"/>
+            <argument/>
+            <argument>DA\MainBundle\Entity\Seo</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        <!-- SEO -->
+
         <service id="currency.twig_extension"
                  class="DA\MainBundle\Twig\CurrencyExtension"
                  public="false">
