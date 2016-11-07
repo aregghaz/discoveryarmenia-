@@ -345,9 +345,19 @@ $(document).ready(function () {
         $('.add_to_cart').attr('data-name',title);
 
     });
-    
+    $(".day_gallery").lightGallery();
     /* order -------------------------------- */
     $('.send_request_block span').click(function () {
         $('.request_form').slideToggle(500);
     });
+
+
+    $('.gallery_carousel  .slide a').click(function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+
+        $('.general_image img').attr('src',url);
+
+    });
+
 });

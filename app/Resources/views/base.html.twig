@@ -22,12 +22,13 @@
             <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/font-awesome/css/font-awesome.min.css') }}"/>
             <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/magic/magic.min.css') }}"/>
             <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/flag-icon-css/css/flag-icon.min.css') }}"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('angular/bower_components/lightgallery/dist/css/lightgallery.min.css') }}" />
+            {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/damain/css/style.css') }}"/>#}
             {% stylesheets output='assets/css/core.css'
             'bundles/damain/css/style.less'
             filter='less,cssrewrite,?yui_css' %}
             <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}"/>
             {% endstylesheets %}
-
         {% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -175,7 +176,7 @@
             <script src="{{ asset('angular/bower_components/lodash/dist/lodash.min.js') }}"></script>
             <script src="{{ asset('angular/bower_components/jquery/dist/jquery.min.js') }}"></script>
             <script src="{{ asset('angular/bower_components/angular/angular.min.js') }}"></script>
-
+            <script src="{{ asset('angular/bower_components/lightgallery/dist/js/lightgallery.min.js') }}"></script>
             <script src="{{ asset('angular/bower_components/angular-route/angular-route.min.js') }}"></script>
             <script src="{{ asset('angular/bower_components/angular-resource/angular-resource.min.js') }}"></script>
 
@@ -187,6 +188,7 @@
             <script src="{{ asset('bundles/damain/js/angular/app.js') }}"></script>
             <script src="{{ asset('angular/bower_components/angular-simple-logger/dist/angular-simple-logger.min.js') }}"></script>
             <script src="{{ asset('angular/bower_components/angular-google-maps/dist/angular-google-maps.min.js') }}"></script>
+
         {% endblock %}
     </body>
 </html>

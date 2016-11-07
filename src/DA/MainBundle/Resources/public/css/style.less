@@ -243,10 +243,10 @@ header{
           .sub-menu{
             position: absolute;
             text-align: center;
-            width: 100vw;
             display: none;
-            left: calc(~"(100% - 100vw)/2");
             z-index: 450;
+            min-width: 250px;
+            border: 1px solid #fca955;
             li{
               display: list-item;
               margin-bottom: 2px;
@@ -254,12 +254,13 @@ header{
                 background: #ebebeb;
                 display: block;
                 width: 100%;
-                padding: 10px 0;
+                padding: 10px;
                 color: #55698f;
                 font-size: 16px;
                 text-transform: uppercase;
                 transition: all .4s ease;
                 line-height: 13px;
+                text-align: left;
                 &:hover{
                   background: @generalColor;
                   color: #fff;
@@ -416,6 +417,12 @@ header{
       }
     }
   }
+}
+.add_to_cart{
+  transition: all .4s ease;
+}
+.add_to_cart:hover{
+  opacity: 0.5;
 }
 /* ==================== Header ==================== */
 
@@ -1096,6 +1103,7 @@ header{
               }
             }
             span{
+              display: none;
               float: right;
               cursor: pointer;
               font-family: @FregatBold;
@@ -2277,6 +2285,7 @@ footer{
   position: fixed;
   left: 0;
   top: 93px;
+  z-index: 1000;
   ul{
     li{
       list-style: none;
