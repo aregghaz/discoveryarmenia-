@@ -57,10 +57,13 @@ class MainController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $object = $em->getRepository('DAMainBundle:Service')->getServiceBySlug($slug);
+        $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('services');
+
 
         return $this->render('DAMainBundle:Main:service.html.twig',
             array(
-                'object'=>$object
+                'object'=>$object,
+                'page'=>$page
             )
         );
     }

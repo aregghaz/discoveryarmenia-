@@ -52,8 +52,11 @@ class RoomAdmin extends AbstractAdmin
                 'box_class'   => 'box box-solid box-discover',
                 // ...
             ))
-            ->add('type', 'choice', array(
-                'label'=> 'Location Category',
+            ->add('type',null,array(
+                'label'=> 'Room type',
+            ))
+            /*->add('type', 'choice', array(
+                'label'=> 'Room typey',
                 'choices' => array(
                     'standard-double-update' => 'Standard Double Update',
                     'standard-double' => 'Standard Double',
@@ -146,7 +149,7 @@ class RoomAdmin extends AbstractAdmin
                 ),
                 'required' => true,
                 'expanded' => false,
-            ))
+            ))*/
             ->add('visitors_number')
             ->add('translations', 'a2lix_translations_gedmo', array(
                 'translatable_class' => 'DA\MainBundle\Entity\Room',

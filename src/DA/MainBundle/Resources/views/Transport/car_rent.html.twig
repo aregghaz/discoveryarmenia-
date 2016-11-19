@@ -88,9 +88,6 @@
 
     <div class="car_rent_block">
         <div class="container clear" id="Container">
-            <div class="no_result cd-fail-message">
-                <span>{{ 'no_result' | trans({}, 'messages') }}</span>
-            </div>
             {% for item in objects %}
                 <div class="car_block mix {{ item.type }}">
                     <div class="image_block">
@@ -131,7 +128,9 @@
 
                 </div>
             {% endfor %}
-
+            <div class="no_result cd-fail-message">
+                <span>{{ 'no_result' | trans({}, 'messages') }}</span>
+            </div>
         </div>
 
     </div>
@@ -175,8 +174,9 @@
     <script src="{{ asset('bundles/damain/js/jquery.mixitup.min.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/main.js') }}"></script>
     <script>
-        var buttontext = $('.send_request button').text();
+        var buttontext = $('.car_block:first-of-type .send_request button').text();
         $('.send_request button').hover(function () {
+            console.log('asd');
             var text = $(this).data('hovertext');
             $(this).text(text);
         },function(){

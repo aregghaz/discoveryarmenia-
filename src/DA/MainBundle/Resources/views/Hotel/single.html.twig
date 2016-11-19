@@ -173,17 +173,22 @@
 
                 <div class="comforts">
                     <h2>{{ 'comfort' | trans({}, 'messages') }}</h2>
-
                     <div class="comfort_list clear">
+                        {% set arr = []  %}
+                        {% for i,item in object.comfort %}
+                            {% set arr = arr | merge([item.category])  %}
+                        {% endfor %}
                         {% for i,num in comforts['keys'] %}
-                            <div class="item">
-                                <p class="category_title">{{ num }}</p>
-                                <ul>
-                                    {% for item in comforts['result'] if item.category == i %}
-                                        <li>{{ item.title }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            {% for n in arr  if n == i %}
+                                <div class="item">
+                                    <p class="category_title">{{ num }}</p>
+                                    <ul>
+                                        {% for item in object.comfort if item.category == i %}
+                                            <li>{{ item.title }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endfor %}
                         {% endfor %}
                     </div>
                 </div>

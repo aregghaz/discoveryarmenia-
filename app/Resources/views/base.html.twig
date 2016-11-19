@@ -51,7 +51,7 @@
 
         {% block header %}
             <header>
-                <div class="container clear">
+                <div class="container menuCont clear">
                     <div class="logo left_block">
                         <a href="{{ path('home_page') }}">
                             <img alt="Discover Aremnia" src="{{ asset('bundles/damain/images/company_logo.png') }}">
@@ -88,6 +88,16 @@
                                 </a>
                             </div>
                         </div>
+                    </div>
+                    <div class="res_menu left_block">
+                        <div class="burger">
+                            <span>
+                                <i class="fa fa-bars"></i>
+                            </span>
+                        </div>
+                        <menu id="top_menu_res">
+                            {{ knp_menu_render('DAMainBundle:Builder:generalMenu') }}
+                        </menu>
                     </div>
                 </div>
             </header>

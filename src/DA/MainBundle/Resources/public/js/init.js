@@ -49,10 +49,19 @@ $(document).ready(function () {
             $('.sub_currency').stop().slideUp(400);
         });
 
-        $('li.dropdown').hover(function () {
+        $('.general_menu li.dropdown').hover(function () {
             $('.sub-menu',this).stop().fadeIn(600);
         },function () {
             $('.sub-menu',this).stop().fadeOut(600);
+        });
+        $('.res_menu li.dropdown').hover(function () {
+            $('.sub-menu',this).stop().slideDown(600);
+        },function () {
+            $('.sub-menu',this).stop().slideUp(600);
+        });
+
+        $('.burger span').click(function () {
+            $('#top_menu_res').stop().slideToggle(400);
         });
     /* header -------------------------------- */
 
@@ -78,21 +87,23 @@ $(document).ready(function () {
                 arrows: false,
                 responsive: [
                     {
-                        breakpoint: 768,
+                        breakpoint: 1024,
                         settings: {
                             arrows: false,
-                            centerMode: true,
+                            centerMode: false,
                             centerPadding: '40px',
-                            slidesToShow: 3
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
                         }
                     },
                     {
-                        breakpoint: 480,
+                        breakpoint: 768,
                         settings: {
                             arrows: false,
-                            centerMode: true,
+                            centerMode: false,
                             centerPadding: '40px',
-                            slidesToShow: 1
+                            slidesToShow: 1,
+                            slidesToScroll: 1
                         }
                     }
                 ]

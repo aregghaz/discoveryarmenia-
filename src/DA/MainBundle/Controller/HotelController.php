@@ -81,6 +81,7 @@ class HotelController extends Controller
         }*/
 
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('hotels');
+
         $comforts = $em->getRepository('DAMainBundle:Page')->getComfortByObject('hotel');
 
         if(!$hotel ){
