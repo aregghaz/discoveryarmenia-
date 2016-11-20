@@ -103,3 +103,18 @@ accommodation: Accommodation
 excursion: Excursion
 total_price: total price
 cart_empty: Cart is empty
+
+
+
+
+ofice1:
+  city: Франция
+  name: Франция, Париж и тд
+  tell: +4489 562664
+  email: head@discoverarmenia.tours
+
+ofice2:
+  city: Армения
+  name: Армения, г. Ереван, итд
+  tell: +4489 562664
+  email: contact@discoverarmenia.tours

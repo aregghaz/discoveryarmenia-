@@ -99,7 +99,7 @@
 
             </div>
             <div class="right_block">
-                <div class="map_button">
+                <div class="map_button" ng-click="mapLoc">
                     <i class="fa fa-map-marker"></i>
                     {{ 'see_on_map' | trans({}, 'messages') }}
                 </div>
@@ -115,8 +115,7 @@
                 </div>
             {% endif %}
             {% for item in objects %}
-
-                <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;" data-latitude={{ item.location.latitude }} data-longitude={{ item.location.longitude }}>
                     <a href="{{ path('single_hotel',{'slug':item.slug}) }}">
                         <div class="price"><span>{{ 'from' | trans({}, 'messages') }}</span>
                             {% set d  = 'now' | date('d') %}
@@ -160,11 +159,26 @@
             </div>#}
         </div>
     </div>
+
+    <div class="ui large modal mapModal">
+        <i class="close icon"></i>
+        <div class="content modalContent" ng-controller="iMapCtr">
+            <div class="map_block">
+                {% verbatim %}
+                        <ui-gmap-google-map refresh='map.refresh' center='map.center' zoom='map.zoom' options="map.options">
+                            <ui-gmap-markers models="Markers" coords="'self'" icon="'icon'">
+                            </ui-gmap-markers>
+                        </ui-gmap-google-map>
+                    {% endverbatim %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/damain/js/angular/controller/iMapsController.js') }}"></script>
     <script src="{{ asset('bundles/damain/js/transition.js') }}"></script>
     <script>
         var prefix = $("body").attr('data-prefix');
@@ -182,6 +196,17 @@
         var city = $('#city').data('id');
         var star = $('#star').data('id');
 
+        /*$('.large.modal')
+                .modal('show')
+        ;*/
+
+        $('.map_button').click(function () {
+
+//            $('.mapModal .angular-google-map-container').css('height','70vh');
+            $('.large.modal')
+                    .modal('show')
+            ;
+        });
 
         $('select.dropdown').dropdown({
             onChange: function (value, text, $selectedItem) {
