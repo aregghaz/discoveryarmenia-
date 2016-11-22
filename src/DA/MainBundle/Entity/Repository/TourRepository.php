@@ -16,10 +16,12 @@ class TourRepository extends \Doctrine\ORM\EntityRepository
     public function getTourInCategory($id)
     {
         $query = $this->getEntityManager()
-            ->createQuery('SELECT t FROM DAMainBundle:TourName t
+            ->createQuery('SELECT t,RAND() as HIDDEN rand FROM DAMainBundle:TourName t
                             WHERE t.category = :id
+                            ORDER BY  rand
                             ')
         ->setParameter('id',$id)
+        ->setMaxResults(3)
         ;
         $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
         $result = $query->getResult();
