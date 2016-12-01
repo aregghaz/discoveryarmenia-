@@ -71,7 +71,7 @@
                     </li>
                     {% for type in tourType %}
                         <li class="filter checkbox">
-                            <input type="checkbox" value=".{{ type | lower }}"/>
+                            <input type="checkbox" value=".{{ type | lower |replace({' ':''}) }}"/>
                             <label>{{ type | upper }}</label>
                         </li>
                     {% endfor %}
@@ -83,7 +83,7 @@
     <div class="tour_block">
         <div class="container clear" id="Container">
             {% for item in objects %}
-                <div class="tours_box mix {{ item.category | lower }}" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                <div class="tours_box mix {{ item.category | lower |replace({' ':''}) }}" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                     <div class="overlay">
                         <div class="see_more">
                             {% for t in item.tour  %}

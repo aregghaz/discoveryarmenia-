@@ -85,7 +85,7 @@
         <div class="tour_block">
             <div class="container clear">
                 {% for item in tours %}
-                    <div class="tours_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
+                    <div class="tours_box" style="background: url('{{ media(item.tourName.image) }}') no-repeat;background-size: cover;background-position: center center;">
                         <a  href="{{ path('tour_single',{id:item.id,slug:item.tourName.slug}) }}">
                             <div class="overlay">
                                 <div class="see_more home">
@@ -129,6 +129,7 @@
                 {% for item in excursions %}
 
                     <div class="excursion_box">
+
                         <div class="accommodation_box" style="background: url('{{ media(item.image) }}') no-repeat;background-size: cover;background-position: center center;">
                             <a href="{{ path('excursion_single',{'slug':item.slug}) }}">
                                 <div class="overlay">
