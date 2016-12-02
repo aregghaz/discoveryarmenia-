@@ -20,11 +20,13 @@
                 {% endif %}
                 {% set pureParams = params|merge({ '_locale': lang }) %}
                 {% if app.request.attributes.get('_locale') != lang %}
+                    {% if type != 'fr' %}
                     <li>
                         <a href="{{ path(app.request.attributes.get('_route'), pureParams) }}"
                            ><span class="flag-icon flag-icon-{{ type }}"></span>
                         </a>
                     </li>
+                        {% endif%}
                 {#{% else %}
                     <li class="active hidden" >
                         <a href="{{ path(app.request.attributes.get('_route'), pureParams) }}"
