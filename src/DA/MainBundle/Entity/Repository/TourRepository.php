@@ -76,6 +76,21 @@ class TourRepository extends \Doctrine\ORM\EntityRepository
         }
         return $result;
     }
+    public function getAllToursCategory()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT cat.name FROM DAMainBundle:TourName t
+                            LEFT JOIN t.category cat
+                            WHERE cat.name is NOT  NULL
+                             GROUP BY cat.name
+                            ');
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $result = $query->getResult();
+        if(!$result){
+            return null;
+        }
+        return $result;
+    }
     public function getCategory()
     {
         $query = $this->getEntityManager()

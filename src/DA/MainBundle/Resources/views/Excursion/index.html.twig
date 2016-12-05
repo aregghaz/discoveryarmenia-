@@ -136,7 +136,8 @@
                             </span>
                         </div>
                         <div class="bottom_block">
-                            {{ item.price |number_format(0, '', ',') }}
+                            {% set price = item.price / change[1] %}
+                            {{  price | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}
                         </div>
                     </div>
                 </div>

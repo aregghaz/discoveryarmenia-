@@ -288,8 +288,9 @@ class MainController extends Controller
         $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
 
         $currency = array();
+
         foreach ($result as $key=>$value){
-            if($key == 0 || $key == 50 || $key == 9){
+            if($key == 0 || $key == 51 || $key == 9){
                 $currency[$value->ISO] = array($value->ISO,$value->Rate);
             }
         }
