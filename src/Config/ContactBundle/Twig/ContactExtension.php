@@ -35,7 +35,7 @@ class ContactExtension extends Twig_Extension
         $rout = $this->container->get('router')->generate('sonata_admin_send_mail', array('hash' => $token));
         $groupClass = $form->getGroupClass();
         $inputClass = $form->getInputClass();
-        $output = '<form role="form" action="'.$rout.'" method="post" novalidate>';
+        $output = '<form role="form" action="'.$rout.'" method="post" >';
         
         foreach ($inputs as $input){
             $output .= '<div class="'.$groupClass.' clear">';
@@ -44,10 +44,12 @@ class ContactExtension extends Twig_Extension
             }
             switch ($input->getType()){
                 case 'textarea':
+                    $req = $input->getRequired()?'required="required"':'';
                     $output .= '<textarea 
                                     class="'.$inputClass.'"
                                     placeholder="'.$input->getPlaceHolder().'" 
                                     id="'.$token.'_form" type="'.$input->getType().'" 
+                                    '.$req.'
                                     name="'.$token.'['.$input->getName().']'.'"
                     ></textarea>';
                     break;
@@ -57,16 +59,19 @@ class ContactExtension extends Twig_Extension
                                     <input  class="'.$inputClass.'"
                                                 id="'.$token.'_form" 
                                                 name="'.$input->getType().'" 
-                                                type="text" 
+                                                type="text"
+                                               
                                                 placeholder="'.$input->getPlaceHolder().'"
                                             >
                                    ';
                     break;
                 default:
+                    $req = $input->getRequired()?'required="required"':'';
                     $output .= '<input  
                                     class="'.$inputClass.'"
                                     placeholder="'.$input->getPlaceHolder().'" 
-                                    id="'.$token.'_form" type="'.$input->getType().'" 
+                                    id="'.$token.'_form" type="'.$input->getType().'"
+                                    '.$req.'
                                     name="'.$token.'['.$input->getName().']'.'">';
                     break;
             }

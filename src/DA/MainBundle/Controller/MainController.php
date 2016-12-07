@@ -200,7 +200,7 @@ class MainController extends Controller
                 ))
                 ->setBody(
                     $this->renderView(
-                        'TravelMainBundle:Mail:contact.html.twig',
+                        'DAMainBundle:Mail:contact.html.twig',
                         array(
                             'name' => $form->get('name')->getData(),
                             'city' => $form->get('city')->getData(),
