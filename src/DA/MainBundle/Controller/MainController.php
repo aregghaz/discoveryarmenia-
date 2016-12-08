@@ -117,7 +117,6 @@ class MainController extends Controller
 
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('contact');
 
-        $request->getSession()->getFlashBag()->add('success-send', 'mail_send');
         return $this->render('DAMainBundle:Main:contact.html.twig',
             array(
                 'page'=>$page
