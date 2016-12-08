@@ -108,14 +108,16 @@ class MainController extends Controller
     /**
      * @Route("/{_locale}/contact.html", name="contact_page", defaults={"_locale" = "en"}, requirements={"_locale" = "en|ru|am|fr"})
      * @Template()
+     * @param $slug
+     * @return Response
      */
     public function contactAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
 
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('contact');
-        
 
+        $request->getSession()->getFlashBag()->add('success-send', 'mail_send');
         return $this->render('DAMainBundle:Main:contact.html.twig',
             array(
                 'page'=>$page

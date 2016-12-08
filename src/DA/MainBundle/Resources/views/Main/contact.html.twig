@@ -69,7 +69,25 @@
                 <div class="form_title">
                     {{ 'send_message' | trans({}, 'messages') }}
                 </div>
-                <div class="form">{{ contactForm('5811a81500a76') }}</div>
+                <div class="form">
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="ui success message">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                {{ flashMessage  | trans({}, 'messages') }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        <div class="ui error message">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                {{ flashMessage  | trans({}, 'messages') }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {{ contactForm('5811a81500a76') }}
+                </div>
             </div>
             <div class="right_block">
                 <div class="form_title">
@@ -109,4 +127,9 @@
     <script src="{{ asset('bundles/configcontact/js/jquery.plugin.min.js') }}"></script>
     <script src="{{ asset('bundles/configcontact/js/jquery.realperson.min.js') }}"></script>
     <script src="{{ asset('bundles/configcontact/js/captcha.js') }}"></script>
+    <script>
+        $(".close.icon").click(function(){
+            $(this).parent().hide();
+        });
+    </script>
 {% endblock %}

@@ -66,6 +66,7 @@ class ContactController extends Controller
                     $subjectString = $form->getSubject();
                     $fromResult = preg_replace($pattern,$parameter,$fromString);
                     $subjectResult = preg_replace($pattern,$parameter,$subjectString);
+
                     if($fromString !== $fromResult){
                         $from = $fromResult;
                     }
@@ -112,10 +113,8 @@ class ContactController extends Controller
                             $message->setBody($result);
                         }
                    // }
-
                 $this->get('mailer')->send($message);
-
-                $request->getSession()->getFlashBag()->add('success-send', 'mail_send');
+                $request->getSession()->getFlashBag()->add('success', 'mail_send');
                 $session->remove('_token_form');
                 return $this->redirect($this->container->get('request')->headers->get('referer'));
             }
@@ -123,7 +122,7 @@ class ContactController extends Controller
         }
         else{
             $session->remove('_token_form');
-            $request->getSession()->getFlashBag()->add('error-send', 'mail_error');
+            $request->getSession()->getFlashBag()->add('error', 'mail_error');
             return $this->redirect($request->headers->get('referer'));
         }
     }

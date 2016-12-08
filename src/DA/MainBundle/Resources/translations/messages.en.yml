@@ -105,8 +105,6 @@ total_price: total price
 cart_empty: Cart is empty
 
 
-
-
 ofice1:
   city: Франция
   name: Франция, Париж и тд
@@ -114,7 +112,11 @@ ofice1:
   email: head@discoverarmenia.tours
 
 ofice2:
-  city: Армения
-  name: Армения, г. Ереван, итд
-  tell: +4489 562664
+  country: Armenia
+  city: Yerevan
+  name: Discover Armenia
+  tell: +374 94 12 19 88
   email: contact@discoverarmenia.tours
+
+mail_send: your mail has sended !!
+mail_error: mail not sended, please try again.
