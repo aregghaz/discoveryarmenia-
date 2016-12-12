@@ -1,108 +1,108 @@
-login_registration: Login / Registration
-popular_author_tours: Popular author tours
-see_all_tours: See all tours
-popular_excursion: Popular excursion
-home: Home
-see_on_map: See on map
-select_city: Select city
-select_rooms: Select rooms
-see_more: See more
-from: from
-room_count: r.
-see_next: More
-price_for_day: Price for day
+login_registration: Для тур-операторов
+popular_author_tours: Популярные авторские туры
+see_all_tours: Посмотреть все туры
+popular_excursion: Популярные экскурсии
+home: Главная
+see_on_map: Посмотреть на карте
+select_city: Выбрать город
+select_rooms: Выбрать комнату
+see_more: Посмотреть еще
+from: От
+room_count: к.
+see_next: Еще
+price_for_day: Цена дня
 
-comfort: Comfort
-bathroom: bathroom
-bedroom: bedroom
-media_and_technology: Media and technology
-internet: internet
-reseption: reseption
-overall: overall
-rental_apartments_in: Rental apartment in city
-excursion_in: Excursion in city
-best_price: Best price in month
+comfort: Удобства
+bathroom: Ванная
+bedroom: Спальня
+media_and_technology: средства массовой информации и технологии
+internet: интернет
+reseption: приемная
+overall: общая
+rental_apartments_in_ city:   аренда квартиры в городе
+excursion_in: экскурсии в городе
+best_price: лучшая цена месяца
 setFrom: Set from
 setTo: Set to
-visitors: Visitors
-add_to_cart: Add to cart
-nomer_type: Room type
-visitors_count: Visitors count
-conditions: Conditions
-price: Price
-to_cart: To cart
-more: More
-hotel_in: Hotel in city
-standart1_3: Standart icon 1-3
-standart4_8: Standart icon 4-8
-luxe1_3: Luxe icon 1-3
-luxe1_7: Luxe icon 1-7
-luxe1_18: Luxe icon 1-18
-add: Add
-transport: Transport
-all: All
-m1_6: Motor - 1.6
-m1_8: Motor - 1.8
-m2_0: Motor - 2.0
-m2_2: Motor - 2.2
-m3_0: Motor - 3.0
-m3_2: Motor - 3.2
-door: Doors - door
-transmission: Transmission - trans
-day1_2: 1-2 days
-day3_4: 3-4 days
-day5_6: 5-6 days
-day7_8: 7-8 days
-day9_10: 9-10 days
-day_more: more 10 days
-send_request: Send request
-ticket: Ticket
-guide: Guide
-time: <i class="fa fa-clock-o"></i>hours h. minute m.
-time2: hours h. minute m.
-days: days
-weekend: Weekend
-day_night: dnt days / ndt nights
-hotel: Hotel
-day_number: num day
-add_excursion: Add excursion
-map_title: Direction
-eq_tours: Similar tours
-send_message: Send message
-armenia: Armenia
-france: France
-select_star: Select star
-no_result: No result found
-registration_title: Registratin
+visitors: посетители
+add_to_cart: добавить в корзину
+nomer_type: категория комнаты
+visitors_count: количество посетителей
+conditions: условия
+price: цена
+to_cart: корзина
+more: еще
+hotel_in: отель в city
+standart1_3: Стандарт icon 1-3
+standart4_8: Стандарт icon 4-7
+luxe1_3: E Class icon
+luxe1_7: S Class icon
+luxe1_18: Sprinter Lux icon
+add: добавить
+transport: транспорт
+all: все
+m1_6: Мотор - 1.6
+m1_8: Мотор - 1.8
+m2_0: Мотор - 2.0
+m2_2: Мотор - 2.2
+m3_0: Мотор - 3.0
+m3_2: Мотор - 3.2
+door: двери-дверь
+transmission: Коробка передач - транс
+day1_2: 1-2 дня
+day3_4: 3-4 дня
+day5_6: 5-6 дней
+day7_8: 7-8 дней
+day9_10: 9-10 дней
+day_more: больше 10 дней
+send_request: отправить запрос
+ticket: билет
+guide: гид
+time: <i class="fa fa-clock-o"></i>hours ч. minute м.
+time2: часы ч. минуты м.
+days: дни
+weekend: уикенд
+day_night: дн дни / нч ночи
+hotel: отель
+day_number: количество дней
+add_excursion: добавить экскурсию
+map_title: направление
+eq_tours: аналогичные  туры
+send_message: отправить письмо
+armenia: Армения
+france: Франция
+select_star: выбрать звезду
+no_result:  результат не найден
+registration_title: регистрация
 
 form:
-  login: Nickname
-  company_name: Company name
-  country: Country
-  website: Website
-  city: Town / City
-  zip: Postcode / Zip
-  phone: Telephone number
-  email: Email address
-  password: Password
-  password_confirmation: Confirm password
-  streetAddress: Address
+  login: никнейм
+  company_name: имя компании
+  country: страна
+  website: веб-сайт
+  city: городок/ город
+  zip: почтовый индекс
+  phone: номер телефона
+  email: адрес электронной почты
+  password: пароль
+  password_confirmation: подтвердить пароль
+  streetAddress: адрес
 contact:
-  name: Name
-  city: City
-  telephone: Telephone
+  name: имя
+  city: город
+  telephone: телефон
   email: E-mail
-  message: Message
+  message: письмо
 
-order_list: Order list
-service_type: Service type
-added_to_cart: successfully added to cart
-rent_car: Car rent
-transfer: Transfer
-accommodation: Accommodation
-excursion: Excursion
-total_price: total price
-cart_empty: Cart is empty
+order_list: список заказов
+service_type: категория услуг
+added_to_cart: успешно добавлено в корзину
+rent_car: аренда автомобиля
+transfer: трансфер
+accommodation: размещение
+excursion: экскурсия
+total_price: общая цена
+cart_empty: корзина пуста
 
 
 ofice1:
@@ -116,3 +116,7 @@ ofice2:
   name: Армения, г. Ереван, итд
   tell: +374 94 12 19 88
   email: contact@discoverarmenia.tours
+
+
+mail_send: ваше сообщение отправлено !!
+mail_error: произошла ошибка, попробуйте снова.

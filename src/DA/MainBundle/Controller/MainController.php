@@ -198,6 +198,9 @@ class MainController extends Controller
                 ->setFrom($form->get('email')->getData())
                 ->setTo(array(
                     'contact@diacoverarmenia.tours',
+                    'boro@rbpartners.co',
+                    'garshalyan@gmail.com',
+                    'postmaster@bayazetyan.com',
                 ))
                 ->setBody(
                     $this->renderView(
