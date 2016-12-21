@@ -89,13 +89,13 @@
                         <a  href="{{ path('tour_single',{id:item.id,slug:item.tourName.slug}) }}">
                             <div class="overlay">
                                 <div class="see_more home">
-                                    <p>{{ item.tourName }}</p>
+                                    <p>{{ item.tourName.title }}</p>
                                     <p>{{ 'day_night' | trans({dnt:item.dayCount,ndt:item.nightCount}, 'messages') }}</p>
                                     <p>{{ item.description }}</p>
                                 </div>
                                 <div class="tours_title_block clear">
                                     <div class="left_block">
-                                        <p>{{ item.tourName }}</p>
+                                        <p>{{ item.tourName.title }}</p>
                                         <p>{{ 'day_night' | trans({dnt:item.dayCount,ndt:item.nightCount}, 'messages') }}</p>
 
                                     </div>
