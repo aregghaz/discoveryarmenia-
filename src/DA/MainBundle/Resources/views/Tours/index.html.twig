@@ -72,7 +72,7 @@
                     {% for type in tourType %}
                         <li class="filter checkbox">
                             <input type="checkbox" value=".{{ type.name | lower |replace({' ':''}) }}"/>
-                            <label>{{ type.name | upper }}</label>
+                            <label>{{ type.title | upper }}</label>
                         </li>
                     {% endfor %}
                 </ul>

@@ -37,6 +37,7 @@ class TourController extends Controller
         $city = $em->getRepository('DAMainBundle:Tour')->getToursCity();
 
         $tourType = $em->getRepository('DAMainBundle:Tour')->getAllToursCategory();
+
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('tours');
 
         /*if(!$accommodation && ($slug !='apartment' && $slug != 'villa')){

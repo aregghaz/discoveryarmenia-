@@ -179,7 +179,7 @@ class TourCategory implements Translatable
     public function addTranslation(\DA\MainBundle\Entity\Translations\TourCategoryTranslations $translation)
     {
         $this->translations[] = $translation;
-
+        $translation->setObject($this);
         return $this;
     }
 

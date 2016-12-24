@@ -79,7 +79,7 @@ class TourRepository extends \Doctrine\ORM\EntityRepository
     public function getAllToursCategory()
     {
         $query = $this->getEntityManager()
-            ->createQuery('SELECT cat.name FROM DAMainBundle:TourName t
+            ->createQuery('SELECT cat.name, cat.title FROM DAMainBundle:TourName t
                             LEFT JOIN t.category cat
                             WHERE cat.name is NOT  NULL
                              GROUP BY cat.name
