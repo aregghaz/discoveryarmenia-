@@ -238,7 +238,7 @@ class Builder implements ContainerAwareInterface
         $armenia = $em->getRepository('DAMainBundle:Armenia')->findAll();
         foreach ($armenia as $item){
             $menu->addChild($item->getSlug(), array(
-                    'route' => 'service_page',
+                    'route' => 'armenia_page',
                     'routeParameters' => array('slug' =>$item->getSlug())
                 )
             )
