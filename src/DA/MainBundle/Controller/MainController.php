@@ -200,8 +200,7 @@ class MainController extends Controller
                     'contact@diacoverarmenia.tours',
                     'boro@rbpartners.co',
                     'garshalyan@gmail.com',
-                    'postmaster@bayazetyan.com',
-                    'bayazetyan@gmail.com',
+                    'postmaster@bayazetyan.com'
                 ))
                 ->setBody(
                     $this->renderView(
