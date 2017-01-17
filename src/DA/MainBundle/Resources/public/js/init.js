@@ -209,7 +209,9 @@ $(document).ready(function () {
             }
         });
     });
+
     var total = $('.total').data('p');
+    var cur = $('.total').data('cur');
     $('.remove').click(function () {
         var id = $(this).data('id');
         var price = $('.row'+id+' .pp').data('p');
@@ -217,7 +219,7 @@ $(document).ready(function () {
 
         $('.total span').text(total - price+currency);
         total = total - price;
-
+        $('#totalP').val(total+''+cur);
         $('.row'+id).remove();
 
     });

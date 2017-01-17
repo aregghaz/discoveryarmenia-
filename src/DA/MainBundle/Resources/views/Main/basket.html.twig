@@ -108,7 +108,7 @@
                         {% endfor %}
                         <tr>
 
-                            <td class="total" data-p="{{  total  | round(0, 'ceil') }}" colspan="4" style="text-align: right;padding-right: 10px">{{ 'total_price' | trans({}, 'messages') }} <span>{{ total  | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }} </span></td>
+                            <td class="total" data-cur="{{ localizedcurrency(change[0]) }}" data-p="{{  total  | round(0, 'ceil') }}" colspan="4" style="text-align: right;padding-right: 10px">{{ 'total_price' | trans({}, 'messages') }} <span>{{ total  | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }} </span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -143,6 +143,7 @@
                                 {{ form_widget(form.message) }}
                                 {{ form_errors(form.message) }}
                             </div>
+                            <input type="hidden" id="totalP" name="total" value="{{ total  | round(0, 'ceil') | number_format(0, '', ',') }}{{ localizedcurrency(change[0]) }}">
                             <div class="submit_row clear">
                                 <input class="ClickDisabled" type="submit" value="Send">
                             </div>

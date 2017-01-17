@@ -191,7 +191,9 @@ class MainController extends Controller
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             $data = $request->request->all();
+            $total = $data['total'];
             unset($data['contact']);
+            unset($data['total']);
 
             $message = \Swift_Message::newInstance()
                 ->setSubject('Discover Armenia')
@@ -210,7 +212,8 @@ class MainController extends Controller
                             'telephone' => $form->get('telephone')->getData(),
                             'email' => $form->get('email')->getData(),
                             'message' => $form->get('message')->getData(),
-                            'data' => $data
+                            'data' => $data,
+                            'total' => $total,
                         )
                     ),
                     'text/html'
