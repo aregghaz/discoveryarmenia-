@@ -221,31 +221,6 @@ class Builder implements ContainerAwareInterface
 
         /* ------- tours ------- */
 
-        /* ------- services ------- */
-
-        $services = $em->getRepository('DAMainBundle:Service')->findAll();
-        foreach ($services as $item){
-            $menu->addChild($item->getSlug(), array(
-                'route' => 'service_page',
-                'routeParameters' => array('slug' =>$item->getSlug())
-                )
-            )
-                ->setLabel($item->getTitle());
-        }
-        /* ------- services ------- */
-
-        /* ------- armenia ------- */
-        $armenia = $em->getRepository('DAMainBundle:Armenia')->findAll();
-        foreach ($armenia as $item){
-            $menu->addChild($item->getSlug(), array(
-                    'route' => 'armenia_page',
-                    'routeParameters' => array('slug' =>$item->getSlug())
-                )
-            )
-                ->setLabel($item->getTitle());
-        }
-        /* ------- armenia ------- */
-
         /* ------- company ------- */
 
         $da =  $em->getRepository('DAMainBundle:Page')->getPageBySlug('company');

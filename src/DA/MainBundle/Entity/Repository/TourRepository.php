@@ -67,7 +67,7 @@ class TourRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery('SELECT t,tt FROM DAMainBundle:TourName t
-                            LEFT JOIN t.tour tt
+                            LEFT JOIN t.tour tt ORDER BY t.price
                             ');
         $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
         $result = $query->getResult();
