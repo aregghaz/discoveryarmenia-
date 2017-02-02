@@ -103,17 +103,17 @@ class Hotel implements Translatable
     protected $comfort;
 
     /**
-     * @ORM\OneToMany(targetEntity="DayBlock", mappedBy="hotel_3star",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="DayBlock", mappedBy="hotel_3star",cascade={"persist","remove"})
      */
     protected $day_block3;
 
     /**
-     * @ORM\OneToMany(targetEntity="DayBlock", mappedBy="hotel_4star",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="DayBlock", mappedBy="hotel_4star",cascade={"persist","remove"})
      */
     protected $day_block4;
 
     /**
-     * @ORM\OneToMany(targetEntity="DayBlock", mappedBy="hotel_5star",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="DayBlock", mappedBy="hotel_5star",cascade={"persist","remove"})
      */
     protected $day_block5;
 

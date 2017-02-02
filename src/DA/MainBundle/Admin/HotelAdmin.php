@@ -111,9 +111,11 @@ class HotelAdmin extends AbstractAdmin
             ->add('image', 'sonata_type_model_list', array('required' => false))
             ->add('gallery', 'sonata_type_model_list', array('required' => false))
             ->add('location', 'sonata_type_model_autocomplete', array(
+                'required' => false,
                 'property'=>'name',
             ))
             ->add('current_location', 'entity', array(
+                'required' => false,
                 'class' => 'DAMainBundle:Location',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('l')
@@ -137,7 +139,7 @@ class HotelAdmin extends AbstractAdmin
                     5 => '⋆ ⋆ ⋆ ⋆ ⋆',
                     6 => '⋆ ⋆ ⋆ ⋆ ⋆ ⋆',
                 ),
-                'required' => true,
+                'required' => false,
                 'expanded' => false,
             ))
             ->add('best_price')
