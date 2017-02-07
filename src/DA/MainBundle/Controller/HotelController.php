@@ -174,7 +174,7 @@ class HotelController extends Controller
 
         $d = $date->format('d-m-Y');
         $soap = new Soap();
-
+        var_dump(dump($soap));exit;
 
         $b = $soap->ExchangeRatesLatest( $d);
 
