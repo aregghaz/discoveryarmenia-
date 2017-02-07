@@ -3,6 +3,7 @@
 namespace DA\MainBundle\Controller;
 
 use DA\MainBundle\Entity\CarRent;
+use Exception;
 use Gedmo\Mapping\Driver\Chain;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
