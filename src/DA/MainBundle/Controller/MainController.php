@@ -286,6 +286,7 @@ class MainController extends Controller
 
 
         $d = $date->format('d-m-Y');
+        libxml_disable_entity_loader(false);
         $soap = new Soap();
 
 
