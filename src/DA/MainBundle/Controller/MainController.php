@@ -5,6 +5,7 @@ namespace DA\MainBundle\Controller;
 use DA\MainBundle\Entity\Order;
 use DA\MainBundle\Entity\UserInfo;
 use DA\MainBundle\Form\Type\ContactType;
+use Exception;
 use Gedmo\Mapping\Driver\Chain;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -284,25 +285,29 @@ class MainController extends Controller
     public function connect(){
         $date = new \DateTime;
 
+        try {
+            $d = $date->format('d-m-Y');
 
-        $d = $date->format('d-m-Y');
-        libxml_disable_entity_loader(false);
-        $soap = new Soap();
+            $soap = new Soap();
 
 
-        $b = $soap->ExchangeRatesLatest( $d);
+            $b = $soap->ExchangeRatesLatest( $d);
 
-        $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+            $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
 
-        $currency = array();
+            $currency = array();
 
-        foreach ($result as $key=>$value){
-            if($key == 0 || $key == 51 || $key == 9){
-                $currency[$value->ISO] = array($value->ISO,$value->Rate);
+            foreach ($result as $key=>$value){
+                if($key == 0 || $key == 51 || $key == 9){
+                    $currency[$value->ISO] = array($value->ISO,$value->Rate);
+                }
             }
+
+            return $currency;
+        } catch (Exception $e) {
+            return array();
         }
 
-        return $currency;
     }
 
 }

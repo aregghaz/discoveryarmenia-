@@ -100,30 +100,36 @@ class TransportController extends Controller
             )
         );
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     public function connect(){
         $date = new \DateTime;
 
+        try {
+            $d = $date->format('d-m-Y');
 
-        $d = $date->format('d-m-Y');
-        $soap = new Soap();
+            $soap = new Soap();
 
 
-        $b = $soap->ExchangeRatesLatest( $d);
+            $b = $soap->ExchangeRatesLatest( $d);
 
-        $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+            $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
 
-        $currency = array();
-        foreach ($result as $key=>$value){
-            if($key == 0 || $key == 50 || $key == 9){
-                $currency[$value->ISO] = array($value->ISO,$value->Rate);
+            $currency = array();
+
+            foreach ($result as $key=>$value){
+                if($key == 0 || $key == 51 || $key == 9){
+                    $currency[$value->ISO] = array($value->ISO,$value->Rate);
+                }
             }
+
+            return $currency;
+        } catch (Exception $e) {
+            return array();
         }
 
-        return $currency;
     }
 }
