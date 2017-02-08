@@ -9,7 +9,7 @@ class Soap
 
     var $client = null;
     var $soapUrl = 'http://api.cba.am/exchangerates.asmx?WSDL';
-    var $options = array(['trace' => true, 'cache_wsdl' => WSDL_CACHE_MEMORY]);
+    var $options = array();
 
     /**
      *

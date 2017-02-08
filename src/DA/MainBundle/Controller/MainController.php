@@ -285,28 +285,28 @@ class MainController extends Controller
     public function connect(){
         $date = new \DateTime;
 
-//        try {
-//            $d = $date->format('d-m-Y');
-//
-//            $soap = new Soap();
-//
-//
-//            $b = $soap->ExchangeRatesLatest( $d);
-//
-//            $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
-//
-//            $currency = array();
-//
-//            foreach ($result as $key=>$value){
-//                if($key == 0 || $key == 51 || $key == 9){
-//                    $currency[$value->ISO] = array($value->ISO,$value->Rate);
-//                }
-//            }
-//
-//            return $currency;
-//        } catch (Exception $e) {
-//            return array();
-//        }
+        try {
+            $d = $date->format('d-m-Y');
+
+            $soap = new Soap();
+
+
+            $b = $soap->ExchangeRatesLatest( $d);
+
+            $result = $b->ExchangeRatesLatestResult->Rates->ExchangeRate;
+
+            $currency = array();
+
+            foreach ($result as $key=>$value){
+                if($key == 0 || $key == 51 || $key == 9){
+                    $currency[$value->ISO] = array($value->ISO,$value->Rate);
+                }
+            }
+
+            return $currency;
+        } catch (Exception $e) {
+            return array();
+        }
 
     }
 
