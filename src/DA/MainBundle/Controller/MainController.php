@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -178,12 +179,18 @@ class MainController extends Controller
         $session = $this->get('session');
         $cnt = $session->get('currentCurr');
 
+        $cookies = $request->cookies;
+
         if(!$cnt){
             $currency = $this->connect();
             $cnt = $currency['USD'];
         }
-        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByIp($ip);
-        $order = $em->getRepository('DAMainBundle:UserInfo')->getOrderByUser($annonUsuer);
+        if ($cookies->has('basket')) {
+            $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByCookie($cookies->get('basket'));
+            $order = $em->getRepository('DAMainBundle:UserInfo')->getOrderByUser($annonUsuer);
+        } else {
+            $order = null;
+        }
 
         $page = $em->getRepository('DAMainBundle:Page')->getPageBySlug('basket');
         $form = $this->createForm(new ContactType());
@@ -254,13 +261,14 @@ class MainController extends Controller
         $ip = $request->getClientIp();
         $session = $this->get('session');
         $cnt = $session->get('currentCurr');
-
+        $cookies = $request->cookies;
+        $cookie = $cookies->get('basket');
         if(!$cnt){
             $currency = $this->connect();
             $cnt = $currency['USD'];
         }
 
-        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByIp($ip);
+        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByCookie($cookie);
         $order = $em->getRepository('DAMainBundle:UserInfo')->getOrderByUser($annonUsuer);
 
         $t = 0;

@@ -12,13 +12,13 @@ use Doctrine\ORM\Query;
 class UserInfoRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getUserByIp($ip)
+    public function getUserByCookie($cookie)
     {
         $query = $this->getEntityManager()
             ->createQuery('SELECT t FROM DAMainBundle:UserInfo t
-                            WHERE t.user_ip = :ip
+                            WHERE t.user_cookie = :cookie
                             ')
-            ->setParameter('ip',$ip)
+            ->setParameter('cookie',$cookie)
         ;
         $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
         $result = $query->getResult();

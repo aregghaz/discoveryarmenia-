@@ -32,7 +32,7 @@ class UserInfo
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=30,nullable=true)
+     * @ORM\Column(type="string",length=100,nullable=true)
      */
     protected $user_cookie;
 

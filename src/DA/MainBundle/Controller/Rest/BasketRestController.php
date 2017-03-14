@@ -48,13 +48,22 @@ class BasketRestController extends FOSRestController
      */
     public function basketAddAction(Request $request)
     {
+        $cookies = $request->cookies;
         $em = $this->getDoctrine()->getManager();
         $array = $request->request->all();
         $ip = $request->getClientIp();
+
+        if (!$cookies->has('basket')) {
+            $value = md5(uniqid(rand(), true));
+            $cookie = new Cookie('basket', $value, (time() + 3600 * 24 * 7), '/');
+            $response = new Response();
+            $response->headers->setCookie($cookie);
+            $response->send();
+        }
+
         $user = $this->get('security.context')->getToken()->getUser();
 
-
-        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByIp($ip);
+        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByCookie($cookies->get('basket'));
         $order = $em->getRepository('DAMainBundle:UserInfo')->getOrderByUser($annonUsuer);
         $req = array();
 
@@ -62,6 +71,7 @@ class BasketRestController extends FOSRestController
             $annonUsuer = new UserInfo();
             $order = new Order();
             $annonUsuer->setUserIp($ip);
+            $annonUsuer->setUserCookie($value);
             $order->setUserInfo($annonUsuer);
             $em->persist($annonUsuer);
             switch ($array['type']){
@@ -152,19 +162,8 @@ class BasketRestController extends FOSRestController
         $em->persist($order);
 
         $em->flush();
-        /*if($user != 'anon.'){
-            var_dump($user->getId());exit;
-        }
-        else{
-
-
-        }*/
 
          return true;
-
-
-
-
     }
 
     /**
@@ -186,11 +185,13 @@ class BasketRestController extends FOSRestController
      */
     public function basketCheckAction(Request $request)
     {
+        $cookies = $request->cookies;
+        $cookie = $cookies->get('basket');
         $em = $this->getDoctrine()->getManager();
         $ip = $request->getClientIp();
         $user = $this->get('security.context')->getToken()->getUser();
-        
-        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByIp($ip);
+
+        $annonUsuer = $em->getRepository('DAMainBundle:UserInfo')->getUserByCookie($cookie);
         $order = $em->getRepository('DAMainBundle:UserInfo')->getOrderByUser($annonUsuer);
         if($order){
             $c = $order->getOrderList();
