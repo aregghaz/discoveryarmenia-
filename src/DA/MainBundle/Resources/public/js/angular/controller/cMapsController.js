@@ -11,8 +11,8 @@ angular.module('discover')
             };
             $scope.map = {
                 armenia:{
-                    center: { latitude: 40.3839417, longitude: 44.806768},
-                    zoom: 7,
+                    center: { latitude: 40.2032206, longitude: 44.5251201},
+                    zoom: 17,
                     bounds: {},
                     options: mapOptions
                 },
@@ -29,8 +29,8 @@ angular.module('discover')
             $scope.Markers1 = [
                 {
                     id: 0,
-                    latitude: 40.3839417,
-                    longitude: 44.806768,
+                    latitude: 40.2032206,
+                    longitude: 44.5251201,
                     icon: {
                         url: '/bundles/configadmin/img/marker.png'
                     }

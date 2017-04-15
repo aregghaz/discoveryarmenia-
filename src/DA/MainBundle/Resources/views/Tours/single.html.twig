@@ -136,12 +136,12 @@
                                 {% endif %}
                             </div>
                             <div class="right_block day_gallery clear">
-                                {% for m in day.gallery.media %}
-                                    <a href="{{ media(m) }}">
-                                        <span><i class="fa fa-search-plus"></i></span>
-                                        <img src="{{ media(m) }}" alt="{{ m.alt }}">{#,'gallery_tour'#}
-                                    </a>
-                                {% endfor %}
+                                {#{% for m in day.gallery.media %}#}
+                                    {#<a href="{{ media(m) }}">#}
+                                        {#<span><i class="fa fa-search-plus"></i></span>#}
+                                        {#<img src="{{ media(m) }}" alt="{{ m.alt }}">#}{#,'gallery_tour'#}
+                                    {#</a>#}
+                                {#{% endfor %}#}
                             </div>
                         </div>
                         <div class="day_excursion clear">
@@ -298,12 +298,6 @@
                 <div class="input_block">
                     <label for="setFrom">{{ 'setFrom' | trans({}, 'messages') }}</label>
                     <div class="ui calendar" id="setFrom">
-                        <input type="text" placeholder="Date/Time">
-                    </div>
-                </div>
-                <div class="input_block">
-                    <label for="setFrom">{{ 'setTo' | trans({}, 'messages') }}</label>
-                    <div class="ui calendar" id="setTo">
                         <input type="text" placeholder="Date/Time">
                     </div>
                 </div>

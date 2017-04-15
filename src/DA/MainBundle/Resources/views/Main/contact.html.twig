@@ -94,7 +94,7 @@
                     {{ 'location' | trans({}, 'messages') }}
                 </div>
                 <div class="maps clear" ng-controller="cMapCtr">
-                    <div class="left_block">
+                    <div class="">
                         <p>{{ 'armenia' | trans({}, 'messages') }}</p>
                         {% verbatim %}
                         <ui-gmap-google-map center='map.armenia.center' zoom='map.armenia.zoom' options="map.armenia.options">
@@ -103,15 +103,7 @@
                         </ui-gmap-google-map>
                     {% endverbatim %}
                     </div>
-                    <div class="right_block">
-                        <p>{{ 'france' | trans({}, 'messages') }}</p>
-                        {% verbatim %}
-                        <ui-gmap-google-map center='map.france.center' zoom='map.france.zoom' options="map.france.options">
-                            <ui-gmap-markers models="Markers2" coords="'self'" icon="'icon'">
-                            </ui-gmap-markers>
-                        </ui-gmap-google-map>
-                    {% endverbatim %}
-                    </div>
+
                 </div>
             </div>
 

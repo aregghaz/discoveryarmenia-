@@ -64,7 +64,7 @@ days: дней
 weekend: уикенд
 day_night: dnt дней / ndt ночей
 hotel: отель
-day_number: количество дней
+day_number: num день
 add_excursion: добавить экскурсию
 map_title: направление
 eq_tours: аналогичные  туры
