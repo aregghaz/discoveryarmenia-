@@ -136,12 +136,12 @@
                                 {% endif %}
                             </div>
                             <div class="right_block day_gallery clear">
-                                {#{% for m in day.gallery.media %}#}
-                                    {#<a href="{{ media(m) }}">#}
-                                        {#<span><i class="fa fa-search-plus"></i></span>#}
-                                        {#<img src="{{ media(m) }}" alt="{{ m.alt }}">#}{#,'gallery_tour'#}
-                                    {#</a>#}
-                                {#{% endfor %}#}
+                                {% for m in day.gallery.media %}
+                                    <a href="{{ media(m) }}">
+                                        <span><i class="fa fa-search-plus"></i></span>
+                                        <img src="{{ media(m) }}" alt="{{ m.alt }}">,'gallery_tour'
+                                    </a>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="day_excursion clear">
